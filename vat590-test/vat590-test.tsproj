@@ -1,0 +1,241 @@
+<?xml version="1.0"?>
+<TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.12">
+	<DataTypes>
+		<DataType>
+			<Name GUID="{18071995-0000-0000-0000-000000000041}" TcBaseType="true" HideSubItems="true" CName="AmsNetId">AMSNETID</Name>
+			<BitSize>48</BitSize>
+			<BaseType GUID="{18071995-0000-0000-0000-000000000001}">BYTE</BaseType>
+			<ArrayInfo>
+				<LBound>0</LBound>
+				<Elements>6</Elements>
+			</ArrayInfo>
+			<Format>
+				<Printf>%d.%d.%d.%d.%d.%d</Printf>
+				<Parameter>[0]</Parameter>
+				<Parameter>[1]</Parameter>
+				<Parameter>[2]</Parameter>
+				<Parameter>[3]</Parameter>
+				<Parameter>[4]</Parameter>
+				<Parameter>[5]</Parameter>
+			</Format>
+		</DataType>
+	</DataTypes>
+	<ImageDatas>
+		<ImageData Id="1000">424dd6020000000000003600000028000000100000000e0000000100180000000000a0020000232e0000232e00000000000000000001000000000000000000000000000000000000000000000000ffffffffffffffffffffffffffffffffffffffffffffffff00000000ff0000ff0000ff0000ff0000ff0000ff00000000ffffffffffffffffffffffffffffffffffffffffffffffffffffff00000000ff0000ff0000ff0000ff00000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff00000000ff0000ff0000ff0000ff00000000ffffff000000ffffffffffffffffffffffffffffffffffffffffffffffffffffff00000000ff0000ff00000000ffffffffffff000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff000000000000ffffffffffffffffff000000000000000000000000000000000000000000ffffffffffffffffffffffff0000000000000000ff0000ff0000ff000000000000000000000000000000000000000000ffffffffffffffffffffffff0000000000000000ff0000ff0000ff000000000000000000000000000000000000000000ffffffffffffffffffffffff000000000000ffffffffffffffffff000000000000000000000000000000000000000000ffffffffffffffffff00000000ff0000ff00000000ffffffffffff000000ffffffffffff000000ffffffffffffffffffffffffffffff00000000ff0000ff0000ff0000ff00000000ffffff000000ffffffffffff000000000000000000000000ffffffffffff00000000ff0000ff0000ff0000ff00000000ffffffffffffffffffffffffffffffffffffffffffffffffffffff00000000ff0000ff0000ff0000ff0000ff0000ff00000000ffffffffffffffffffffffffffffffffffffffffffffffff000000000000000000000000000000000000000000000000ffffffffffffffffffffffffffffffffffffffffffffffff</ImageData>
+	</ImageDatas>
+	<Project ProjectGUID="{3E2815B6-DE78-4751-A441-991F72562A8F}" Target64Bit="true" ShowHideConfigurations="#x106">
+		<System>
+			<Tasks>
+				<Task Id="3" Priority="20" CycleTime="100000" AmsPort="350" AdtTasks="true">
+					<Name>PlcTask</Name>
+				</Task>
+			</Tasks>
+		</System>
+		<Plc>
+			<Project GUID="{EC190F1A-C3A4-4BF5-B509-4778146793DB}" Name="plc_tmo_vat_test_vac" PrjFilePath="plc_tmo_vat_test_vac\plc_tmo_vat_test_vac.plcproj" TmcFilePath="plc_tmo_vat_test_vac\plc_tmo_vat_test_vac.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="plc_tmo_vat_test_vac\plc_tmo_vat_test_vac.tmc">
+					<Name>plc_tmo_vat_test_vac Instance</Name>
+					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
+					<Vars VarGrpType="1">
+						<Name>PlcTask Inputs</Name>
+						<Var>
+							<Name>LCLS_Vacuum.Global_Variables.g_stSystem.I_EcatMaster1</Name>
+							<Comment><![CDATA[ AMS Net ID used for FB_EcatDiag, among others ]]></Comment>
+							<Type GUID="{18071995-0000-0000-0000-000000000041}">AMSNETID</Type>
+						</Var>
+						<Var>
+							<Name>LCLS_Vacuum.LCLS_General.DefaultGlobals.stSys.I_EcatMaster1</Name>
+							<Comment><![CDATA[ AMS Net ID used for FB_EcatDiag, among others ]]></Comment>
+							<Type GUID="{18071995-0000-0000-0000-000000000041}">AMSNETID</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbVCN590.i_iRawPosition</Name>
+							<Comment><![CDATA[connect to Ethercat interface]]></Comment>
+							<Type>DINT</Type>
+						</Var>
+					</Vars>
+					<Vars VarGrpType="2" AreaNo="1">
+						<Name>PlcTask Outputs</Name>
+						<Var>
+							<Name>MAIN.fbVCN590.q_iRawPosition</Name>
+							<Comment><![CDATA[connect to Ethercat interface]]></Comment>
+							<Type>DINT</Type>
+						</Var>
+					</Vars>
+					<Vars VarGrpType="8" AreaNo="4">
+						<Name>PlcTask Retains</Name>
+						<Var>
+							<Name>PMPS_GVL.SuccessfulPreemption</Name>
+							<Comment><![CDATA[ Any time BPTM applies a new BP request which is confirmed]]></Comment>
+							<Type>UDINT</Type>
+							<InOut>7</InOut>
+						</Var>
+						<Var>
+							<Name>PMPS_GVL.AccumulatedFF</Name>
+							<Comment><![CDATA[ Any time a FF occurs]]></Comment>
+							<Type>UDINT</Type>
+							<InOut>7</InOut>
+						</Var>
+					</Vars>
+					<Contexts>
+						<Context>
+							<Id NeedCalleeCall="true">0</Id>
+							<Name>PlcTask</Name>
+							<ManualConfig>
+								<OTCID>#x02010030</OTCID>
+							</ManualConfig>
+							<Priority>20</Priority>
+							<CycleTime>10000000</CycleTime>
+						</Context>
+					</Contexts>
+					<TaskPouOids>
+						<TaskPouOid Prio="20" OTCID="#x08502001"/>
+					</TaskPouOids>
+				</Instance>
+			</Project>
+		</Plc>
+		<Io>
+			<Device Id="1" DevType="111" DevFlags="#x0003" AmsPort="28673" AmsNetId="172.21.42.126.2.1" RemoteName="Device 1 (EtherCAT)">
+				<Name>Device 1 (EtherCAT)</Name>
+				<AddressInfo>
+					<Pnp>
+						<DeviceDesc></DeviceDesc>
+						<DeviceName></DeviceName>
+						<DeviceData>000000000000</DeviceData>
+					</Pnp>
+				</AddressInfo>
+				<Image Id="1" AddrType="9" ImageType="3">
+					<Name>Image</Name>
+				</Image>
+				<Box Id="1" BoxType="9099" BoxFlags="#x00000020">
+					<Name>VCN_VAT590</Name>
+					<ImageId>1000</ImageId>
+					<EtherCAT SlaveType="2" PdiType="#x0208" MboxDataLinkLayer="true" CycleMBoxPolling="true" CoeType="35" VendorId="#x00000549" ProductCode="#x0000170c" RevisionNo="#x00010000" InfoDataAddr="true" TimeoutMailbox2="6000" PortPhys="17" IdentificationAdo="308" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="590 - All-metal variable leak valve" Desc="590" PortABoxInfo="#x00ffffff">
+						<SyncMan>001c14012600010001000000140114011401001c26010000</SyncMan>
+						<SyncMan>001e14012200010002000000140114011401001e22010000</SyncMan>
+						<SyncMan>001027006400010003000000000000000000001064010000</SyncMan>
+						<SyncMan>00162f002000010004000000000000000000001620010000</SyncMan>
+						<Fmmu>0000000000000000001000020100000001000000000000000000000000000000</Fmmu>
+						<Fmmu>0000000000000000001600010100000002000000000000000000000000000000</Fmmu>
+						<Pdo Name="DI TxPDO-Map" Index="#x1a00" Flags="#x0010" SyncMan="3">
+							<Entry Name="Pressure" Index="#x2001">
+								<Type>DINT</Type>
+							</Entry>
+							<Entry Name="Pressure sensor 1" Index="#x2002">
+								<Type>DINT</Type>
+							</Entry>
+							<Entry Name="Pressure sensor 2" Index="#x2003">
+								<Type>DINT</Type>
+							</Entry>
+							<Entry Name="Position" Index="#x2004">
+								<Type>DINT</Type>
+							</Entry>
+							<Entry Name="Target position" Index="#x2005">
+								<Type>DINT</Type>
+							</Entry>
+							<Entry Name="Control mode" Index="#x2006">
+								<Type>USINT</Type>
+							</Entry>
+							<Entry Name="Fatal error" Index="#x2007">
+								<Type>UINT</Type>
+							</Entry>
+							<Entry Name="Reserved - not used" Index="#x2008">
+								<Type>UINT</Type>
+							</Entry>
+							<Entry Name="Reserved - not used" Index="#x2009">
+								<Type>UINT</Type>
+							</Entry>
+							<Entry Name="Reserved - not used" Index="#x200a">
+								<Type>UINT</Type>
+							</Entry>
+							<Entry Name="Reserved - not used" Index="#x200b">
+								<Type>UINT</Type>
+							</Entry>
+							<Entry Name="General status" Index="#x200c">
+								<Type>UINT</Type>
+							</Entry>
+							<Entry Name="General warnings" Index="#x200d">
+								<Type>UINT</Type>
+							</Entry>
+							<Entry Name="Extended warnings" Index="#x200e">
+								<Type>UINT</Type>
+							</Entry>
+							<Entry Name="Cluster valve monitoring address" Index="#x200f">
+								<Type>USINT</Type>
+							</Entry>
+							<Entry Name="Cluster valve position" Index="#x2010">
+								<Type>DINT</Type>
+							</Entry>
+							<Entry Name="Cluster valve control mode" Index="#x2011">
+								<Type>USINT</Type>
+							</Entry>
+							<Entry Name="Cluster valve status" Index="#x2012">
+								<Type>UINT</Type>
+							</Entry>
+							<Entry Name="Cluster valve warnings" Index="#x2013">
+								<Type>UINT</Type>
+							</Entry>
+						</Pdo>
+						<Pdo Name="DO RxPDO-Map" Index="#x1600" InOut="1" Flags="#x0010" SyncMan="2">
+							<Entry Name="Pressure setpoint" Index="#x2014">
+								<Type>DINT</Type>
+							</Entry>
+							<Entry Name="Position setpoint" Index="#x2015">
+								<Type>DINT</Type>
+							</Entry>
+							<Entry Name="Reserved - not used" Index="#x2016">
+								<Type>DINT</Type>
+							</Entry>
+							<Entry Name="External digital pressure sensor 1" Index="#x2017">
+								<Type>DINT</Type>
+							</Entry>
+							<Entry Name="External digital pressure sensor 2" Index="#x2018">
+								<Type>DINT</Type>
+							</Entry>
+							<Entry Name="Control mode setpoint" Index="#x2019">
+								<Type>USINT</Type>
+							</Entry>
+							<Entry Name="General control setpoint" Index="#x201a">
+								<Type>UINT</Type>
+							</Entry>
+							<Entry Name="Reserved - not used" Index="#x201b">
+								<Type>UINT</Type>
+							</Entry>
+							<Entry Name="Reserved - not used" Index="#x201c">
+								<Type>UINT</Type>
+							</Entry>
+							<Entry Name="Reserved - not used" Index="#x201d">
+								<Type>UINT</Type>
+							</Entry>
+							<Entry Name="Reserved - not used" Index="#x201e">
+								<Type>UINT</Type>
+							</Entry>
+							<Entry Name="Cluster valve freeze position setpoint" Index="#x201f">
+								<Type>DINT</Type>
+							</Entry>
+							<Entry Name="Cluster valve freeze address setpoint" Index="#x2020">
+								<Type>USINT</Type>
+							</Entry>
+							<Entry Name="Cluster valve freeze control setpoint" Index="#x2021">
+								<Type>UINT</Type>
+							</Entry>
+							<Entry Name="Cluster valve monitoring address setpoint" Index="#x2022">
+								<Type>USINT</Type>
+							</Entry>
+						</Pdo>
+					</EtherCAT>
+				</Box>
+				<EtherCAT/>
+			</Device>
+		</Io>
+	</Project>
+	<Mappings>
+		<MappingInfo Identifier="{00000000-2001-0850-0020-500810000403}" Id="#x02030010"/>
+		<OwnerA Name="TIPC^plc_tmo_vat_test_vac^plc_tmo_vat_test_vac Instance">
+			<OwnerB Name="TIID^Device 1 (EtherCAT)^VCN_VAT590">
+				<Link VarA="PlcTask Inputs^MAIN.fbVCN590.i_iRawPosition" VarB="DI TxPDO-Map^Position"/>
+				<Link VarA="PlcTask Outputs^MAIN.fbVCN590.q_iRawPosition" VarB="DO RxPDO-Map^Position setpoint"/>
+			</OwnerB>
+		</OwnerA>
+	</Mappings>
+</TcSmProject>
