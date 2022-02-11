@@ -6,7 +6,7 @@ PRODUCTION_IOC := 0
 
 PROJECT_NAME := vat590-test
 PROJECT_PATH := ../../vat590-test/vat590-test.tsproj
-PLC := plc_tmo_vat_test_vac
+PLC := plc_vat_test
 
 PYTMC_OPTS := 
 PREFIX := PLC:$(PLC)

@@ -1675,9 +1675,9 @@ External Setpoint Generation:
 			</NC>
 		</Motion>
 		<Plc>
-			<Project GUID="{EC190F1A-C3A4-4BF5-B509-4778146793DB}" Name="plc_tmo_vat_test_vac" PrjFilePath="plc_tmo_vat_test_vac\plc_tmo_vat_test_vac.plcproj" TmcFilePath="plc_tmo_vat_test_vac\plc_tmo_vat_test_vac.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
+			<Project GUID="{EC190F1A-C3A4-4BF5-B509-4778146793DB}" Name="plc_vat_test" PrjFilePath="plc_vat_test\plc_vat_test.plcproj" TmcFilePath="plc_vat_test\plc_vat_test.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
 				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="plc_tmo_vat_test_vac\plc_tmo_vat_test_vac.tmc">
-					<Name>plc_tmo_vat_test_vac Instance</Name>
+					<Name>plc_vat_test Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="1">
 						<Name>PlcTask Inputs</Name>
@@ -2564,7 +2564,7 @@ External Setpoint Generation:
 				<Link VarA="Enc^Outputs^Out^nDataOut1[0]" VarB="ENC Control compact^Set counter value"/>
 			</OwnerB>
 		</OwnerA>
-		<OwnerA Name="TIPC^plc_tmo_vat_test_vac^plc_tmo_vat_test_vac Instance">
+		<OwnerA Name="TIPC^plc_vat_test^plc_vat_test Instance">
 			<OwnerB Name="TIID^Device 1 (EtherCAT)^VCN_1(590)">
 				<Link VarA="PlcTask Inputs^MAIN.fbVCN590.i_iRawPosition" VarB="DI TxPDO-Map^Position"/>
 				<Link VarA="PlcTask Outputs^MAIN.fbVCN590.q_iRawPosition" VarB="DO RxPDO-Map^Position setpoint"/>

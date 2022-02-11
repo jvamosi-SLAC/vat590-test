@@ -1,3 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <FileVersion>1.0.0.0</FileVersion>
@@ -7,7 +8,7 @@
     <DownloadApplicationInfo>true</DownloadApplicationInfo>
     <WriteProductVersion>true</WriteProductVersion>
     <GenerateTpy>false</GenerateTpy>
-    <Name>plc_tmo_vat_test_vac</Name>
+    <Name>plc_vat_test</Name>
     <ProgramVersion>3.1.4024.12</ProgramVersion>
     <Application>{ed3f3604-257b-4bf5-b8a0-7ba55ed98b15}</Application>
     <TypeSystem>{e5d9ac6a-09db-4f54-bfd6-06ad067179c3}</TypeSystem>
@@ -55,7 +56,7 @@
     </LibraryReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="plc_tmo_vat_test_vac.tmc">
+    <None Include="plc_vat_test.tmc">
       <SubType>Content</SubType>
     </None>
   </ItemGroup>
