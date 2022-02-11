@@ -1,16 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.6">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
   <POU Name="MAIN" Id="{e705ade6-0f0a-4b24-98f0-3b81c602a7eb}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
     {attribute 'pytmc' := '
       pv: VCN:TEST:01
      '}
-	fbVCN590 : FB_VCN_VAT590; // Variable leak valve function block
+	fbVCN590 : FB_VCN_VAT590; // Variable leak valve VAT590 function block
 END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[fbVCN590(i_xExtIlkOK := TRUE);]]></ST>
     </Implementation>
+    <LineIds Name="MAIN">
+      <LineId Id="2" Count="0" />
+    </LineIds>
   </POU>
 </TcPlcObject>

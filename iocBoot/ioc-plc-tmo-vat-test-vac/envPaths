@@ -1,0 +1,2 @@
+epicsEnvSet("IOC_TOP", "/c/Users/janezg/projects/vat590-test/iocBoot/ioc-plc-tmo-vat-test-vac")
+epicsEnvSet("IOC_DATA", "C:\Users\janezg/iocData")
