@@ -1339,7 +1339,7 @@ External Setpoint Generation:
 			</Format>
 		</DataType>
 		<DataType>
-			<Name GUID="{18071995-0000-0000-0000-002000000002}" IecBaseType="true" BitType="true" AutoDeleteType="true" HideSubItems="true">ARRAY [0..1] OF BIT</Name>
+			<Name GUID="{18071995-0000-0000-0000-002000000002}" IecBaseType="true" AutoDeleteType="true" HideSubItems="true">ARRAY [0..1] OF BIT</Name>
 			<BitSize>2</BitSize>
 			<BaseType GUID="{18071995-0000-0000-0000-000000000010}">BIT</BaseType>
 			<ArrayInfo>
@@ -1348,7 +1348,7 @@ External Setpoint Generation:
 			</ArrayInfo>
 		</DataType>
 		<DataType>
-			<Name GUID="{18071995-0000-0000-0000-002000000001}" IecBaseType="true" BitType="true" AutoDeleteType="true" HideSubItems="true">ARRAY [0..0] OF BIT</Name>
+			<Name GUID="{18071995-0000-0000-0000-002000000001}" IecBaseType="true" AutoDeleteType="true" HideSubItems="true">ARRAY [0..0] OF BIT</Name>
 			<BitSize>1</BitSize>
 			<BaseType GUID="{18071995-0000-0000-0000-000000000010}">BIT</BaseType>
 			<ArrayInfo>
@@ -1357,7 +1357,7 @@ External Setpoint Generation:
 			</ArrayInfo>
 		</DataType>
 		<DataType>
-			<Name GUID="{18071995-0000-0000-0000-002000000003}" IecBaseType="true" BitType="true" AutoDeleteType="true" HideSubItems="true">ARRAY [0..2] OF BIT</Name>
+			<Name GUID="{18071995-0000-0000-0000-002000000003}" IecBaseType="true" AutoDeleteType="true" HideSubItems="true">ARRAY [0..2] OF BIT</Name>
 			<BitSize>3</BitSize>
 			<BaseType GUID="{18071995-0000-0000-0000-000000000010}">BIT</BaseType>
 			<ArrayInfo>
@@ -1375,7 +1375,7 @@ External Setpoint Generation:
 			</ArrayInfo>
 		</DataType>
 		<DataType>
-			<Name GUID="{18071995-0000-0000-0000-002000000004}" IecBaseType="true" BitType="true" AutoDeleteType="true" HideSubItems="true">ARRAY [0..3] OF BIT</Name>
+			<Name GUID="{18071995-0000-0000-0000-002000000004}" IecBaseType="true" AutoDeleteType="true" HideSubItems="true">ARRAY [0..3] OF BIT</Name>
 			<BitSize>4</BitSize>
 			<BaseType GUID="{18071995-0000-0000-0000-000000000010}">BIT</BaseType>
 			<ArrayInfo>
@@ -1384,7 +1384,7 @@ External Setpoint Generation:
 			</ArrayInfo>
 		</DataType>
 		<DataType>
-			<Name GUID="{18071995-0000-0000-0000-002000000005}" IecBaseType="true" BitType="true" AutoDeleteType="true" HideSubItems="true">ARRAY [0..4] OF BIT</Name>
+			<Name GUID="{18071995-0000-0000-0000-002000000005}" IecBaseType="true" AutoDeleteType="true" HideSubItems="true">ARRAY [0..4] OF BIT</Name>
 			<BitSize>5</BitSize>
 			<BaseType GUID="{18071995-0000-0000-0000-000000000010}">BIT</BaseType>
 			<ArrayInfo>
@@ -1393,7 +1393,7 @@ External Setpoint Generation:
 			</ArrayInfo>
 		</DataType>
 		<DataType>
-			<Name GUID="{18071995-0000-0000-0000-002000000006}" IecBaseType="true" BitType="true" AutoDeleteType="true" HideSubItems="true">ARRAY [0..5] OF BIT</Name>
+			<Name GUID="{18071995-0000-0000-0000-002000000006}" IecBaseType="true" AutoDeleteType="true" HideSubItems="true">ARRAY [0..5] OF BIT</Name>
 			<BitSize>6</BitSize>
 			<BaseType GUID="{18071995-0000-0000-0000-000000000010}">BIT</BaseType>
 			<ArrayInfo>
@@ -1402,7 +1402,7 @@ External Setpoint Generation:
 			</ArrayInfo>
 		</DataType>
 		<DataType>
-			<Name GUID="{18071995-0000-0000-0000-00200000000D}" IecBaseType="true" BitType="true" AutoDeleteType="true" HideSubItems="true">ARRAY [0..12] OF BIT</Name>
+			<Name GUID="{18071995-0000-0000-0000-00200000000D}" IecBaseType="true" AutoDeleteType="true" HideSubItems="true">ARRAY [0..12] OF BIT</Name>
 			<BitSize>13</BitSize>
 			<BaseType GUID="{18071995-0000-0000-0000-000000000010}">BIT</BaseType>
 			<ArrayInfo>
@@ -1676,7 +1676,7 @@ External Setpoint Generation:
 		</Motion>
 		<Plc>
 			<Project GUID="{EC190F1A-C3A4-4BF5-B509-4778146793DB}" Name="plc_vat_test" PrjFilePath="plc_vat_test\plc_vat_test.plcproj" TmcFilePath="plc_vat_test\plc_vat_test.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="plc_tmo_vat_test_vac\plc_tmo_vat_test_vac.tmc">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="plc_vat_test\plc_vat_test.tmc">
 					<Name>plc_vat_test Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="1">
@@ -1769,7 +1769,7 @@ External Setpoint Generation:
 				<Image Id="1" AddrType="9" ImageType="3">
 					<Name>Image</Name>
 				</Image>
-				<Image Id="5" AddrType="10" ImageType="3">
+				<Image Id="4" AddrType="10" ImageType="3">
 					<Name>Image-2</Name>
 				</Image>
 				<Box BoxType="9099" Id="1">
@@ -2398,7 +2398,7 @@ External Setpoint Generation:
 					</Box>
 				</Box>
 				<Box BoxType="9099" BoxFlags="#x00000020" Id="5">
-					<Name>VCN_1(590)</Name>
+					<Name>VCN_1_VAT590</Name>
 					<ImageId>1004</ImageId>
 					<EtherCAT SlaveType="2" PdiType="#x0208" MboxDataLinkLayer="true" CycleMBoxPolling="true" CoeType="35" VendorId="#x00000549" ProductCode="#x0000170c" RevisionNo="#x00010000" InfoDataAddr="true" TimeoutMailbox2="6000" PortPhys="17" IdentificationAdo="308" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="590 - All-metal variable leak valve" Desc="590" PortABoxInfo="#x01000004">
 						<SyncMan>001c14012600010001000000140114011401001c26010000</SyncMan>
@@ -2494,7 +2494,7 @@ External Setpoint Generation:
 							<Entry Name="Reserved - not used" Index="#x201c">
 								<Type>UINT</Type>
 							</Entry>
-							<Entry Name="Reserved - not used_3" Index="#x201d">
+							<Entry Name="Reserved - not used" Index="#x201d">
 								<Type>UINT</Type>
 							</Entry>
 							<Entry Name="Reserved - not used" Index="#x201e">
@@ -2521,7 +2521,6 @@ External Setpoint Generation:
 	</Project>
 	<Mappings>
 		<MappingInfo Identifier="{00000000-0010-0304-3000-040310000403}" Id="#x02030010"/>
-		<MappingInfo Identifier="{00000000-2001-0850-0020-500851000403}" Id="#x02030020"/>
 		<OwnerA Name="TINC^NC-Task 1 SAF^Axes^Axis 1">
 			<OwnerB Name="TIID^Device 1 (EtherCAT)^Term 1 (EK1200)^Term 2 (EL7041)">
 				<Link VarA="Drive^Inputs^In^nState1" VarB="STM Status^Status^Error" Size="1" OffsA="3"/>
@@ -2565,7 +2564,7 @@ External Setpoint Generation:
 			</OwnerB>
 		</OwnerA>
 		<OwnerA Name="TIPC^plc_vat_test^plc_vat_test Instance">
-			<OwnerB Name="TIID^Device 1 (EtherCAT)^VCN_1(590)">
+			<OwnerB Name="TIID^Device 1 (EtherCAT)^VCN_1_VAT590">
 				<Link VarA="PlcTask Inputs^MAIN.fbVCN590.i_iRawPosition" VarB="DI TxPDO-Map^Position"/>
 				<Link VarA="PlcTask Outputs^MAIN.fbVCN590.q_iRawPosition" VarB="DO RxPDO-Map^Position setpoint"/>
 			</OwnerB>
