@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+  <DUT Name="ST_GeneralWarnings" Id="{2d1d7c91-c769-48fa-b177-77cb8c910504}">
+    <Declaration><![CDATA[TYPE ST_GeneralWarnings :
+STRUCT
+	{attribute 'pytmc' := '
+		pv: SERVICE_REQ
+		io: i
+		field: ZNAM OK
+		field: ONAM NOT_OK
+		field: ZSV NO_ALARM
+		field: OSV MAJOR
+	'}
+	ServiceRequest: BOOL;
+	{attribute 'pytmc' := '
+		pv: POWER_FAIL_BATT
+		io: i
+		field: ZNAM READY
+		field: ONAM NOT_READY
+		field: ZSV NO_ALARM
+		field: OSV MINOR
+	'}
+	PowerFailureBattery : BOOL;
+	{attribute 'pytmc' := '
+		pv: ADC_UNIT_STATUS
+		io: i
+		field: ZNAM OK
+		field: ONAM FAULTED
+		field: ZSV NO_ALARM
+		field: OSV MAJOR
+	'}
+	SensMeasUnitFault : BOOL;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

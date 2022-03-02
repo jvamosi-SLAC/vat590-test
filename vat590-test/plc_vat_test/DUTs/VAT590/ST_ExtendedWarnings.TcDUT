@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+  <DUT Name="ST_ExtendedWarnings" Id="{7b622667-e2e2-4049-b120-661b229c539e}">
+    <Declaration><![CDATA[TYPE ST_ExtendedWarnings :
+STRUCT
+	{attribute 'pytmc' := '
+		pv: REM_NOT_POSSIBLE
+		io: i
+		field: ZNAM OK
+		field: ONAM NOT_OK
+		field: ZSV NO_ALARM
+		field: OSV MINOR
+	'}
+	RemoteControlNotPossible: BOOL;
+	{attribute 'pytmc' := '
+		pv: CTRL_SP_NOT_ALLOWED
+		io: i
+		field: ZNAM OK
+		field: ONAM NOT_OK
+		field: ZSV NO_ALARM
+		field: OSV MINOR
+	'}
+	ControlModeSPNotAllowed : BOOL;
+	{attribute 'pytmc' := '
+		pv: ZERO_STATUS
+		io: i
+		field: ZNAM ENABLED
+		field: ONAM DISABLED
+		field: ZSV NO_ALARM
+		field: OSV MINOR
+	'}
+	ZeroDisabled : BOOL;
+	{attribute 'pytmc' := '
+		pv: PFO_STATUS
+		io: i
+		field: ZNAM ENABLED
+		field: ONAM DISABLED
+		field: ZSV NO_ALARM
+		field: OSV MINOR
+	'}
+	PFODeactivated : BOOL;
+	{attribute 'pytmc' := '
+		pv: PRES_SP_OOR
+		io: i
+		field: ZNAM OK
+		field: ONAM NOT_OK
+		field: ZSV NO_ALARM
+		field: OSV MAJOR
+	'}
+	PressureSPOutOfRange : BOOL;
+	{attribute 'pytmc' := '
+		pv: POS_SP_OOR
+		io: i
+		field: ZNAM OK
+		field: ONAM NOT_OK
+		field: ZSV NO_ALARM
+		field: OSV MAJOR
+	'}
+	PositionSPOutOfRange : BOOL;
+	{attribute 'pytmc' := '
+		pv: CTRL_SP_OOR
+		io: i
+		field: ZNAM OK
+		field: ONAM NOT_OK
+		field: ZSV NO_ALARM
+		field: OSV MAJOR
+	'}
+	CtrlSPOutOfRange : BOOL;
+	{attribute 'pytmc' := '
+		pv: GENCTRL_SP_OOR
+		io: i
+		field: ZNAM OK
+		field: ONAM NOT_OK
+		field: ZSV NO_ALARM
+		field: OSV MAJOR
+	'}
+	GeneralCtrlSPOutOfRange : BOOL;
+	{attribute 'pytmc' := '
+		pv: PROC_DATA_NOT_VALID
+		io: i
+		field: ZNAM OK
+		field: ONAM NOT_OK
+		field: ZSV NO_ALARM
+		field: OSV MAJOR
+	'}
+	ProcDataSettingsNotvalid : BOOL;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

@@ -10,7 +10,7 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[fbVCN590(i_xExtIlkOK := TRUE);]]></ST>
+      <ST><![CDATA[fbVCN590(bExtIlkOK := TRUE);]]></ST>
     </Implementation>
     <LineIds Name="MAIN">
       <LineId Id="2" Count="0" />

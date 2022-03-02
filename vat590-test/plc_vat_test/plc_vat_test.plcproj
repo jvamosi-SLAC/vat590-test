@@ -19,6 +19,48 @@
     <Released>false</Released>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="DUTs\VAT590\EtherCAT Interface\E_ControlMode.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\VAT590\EtherCAT Interface\E_ControlModeSP.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\VAT590\EtherCAT Interface\E_FatalErrors.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\VAT590\EtherCAT Interface\ST_ExtendedWarning.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\VAT590\EtherCAT Interface\ST_GeneralControlSP.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\VAT590\EtherCAT Interface\ST_GeneralStatuses.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\VAT590\EtherCAT Interface\ST_GeneralWarning.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\VAT590\E_VCN_VAT590.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\VAT590\E_PressureSensor.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\VAT590\E_AccessMode.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\VAT590\ST_ExtendedWarnings.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\VAT590\ST_GeneralStatus.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\VAT590\ST_GeneralWarnings.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\VAT590\ST_VCN_VAT590.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="PlcTask.TcTTO">
       <SubType>Code</SubType>
     </Compile>
@@ -31,6 +73,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DUTs" />
+    <Folder Include="DUTs\VAT590" />
+    <Folder Include="DUTs\VAT590\EtherCAT Interface" />
     <Folder Include="GVLs" />
     <Folder Include="POUs\Valves" />
     <Folder Include="VISUs" />
