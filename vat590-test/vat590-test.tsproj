@@ -20,7 +20,7 @@
 			</Format>
 		</DataType>
 		<DataType>
-			<Name GUID="{52DD7AB8-14D8-432B-A9AF-BBDA54BC501B}" AutoDeleteType="true">E_ControlMode</Name>
+			<Name GUID="{CE406B42-28FD-482D-A2C8-1E943E55DDAF}" AutoDeleteType="true">E_ControlMode</Name>
 			<BitSize>8</BitSize>
 			<BaseType GUID="{18071995-0000-0000-0000-000000000002}">USINT</BaseType>
 			<EnumInfo>
@@ -113,12 +113,9 @@
 				</Text>
 				<Enum>14</Enum>
 			</EnumInfo>
-			<Hides>
-				<Hide GUID="{8763367A-C08E-4098-8D39-5C1D7715E1B0}"/>
-			</Hides>
 		</DataType>
 		<DataType>
-			<Name GUID="{48723CEF-8BF4-4CE6-98DD-191AB71E4D60}" AutoDeleteType="true">E_FatalErrors</Name>
+			<Name GUID="{040B7F6C-2002-4E54-B003-41323BE2BF15}" AutoDeleteType="true">E_FatalErrors</Name>
 			<BitSize>16</BitSize>
 			<BaseType GUID="{18071995-0000-0000-0000-000000000005}">UINT</BaseType>
 			<EnumInfo>
@@ -157,12 +154,9 @@
 				</Text>
 				<Enum>40</Enum>
 			</EnumInfo>
-			<Hides>
-				<Hide GUID="{F1827C6A-4CC2-483B-A899-C26EABFB1D9A}"/>
-			</Hides>
 		</DataType>
 		<DataType>
-			<Name GUID="{FADC4252-56B4-4F76-8E8F-9F67DBFF5123}" AutoDeleteType="true">ST_GeneralStatuses</Name>
+			<Name GUID="{6303CCBB-4350-4A96-A125-310312E8608F}" AutoDeleteType="true">ST_GeneralStatuses</Name>
 			<BitSize>16</BitSize>
 			<SubItem>
 				<Name>Bit0FieldBusDatavalid</Name>
@@ -262,7 +256,7 @@
 			</SubItem>
 		</DataType>
 		<DataType>
-			<Name GUID="{F5258F82-B6FE-4354-B52E-7CE7258E686D}" AutoDeleteType="true">ST_GeneralWarning</Name>
+			<Name GUID="{1962483A-0A76-4965-B6E3-E3BE74040062}" AutoDeleteType="true">ST_GeneralWarning</Name>
 			<BitSize>16</BitSize>
 			<SubItem>
 				<Name>Bit0ServiceRequest</Name>
@@ -362,7 +356,7 @@
 			</SubItem>
 		</DataType>
 		<DataType>
-			<Name GUID="{409B4C23-E8BB-4DEC-B188-CAEAA2F8A7BB}" AutoDeleteType="true">ST_ExtendedWarning</Name>
+			<Name GUID="{FA88CEE6-DBFD-4ED2-88C0-0D9F5012B24A}" AutoDeleteType="true">ST_ExtendedWarning</Name>
 			<BitSize>16</BitSize>
 			<SubItem>
 				<Name>Bit0RemoteControlNotPossible</Name>
@@ -462,7 +456,7 @@
 			</SubItem>
 		</DataType>
 		<DataType>
-			<Name GUID="{1650EDF7-851F-4CC6-84DC-EAF32AC0ACFB}" AutoDeleteType="true">E_ControlModeSP</Name>
+			<Name GUID="{8663EC01-B508-4EF9-8E4E-C6F36A035D95}" AutoDeleteType="true">E_ControlModeSP</Name>
 			<BitSize>8</BitSize>
 			<BaseType GUID="{18071995-0000-0000-0000-000000000002}">USINT</BaseType>
 			<EnumInfo>
@@ -501,12 +495,9 @@
 				</Text>
 				<Enum>7</Enum>
 			</EnumInfo>
-			<Hides>
-				<Hide GUID="{A91800FC-3B1F-45BE-91D0-DEA58E0825F0}"/>
-			</Hides>
 		</DataType>
 		<DataType>
-			<Name GUID="{AD0E27BB-3C09-47FA-B72D-A7381110D8C6}" AutoDeleteType="true">ST_GeneralControlSP</Name>
+			<Name GUID="{BF75A943-C9FE-4895-B56D-7B1A4C063819}" AutoDeleteType="true">ST_GeneralControlSP</Name>
 			<BitSize>16</BitSize>
 			<SubItem>
 				<Name>Bit0ExecuteZero</Name>
@@ -604,9 +595,6 @@
 				<BitSize>1</BitSize>
 				<BitOffs>15</BitOffs>
 			</SubItem>
-			<Hides>
-				<Hide GUID="{D3D10583-4C45-4CBE-BB43-324017585B3F}"/>
-			</Hides>
 		</DataType>
 		<DataType>
 			<Name GUID="{18071995-0000-0000-0000-002000000002}" IecBaseType="true" BitType="true" AutoDeleteType="true" HideSubItems="true">ARRAY [0..1] OF BIT</Name>
@@ -731,23 +719,23 @@ Ethercat Inputs]]>
 						</Var>
 						<Var>
 							<Name>MAIN.fbVCN590.i_eControlMode</Name>
-							<Type GUID="{52DD7AB8-14D8-432B-A9AF-BBDA54BC501B}">E_ControlMode</Type>
+							<Type GUID="{CE406B42-28FD-482D-A2C8-1E943E55DDAF}">E_ControlMode</Type>
 						</Var>
 						<Var>
 							<Name>MAIN.fbVCN590.i_eFatalError</Name>
-							<Type GUID="{48723CEF-8BF4-4CE6-98DD-191AB71E4D60}">E_FatalErrors</Type>
+							<Type GUID="{040B7F6C-2002-4E54-B003-41323BE2BF15}">E_FatalErrors</Type>
 						</Var>
 						<Var>
 							<Name>MAIN.fbVCN590.i_stGenStatus</Name>
-							<Type GUID="{FADC4252-56B4-4F76-8E8F-9F67DBFF5123}">ST_GeneralStatuses</Type>
+							<Type GUID="{6303CCBB-4350-4A96-A125-310312E8608F}">ST_GeneralStatuses</Type>
 						</Var>
 						<Var>
 							<Name>MAIN.fbVCN590.i_stGenWarnings</Name>
-							<Type GUID="{F5258F82-B6FE-4354-B52E-7CE7258E686D}">ST_GeneralWarning</Type>
+							<Type GUID="{1962483A-0A76-4965-B6E3-E3BE74040062}">ST_GeneralWarning</Type>
 						</Var>
 						<Var>
 							<Name>MAIN.fbVCN590.i_stExtnWarnings</Name>
-							<Type GUID="{409B4C23-E8BB-4DEC-B188-CAEAA2F8A7BB}">ST_ExtendedWarning</Type>
+							<Type GUID="{FA88CEE6-DBFD-4ED2-88C0-0D9F5012B24A}">ST_ExtendedWarning</Type>
 						</Var>
 					</Vars>
 					<Vars VarGrpType="2">
@@ -765,11 +753,11 @@ Ethercat Inputs]]>
 						</Var>
 						<Var>
 							<Name>MAIN.fbVCN590.o_eCtrlModeSP</Name>
-							<Type GUID="{1650EDF7-851F-4CC6-84DC-EAF32AC0ACFB}">E_ControlModeSP</Type>
+							<Type GUID="{8663EC01-B508-4EF9-8E4E-C6F36A035D95}">E_ControlModeSP</Type>
 						</Var>
 						<Var>
 							<Name>MAIN.fbVCN590.o_stGenCtrlSP</Name>
-							<Type GUID="{AD0E27BB-3C09-47FA-B72D-A7381110D8C6}">ST_GeneralControlSP</Type>
+							<Type GUID="{BF75A943-C9FE-4895-B56D-7B1A4C063819}">ST_GeneralControlSP</Type>
 						</Var>
 					</Vars>
 					<Vars VarGrpType="8">
@@ -1510,13 +1498,13 @@ Ethercat Inputs]]>
 							<Entry Name="Reserved - not used" Index="#x2008">
 								<Type>UINT</Type>
 							</Entry>
-							<Entry Name="Reserved - not used" Index="#x2009">
+							<Entry Name="Reserved - not used_1" Index="#x2009">
 								<Type>UINT</Type>
 							</Entry>
-							<Entry Name="Reserved - not used" Index="#x200a">
+							<Entry Name="Reserved - not used_2" Index="#x200a">
 								<Type>UINT</Type>
 							</Entry>
-							<Entry Name="Reserved - not used" Index="#x200b">
+							<Entry Name="Reserved - not used_3" Index="#x200b">
 								<Type>UINT</Type>
 							</Entry>
 							<Entry Name="General status" Index="#x200c">

@@ -11,7 +11,7 @@ STRUCT
 		field: ZSV NO_ALARM
 		field: OSV MINOR
 	'}
-	RemoteControlNotPossible: BOOL;
+	bRemoteControlNotPossible: BOOL;
 	{attribute 'pytmc' := '
 		pv: CTRL_SP_NOT_ALLOWED
 		io: i
@@ -20,7 +20,7 @@ STRUCT
 		field: ZSV NO_ALARM
 		field: OSV MINOR
 	'}
-	ControlModeSPNotAllowed : BOOL;
+	bControlModeSPNotAllowed : BOOL;
 	{attribute 'pytmc' := '
 		pv: ZERO_STATUS
 		io: i
@@ -29,7 +29,7 @@ STRUCT
 		field: ZSV NO_ALARM
 		field: OSV MINOR
 	'}
-	ZeroDisabled : BOOL;
+	bZeroDisabled : BOOL;
 	{attribute 'pytmc' := '
 		pv: PFO_STATUS
 		io: i
@@ -38,7 +38,7 @@ STRUCT
 		field: ZSV NO_ALARM
 		field: OSV MINOR
 	'}
-	PFODeactivated : BOOL;
+	bPFODeactivated : BOOL;
 	{attribute 'pytmc' := '
 		pv: PRES_SP_OOR
 		io: i
@@ -47,7 +47,7 @@ STRUCT
 		field: ZSV NO_ALARM
 		field: OSV MAJOR
 	'}
-	PressureSPOutOfRange : BOOL;
+	bPressureSPOutOfRange : BOOL;
 	{attribute 'pytmc' := '
 		pv: POS_SP_OOR
 		io: i
@@ -56,7 +56,7 @@ STRUCT
 		field: ZSV NO_ALARM
 		field: OSV MAJOR
 	'}
-	PositionSPOutOfRange : BOOL;
+	bPositionSPOutOfRange : BOOL;
 	{attribute 'pytmc' := '
 		pv: CTRL_SP_OOR
 		io: i
@@ -65,7 +65,7 @@ STRUCT
 		field: ZSV NO_ALARM
 		field: OSV MAJOR
 	'}
-	CtrlSPOutOfRange : BOOL;
+	bCtrlSPOutOfRange : BOOL;
 	{attribute 'pytmc' := '
 		pv: GENCTRL_SP_OOR
 		io: i
@@ -74,7 +74,7 @@ STRUCT
 		field: ZSV NO_ALARM
 		field: OSV MAJOR
 	'}
-	GeneralCtrlSPOutOfRange : BOOL;
+	bGeneralCtrlSPOutOfRange : BOOL;
 	{attribute 'pytmc' := '
 		pv: PROC_DATA_NOT_VALID
 		io: i
@@ -83,7 +83,7 @@ STRUCT
 		field: ZSV NO_ALARM
 		field: OSV MAJOR
 	'}
-	ProcDataSettingsNotvalid : BOOL;
+	bProcDataSettingsNotvalid : BOOL;
 END_STRUCT
 END_TYPE
 ]]></Declaration>

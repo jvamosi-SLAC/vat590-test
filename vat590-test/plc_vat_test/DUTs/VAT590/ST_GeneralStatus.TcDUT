@@ -11,7 +11,7 @@ STRUCT
 		field: ZSV MAJOR
 		field: OSV NO_ALARM
 	'}
-	FieldBusDatavalid: BOOL;
+	bFieldBusDatavalid: BOOL;
 	{attribute 'pytmc' := '
 		pv: ZERO_EXECUTED
 		io: i
@@ -20,7 +20,7 @@ STRUCT
 		field: ZSV NO_ALARM
 		field: OSV NO_ALARM
 	'}
-	ZeroExecuted : BOOL;
+	bZeroExecuted : BOOL;
 	{attribute 'pytmc' := '
 		pv: ECAT_RxBIT
 		io: i
@@ -29,7 +29,7 @@ STRUCT
 		field: ZSV NO_ALARM
 		field: OSV NO_ALARM
 	'}
-	PingPongRxBit : BOOL;
+	bPingPongRxBit : BOOL;
 	{attribute 'pytmc' := '
 		pv: PRES_SIM
 		io: i
@@ -38,7 +38,7 @@ STRUCT
 		field: ZSV NO_ALARM
 		field: OSV NO_ALARM
 	'}
-	PressureSimulation : BOOL;
+	bPressureSimulation : BOOL;
 	{attribute 'pytmc' := '
 		pv: PRES_SP_REACHED
 		io: i
@@ -47,7 +47,7 @@ STRUCT
 		field: ZSV NO_ALARM
 		field: OSV NO_ALARM
 	'}
-	PressureSPReached : BOOL;
+	bPressureSPReached : BOOL;
 	{attribute 'pytmc' := '
 		pv: WARN_STATUS
 		io: i
@@ -56,7 +56,12 @@ STRUCT
 		field: ZSV NO_ALARM
 		field: OSV MAJOR
 	'}
-	WarningsActive : BOOL;
+	bWarningsActive : BOOL;
+	{attribute 'pytmc' :=  ' 
+	pv: REM_CTRL
+	io: i
+	'}
+	eRemoteStatus : E_AccessMode;
 END_STRUCT
 END_TYPE
 ]]></Declaration>

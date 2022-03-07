@@ -5,13 +5,6 @@
 STRUCT
 	(* VCN - Valve Controlled Needle
 	Used for VAT590 needle valves *)
-	(*{attribute 'pytmc' := '
-	pv: OPN_SW; 
-	field: ZNAM CLOSE; 
-	field: ONAM OPEN;
-	io: io ;
-	'}
-	xOPN_SW	: BOOL; *)
 	{attribute 'pytmc' := '
     pv: POS_RAW_RBV
 	io: i
@@ -22,38 +15,29 @@ STRUCT
 	io: i
     '}
 	nRawPressure : DINT; //Pressure readback
-	
+	{attribute 'pytmc' := '
+    pv: PRES_TORR_RBV
+	field: EGU "TORR"
+	io: i
+    '}
+	fPressure : REAL; //Pressure readback in Torr units
 	{attribute 'pytmc' := '
 	pv: POS_SP_RBV
 	io: i
 	'}
 	nPositionSP : DINT; //Position setpoint readback
-	
 	{attribute 'pytmc' := '
 	pv: PRES_SP_RBV
 	io: i
 	'}
 	nPressureSP : DINT; //Pressure setpoint readback
-	
 	{attribute 'pytmc' := '
     pv: ILK_OK
 	field: ZNAM NOT OK
 	field: ONAM OK
 	io: i
     '}
-	bIlkOK : BOOL := FALSE; // Interlock Bit
-	(*	
-	{attribute 'pytmc' := ' 
-	pv: ILK_SP;
-	io: o;
-	field: HOPR 1000
-	field: LOPR 0
-	field: PREC 2
-	field: EGU "TORR"
-	autosave_pass1: VAL DESC
-	'}
-	fIlk_SP	:	REAL := 0.0005;	// Interlock setpoint for gauges on both sides of valve *)
-	
+	bIlkOK : BOOL := FALSE; // Interlock Bit status
 	{attribute 'pytmc' := '
     pv: Limit
 	io: io
@@ -69,23 +53,20 @@ STRUCT
 	fReqPosition : REAL; //Requested position (0.0-100.0%)
 	{attribute 'pytmc' := '
 	pv: PRES_REQ
-	field: DRVL 0.0
-	field: DRVH 100.0
+	field: EGU "TORR"
 	io: io;
 	'}
-	fReqPressure : REAL; //Requested pressure ()
+	fReqPressure : REAL; //Requested pressure in Torr units
 	{attribute 'pytmc' :=  ' 
 	pv: STATE
 	io: io
 	'}
 	eValveControl : E_VCN_VAT590; // Valve control mode
-
 	{attribute 'pytmc' :=  ' 
 	pv: CTRL_MODE_RBV
 	io: i
 	'}
 	eControlMode : E_ControlMode; // Valve control mode readback
-	
 	{attribute 'pytmc' :=  ' 
 	pv: PRES_SENS
 	io: io
@@ -93,7 +74,7 @@ STRUCT
 	ePressureSensor : E_PressureSensor; // Select pressure sensor
 	{attribute 'pytmc' :=  ' 
 	pv: REM_CTRL
-	io: io
+	io: o
 	'}
 	eRemoteControl : E_AccessMode; // Select remote control mode
 	{attribute 'pytmc' := '
@@ -102,33 +83,27 @@ STRUCT
 	field: ONAM ZERO
 	io: o
 	'}
-	bZero : BOOL;
+	bZero : BOOL; // Activate Zero function bit
 	{attribute 'pytmc' :=  ' 
 	pv: FATAL_ERR_RBV
 	io: i
 	'}
 	eFatalErrors : E_FatalErrors; // Valve Fatal Error status readback
-	
 	{attribute 'pytmc' :=  ' 
 	pv: GEN_STATUS
 	io: i
 	'}
 	stGenStatus : ST_GeneralStatus; // Valve General status
-
 	{attribute 'pytmc' :=  ' 
 	pv: GEN_WARN
 	io: i
 	'}
 	stGenWarnings : ST_GeneralWarnings; // Valve General Warnings status
-	
 	{attribute 'pytmc' :=  ' 
 	pv: EXT_WARN
 	io: i
 	'}
-	stExtWarnings : ST_ExtendedWarnings; // Valve Extended Warnings status
-
-//	ftIlk	:	F_TRIG;	
-	
+	stExtWarnings : ST_ExtendedWarnings; // Valve Extended Warnings status	
 END_STRUCT
 END_TYPE
 ]]></Declaration>

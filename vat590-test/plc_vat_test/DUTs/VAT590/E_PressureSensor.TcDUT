@@ -7,7 +7,7 @@ TYPE E_PressureSensor :
 (
 	NOT_DEFINED := 0,
 	MKS500 := 1
-) USINT := NOT_DEFINED;
+) USINT := MKS500;
 END_TYPE
 ]]></Declaration>
   </DUT>

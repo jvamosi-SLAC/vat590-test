@@ -11,7 +11,7 @@ STRUCT
 		field: ZSV NO_ALARM
 		field: OSV MAJOR
 	'}
-	ServiceRequest: BOOL;
+	bServiceRequest: BOOL;
 	{attribute 'pytmc' := '
 		pv: POWER_FAIL_BATT
 		io: i
@@ -20,7 +20,7 @@ STRUCT
 		field: ZSV NO_ALARM
 		field: OSV MINOR
 	'}
-	PowerFailureBattery : BOOL;
+	bPowerFailureBattery : BOOL;
 	{attribute 'pytmc' := '
 		pv: ADC_UNIT_STATUS
 		io: i
@@ -29,7 +29,7 @@ STRUCT
 		field: ZSV NO_ALARM
 		field: OSV MAJOR
 	'}
-	SensMeasUnitFault : BOOL;
+	bSensMeasUnitFault : BOOL;
 END_STRUCT
 END_TYPE
 ]]></Declaration>
