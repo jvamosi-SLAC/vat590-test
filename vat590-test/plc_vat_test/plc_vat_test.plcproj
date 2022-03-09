@@ -40,10 +40,10 @@
     <Compile Include="DUTs\VAT590\EtherCAT Interface\ST_GeneralWarning.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\VAT590\E_VCN_VAT590.TcDUT">
+    <Compile Include="DUTs\VAT590\E_PressureSensor.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\VAT590\E_PressureSensor.TcDUT">
+    <Compile Include="DUTs\VAT590\E_VCN_VAT590.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DUTs\VAT590\E_AccessMode.TcDUT">
@@ -111,6 +111,11 @@
     <None Include="plc_vat_test.tmc">
       <SubType>Content</SubType>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <PlaceholderResolution Include="Tc2_EtherCAT">
+      <Resolution>Tc2_EtherCAT, * (Beckhoff Automation GmbH)</Resolution>
+    </PlaceholderResolution>
   </ItemGroup>
   <ProjectExtensions>
     <PlcProjectOptions>

@@ -7,12 +7,20 @@ VAR
       pv: VCN:TEST:01
      '}
 	fbVCN590 : FB_VCN_VAT590; // Variable leak valve VAT590 function block
-END_VAR
+	fbMKS500 : FB_MKS500;
+	stVG : ST_VG;
+END_VAR	
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[fbVCN590(bExtIlkOK := TRUE);]]></ST>
+      <ST><![CDATA[stVG.xPRESS_OK := TRUE;
+stVG.rPress := 1E-4;
+fbMKS500.M_SetBits(30518);
+fbMKS500(PG := stVG);
+fbVCN590(bExtIlkOK := TRUE, IG := fbMKS500.IG);]]></ST>
     </Implementation>
     <LineIds Name="MAIN">
+      <LineId Id="15" Count="2" />
+      <LineId Id="12" Count="0" />
       <LineId Id="2" Count="0" />
     </LineIds>
   </POU>

@@ -43,7 +43,13 @@ STRUCT
 	io: io
 	autosave_pass1: VAL DESC
     '}
-	fUpperLimit	: REAL := 100; // Percentage//Upper limit on valve open
+	fUpperLimit	: REAL := 100; // Percentage Upper limit on valve open
+	{attribute 'pytmc' := '
+    pv: PresLimit
+	io: io
+	autosave_pass1: VAL DESC
+    '}
+	fPresUpperLimit	: REAL := 1E-2; // Upper limit for pressure control 
 	{attribute 'pytmc' := '
 	pv: POS_REQ
 	field: DRVL 0.0

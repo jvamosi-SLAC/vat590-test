@@ -20,7 +20,7 @@ TYPE E_ControlMode :
 	PowerFailure := 12,
 	Safety := 13,
 	FatalError := 14
-) USINT;
+) USINT := Init;
 END_TYPE
 ]]></Declaration>
   </DUT>

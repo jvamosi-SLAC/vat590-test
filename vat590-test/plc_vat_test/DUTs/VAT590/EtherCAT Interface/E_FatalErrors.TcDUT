@@ -11,7 +11,7 @@ TYPE E_FatalErrors :
 	ValveBlocked := 22,
 	StepLossSynch := 25,
 	MotorDriverFault := 40
-) UINT;
+) UINT := NO_FATAL_ERROR;
 END_TYPE
 ]]></Declaration>
   </DUT>
