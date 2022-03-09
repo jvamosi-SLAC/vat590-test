@@ -504,6 +504,32 @@ record(ao, "VCN:TEST:01:Limit") {
   info(archive, "VAL")
 }
 
+record(ai, "VCN:TEST:01:PresLimit_RBV") {
+  # MAIN.fbVCN590.stVcnVat590.fPresUpperLimit
+  field(DESC, "MAIN.fbVCN590.stVcnV...0.fPresUpperLimit")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynFloat64")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.fPresUpperLimit?")
+  field(PREC, "3")
+  info(autosaveFields, "DESC VAL")
+  info(autosaveFields_pass0, "PREC")
+  info(archive, "VAL")
+}
+
+record(ao, "VCN:TEST:01:PresLimit") {
+  # MAIN.fbVCN590.stVcnVat590.fPresUpperLimit
+  field(DESC, "MAIN.fbVCN590.stVcnV...0.fPresUpperLimit")
+  field(PINI, "1")
+  field(DTYP, "asynFloat64")
+  field(OUT, "@asyn($(PORT),0,1)ADSPORT=851/MAIN.fbVCN590.stVcnVat590.fPresUpperLimit=")
+  field(PREC, "3")
+  info(autosaveFields, "DESC VAL")
+  info(autosaveFields_pass0, "PREC VAL")
+  info(archive, "VAL")
+}
+
 record(ai, "VCN:TEST:01:POS_REQ_RBV") {
   field(DESC, "MAIN.fbVCN590.stVcnVat590.fReqPosition")
   field(SCAN, "I/O Intr")
