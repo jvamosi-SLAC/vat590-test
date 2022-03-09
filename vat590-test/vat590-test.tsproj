@@ -708,6 +708,27 @@
 							<Type GUID="{18071995-0000-0000-0000-000000000041}">AMSNETID</Type>
 						</Var>
 						<Var>
+							<Name>MAIN.fbMKS500.i_iPRESS_R</Name>
+							<Comment>
+								<![CDATA[ Controls and I/Os]]>
+							</Comment>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbMKS500.i_xHV_ON</Name>
+							<Comment>
+								<![CDATA[  True when High Voltage is on  // 'TcLinkTo' (EL1124) ^Input]]>
+							</Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbMKS500.i_xDisc_Active</Name>
+							<Comment>
+								<![CDATA[ Discharge Current Active // 'TcLinkTo' (EL1124) ^Input]]>
+							</Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
 							<Name>MAIN.fbVCN590.i_nRawPosition</Name>
 							<Comment>
 								<![CDATA[VAT590 Ethercat IO Interface
@@ -739,30 +760,16 @@ Ethercat Inputs]]>
 							<Name>MAIN.fbVCN590.i_stExtnWarnings</Name>
 							<Type GUID="{FA88CEE6-DBFD-4ED2-88C0-0D9F5012B24A}">ST_ExtendedWarning</Type>
 						</Var>
-						<Var>
-							<Name>MAIN.fbMKS500.i_iPRESS_R</Name>
-							<Comment>
-								<![CDATA[ Controls and I/Os]]>
-							</Comment>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbMKS500.i_xHV_ON</Name>
-							<Comment>
-								<![CDATA[  True when High Voltage is on  // 'TcLinkTo' (EL1124) ^Input]]>
-							</Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbMKS500.i_xDisc_Active</Name>
-							<Comment>
-								<![CDATA[ Discharge Current Active // 'TcLinkTo' (EL1124) ^Input]]>
-							</Comment>
-							<Type>BOOL</Type>
-						</Var>
 					</Vars>
 					<Vars VarGrpType="2">
 						<Name>PlcTask Outputs</Name>
+						<Var>
+							<Name>MAIN.fbMKS500.q_xHV_DIS</Name>
+							<Comment>
+								<![CDATA[ Enable High Voltage when True // 'TcLinkTo' (EP2624) ^Output]]>
+							</Comment>
+							<Type>BOOL</Type>
+						</Var>
 						<Var>
 							<Name>MAIN.fbVCN590.o_nRawPositionSP</Name>
 							<Comment>
@@ -785,13 +792,6 @@ Ethercat Inputs]]>
 						<Var>
 							<Name>MAIN.fbVCN590.o_stGenCtrlSP</Name>
 							<Type GUID="{BF75A943-C9FE-4895-B56D-7B1A4C063819}">ST_GeneralControlSP</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbMKS500.q_xHV_DIS</Name>
-							<Comment>
-								<![CDATA[ Enable High Voltage when True // 'TcLinkTo' (EP2624) ^Output]]>
-							</Comment>
-							<Type>BOOL</Type>
 						</Var>
 					</Vars>
 					<Vars VarGrpType="8">

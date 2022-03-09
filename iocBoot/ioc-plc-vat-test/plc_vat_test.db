@@ -475,6 +475,8 @@ record(bi, "VCN:TEST:01:ILK_OK_RBV") {
   field(TSE, "-2")
   field(DTYP, "asynInt32")
   field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.bIlkOK?")
+  field(ZSV, "MAJOR")
+  field(OSV, "NO_ALARM")
   field(ZNAM, "NOT OK")
   field(ONAM, "OK")
   info(archive, "VAL")

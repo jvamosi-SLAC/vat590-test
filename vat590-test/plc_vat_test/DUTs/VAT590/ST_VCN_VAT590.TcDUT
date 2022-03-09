@@ -35,6 +35,8 @@ STRUCT
     pv: ILK_OK
 	field: ZNAM NOT OK
 	field: ONAM OK
+	field: ZSV MAJOR
+	field: OSV NO_ALARM
 	io: i
     '}
 	bIlkOK : BOOL := FALSE; // Interlock Bit status

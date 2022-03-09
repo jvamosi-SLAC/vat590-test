@@ -111,7 +111,7 @@ END_IF
 fCalcPosSP := fReqPos * (cOpenPosition-cClosePosition)/100 + cClosePosition;
 fCalcPosSP := LIMIT(cClosePosition, fCalcPosSP, cOpenPosition); //The requested position SP should remain within this range
 
-// Requested Pressure calculation
+// If using pressure sensor different than MKS500
 CASE stVcnVat590.ePressureSensor OF
 	E_PressureSensor.MKS500:
 		fPresLowLim := 1.0E-10;
@@ -211,11 +211,10 @@ IF (bRestorePersistentData) THEN
 	IF (fUpperLimit <> 0) THEN
 		stVcnVat590.fUpperLimit := fUpperLimit;
 	END_IF;
-END_IF
-(*Check if a new value has been written in the structure variable copy it to the persistent variable*)
-IF NOT (stVcnVat590.fUpperLimit = fUpperLimit) THEN
-	fUpperLimit := stVcnVat590.fUpperLimit;
-END_IF;]]></ST>
+	IF (fPresMaxLim <> 0) THEN
+		stVcnVat590.fPresUpperLimit := fPresMaxLim;
+	END_IF;
+END_IF]]></ST>
       </Implementation>
     </Action>
     <Method Name="M_SetThrottle" Id="{bc87ba94-efcb-4d7b-ace0-cb07482f478f}">
@@ -341,8 +340,9 @@ o_stGenCtrlSP.Bit4AccessMode := bRemAcsToggle;]]></ST>
     </LineIds>
     <LineIds Name="FB_VCN_VAT590.ACT_Persistent">
       <LineId Id="2" Count="5" />
-      <LineId Id="9" Count="3" />
-      <LineId Id="1" Count="0" />
+      <LineId Id="17" Count="1" />
+      <LineId Id="16" Count="0" />
+      <LineId Id="9" Count="0" />
     </LineIds>
     <LineIds Name="FB_VCN_VAT590.M_SetThrottle">
       <LineId Id="3" Count="0" />
