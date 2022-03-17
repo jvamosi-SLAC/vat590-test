@@ -1780,7 +1780,6 @@ Bit1: Value smaller than Limit2]]>
 				<Link VarA="PlcTask Inputs^MAIN.fbVCN590.i_stGenStatus" VarB="DI TxPDO-Map^General status"/>
 				<Link VarA="PlcTask Inputs^MAIN.fbVCN590.i_stGenWarnings" VarB="DI TxPDO-Map^General warnings"/>
 				<Link VarA="PlcTask Outputs^MAIN.fbVCN590.o_eCtrlModeSP" VarB="DO RxPDO-Map^Control mode setpoint"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbVCN590.o_nRawExtPressure" VarB="DO RxPDO-Map^External digital pressure sensor 1"/>
 				<Link VarA="PlcTask Outputs^MAIN.fbVCN590.o_nRawPositionSP" VarB="DO RxPDO-Map^Position setpoint"/>
 				<Link VarA="PlcTask Outputs^MAIN.fbVCN590.o_nRawPressureSP" VarB="DO RxPDO-Map^Pressure setpoint"/>
 				<Link VarA="PlcTask Outputs^MAIN.fbVCN590.o_stGenCtrlSP" VarB="DO RxPDO-Map^General control setpoint"/>
