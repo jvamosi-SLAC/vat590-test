@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
-  <DUT Name="ST_GeneralStatuses" Id="{9c22d4f5-1bbc-427a-b513-f8bf1db18bd2}">
-    <Declaration><![CDATA[TYPE ST_GeneralStatuses :
+  <DUT Name="ST_GeneralStatus" Id="{9c22d4f5-1bbc-427a-b513-f8bf1db18bd2}">
+    <Declaration><![CDATA[TYPE ST_GeneralStatus :
 STRUCT
 	Bit0FieldBusDatavalid: BIT;
 	Bit1ZeroExecuted : BIT;

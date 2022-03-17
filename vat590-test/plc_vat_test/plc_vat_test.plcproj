@@ -28,37 +28,31 @@
     <Compile Include="DUTs\VAT590\EtherCAT Interface\E_FatalErrors.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\VAT590\EtherCAT Interface\ST_ExtendedWarning.TcDUT">
+    <Compile Include="DUTs\VAT590\EtherCAT Interface\ST_ExtendedWarnings.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DUTs\VAT590\EtherCAT Interface\ST_GeneralControlSP.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\VAT590\EtherCAT Interface\ST_GeneralStatuses.TcDUT">
+    <Compile Include="DUTs\VAT590\EtherCAT Interface\ST_GeneralStatus.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\VAT590\EtherCAT Interface\ST_GeneralWarning.TcDUT">
+    <Compile Include="DUTs\VAT590\EtherCAT Interface\ST_GeneralWarnings.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\VAT590\E_PressureSensor.TcDUT">
+    <Compile Include="DUTs\VAT590\E_VAT590_PressureSensor.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DUTs\VAT590\E_VCN_VAT590.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\VAT590\E_AccessMode.TcDUT">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DUTs\VAT590\ST_ExtendedWarnings.TcDUT">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DUTs\VAT590\ST_GeneralStatus.TcDUT">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DUTs\VAT590\ST_GeneralWarnings.TcDUT">
+    <Compile Include="DUTs\VAT590\E_VAT590_AccessMode.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DUTs\VAT590\ST_VCN_VAT590.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\VAT590\ST_VAT590_STATUS.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="PlcTask.TcTTO">

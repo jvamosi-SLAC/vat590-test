@@ -1,14 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
-  <DUT Name="E_AccessMode" Id="{6d9245de-47bf-4fe9-9bfb-c39f203b1c4a}">
+  <DUT Name="E_VAT590_PressureSensor" Id="{b68f089e-c16e-4b5b-831f-c18273eab52e}">
     <Declaration><![CDATA[{attribute 'qualified_only'}
 {attribute 'strict'}
-TYPE E_AccessMode :
+TYPE E_VAT590_PressureSensor :
 (
-	LOCAL := 0,
-	REMOTE := 1,
-	LOCKED := 2
-) USINT := REMOTE;
+	NOT_DEFINED := 0,
+	MKS500 := 1
+) USINT := MKS500;
 END_TYPE
 ]]></Declaration>
   </DUT>

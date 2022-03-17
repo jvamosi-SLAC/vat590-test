@@ -156,7 +156,7 @@
 			</EnumInfo>
 		</DataType>
 		<DataType>
-			<Name GUID="{6303CCBB-4350-4A96-A125-310312E8608F}" AutoDeleteType="true">ST_GeneralStatuses</Name>
+			<Name GUID="{2298E39F-23E6-4819-8C76-01CC4186026A}" AutoDeleteType="true">ST_GeneralStatus</Name>
 			<BitSize>16</BitSize>
 			<SubItem>
 				<Name>Bit0FieldBusDatavalid</Name>
@@ -254,9 +254,12 @@
 				<BitSize>1</BitSize>
 				<BitOffs>15</BitOffs>
 			</SubItem>
+			<Hides>
+				<Hide GUID="{E10BA089-7318-4A98-8140-1D7BBEFB4F47}"/>
+			</Hides>
 		</DataType>
 		<DataType>
-			<Name GUID="{1962483A-0A76-4965-B6E3-E3BE74040062}" AutoDeleteType="true">ST_GeneralWarning</Name>
+			<Name GUID="{403AAF69-85A5-4C28-8C91-7EB5DA7D7D6F}" AutoDeleteType="true">ST_GeneralWarnings</Name>
 			<BitSize>16</BitSize>
 			<SubItem>
 				<Name>Bit0ServiceRequest</Name>
@@ -354,9 +357,12 @@
 				<BitSize>1</BitSize>
 				<BitOffs>15</BitOffs>
 			</SubItem>
+			<Hides>
+				<Hide GUID="{119BD1E3-1F5B-4A21-BF13-438A8A931822}"/>
+			</Hides>
 		</DataType>
 		<DataType>
-			<Name GUID="{FA88CEE6-DBFD-4ED2-88C0-0D9F5012B24A}" AutoDeleteType="true">ST_ExtendedWarning</Name>
+			<Name GUID="{7FB5B535-76CC-48B1-A99C-444F69281844}" AutoDeleteType="true">ST_ExtendedWarnings</Name>
 			<BitSize>16</BitSize>
 			<SubItem>
 				<Name>Bit0RemoteControlNotPossible</Name>
@@ -454,6 +460,9 @@
 				<BitSize>1</BitSize>
 				<BitOffs>15</BitOffs>
 			</SubItem>
+			<Hides>
+				<Hide GUID="{690E2E5F-F8CE-448A-9FF2-E8D0E6D76AD1}"/>
+			</Hides>
 		</DataType>
 		<DataType>
 			<Name GUID="{8663EC01-B508-4EF9-8E4E-C6F36A035D95}" AutoDeleteType="true">E_ControlModeSP</Name>
@@ -708,6 +717,55 @@
 							<Type GUID="{18071995-0000-0000-0000-000000000041}">AMSNETID</Type>
 						</Var>
 						<Var>
+							<Name>MAIN.fbVCN590.i_nRawPosition</Name>
+							<Comment>
+								<![CDATA[ Position readback from the valve]]>
+							</Comment>
+							<Type>DINT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbVCN590.i_nRawPressure</Name>
+							<Comment>
+								<![CDATA[ Pressure readback from the valve]]>
+							</Comment>
+							<Type>DINT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbVCN590.i_eControlMode</Name>
+							<Comment>
+								<![CDATA[ Valve control mode readback]]>
+							</Comment>
+							<Type GUID="{CE406B42-28FD-482D-A2C8-1E943E55DDAF}">E_ControlMode</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbVCN590.i_eFatalError</Name>
+							<Comment>
+								<![CDATA[ Valve Fatal Errors readback]]>
+							</Comment>
+							<Type GUID="{040B7F6C-2002-4E54-B003-41323BE2BF15}">E_FatalErrors</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbVCN590.i_stGenStatus</Name>
+							<Comment>
+								<![CDATA[ Valve General Status readback]]>
+							</Comment>
+							<Type GUID="{2298E39F-23E6-4819-8C76-01CC4186026A}">ST_GeneralStatus</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbVCN590.i_stGenWarnings</Name>
+							<Comment>
+								<![CDATA[ Valve General Warnings readback]]>
+							</Comment>
+							<Type GUID="{403AAF69-85A5-4C28-8C91-7EB5DA7D7D6F}">ST_GeneralWarnings</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbVCN590.i_stExtnWarnings</Name>
+							<Comment>
+								<![CDATA[ Valve Extended Warnings readback]]>
+							</Comment>
+							<Type GUID="{7FB5B535-76CC-48B1-A99C-444F69281844}">ST_ExtendedWarnings</Type>
+						</Var>
+						<Var>
 							<Name>MAIN.fbMKS500.i_iPRESS_R</Name>
 							<Comment>
 								<![CDATA[ Controls and I/Os]]>
@@ -728,70 +786,43 @@
 							</Comment>
 							<Type>BOOL</Type>
 						</Var>
+					</Vars>
+					<Vars VarGrpType="2">
+						<Name>PlcTask Outputs</Name>
 						<Var>
-							<Name>MAIN.fbVCN590.i_nRawPosition</Name>
+							<Name>MAIN.fbVCN590.o_nRawPositionSP</Name>
 							<Comment>
-								<![CDATA[VAT590 Ethercat IO Interface
-Ethercat Inputs]]>
+								<![CDATA[ Position setpoint]]>
 							</Comment>
 							<Type>DINT</Type>
 						</Var>
 						<Var>
-							<Name>MAIN.fbVCN590.i_nRawPressure</Name>
+							<Name>MAIN.fbVCN590.o_nRawPressureSP</Name>
+							<Comment>
+								<![CDATA[ Pressure setpoint]]>
+							</Comment>
 							<Type>DINT</Type>
 						</Var>
 						<Var>
-							<Name>MAIN.fbVCN590.i_eControlMode</Name>
-							<Type GUID="{CE406B42-28FD-482D-A2C8-1E943E55DDAF}">E_ControlMode</Type>
+							<Name>MAIN.fbVCN590.o_eCtrlModeSP</Name>
+							<Comment>
+								<![CDATA[ Valve control mode setpoint]]>
+							</Comment>
+							<Type GUID="{8663EC01-B508-4EF9-8E4E-C6F36A035D95}">E_ControlModeSP</Type>
 						</Var>
 						<Var>
-							<Name>MAIN.fbVCN590.i_eFatalError</Name>
-							<Type GUID="{040B7F6C-2002-4E54-B003-41323BE2BF15}">E_FatalErrors</Type>
+							<Name>MAIN.fbVCN590.o_stGenCtrlSP</Name>
+							<Comment>
+								<![CDATA[ General Control setpoint]]>
+							</Comment>
+							<Type GUID="{BF75A943-C9FE-4895-B56D-7B1A4C063819}">ST_GeneralControlSP</Type>
 						</Var>
-						<Var>
-							<Name>MAIN.fbVCN590.i_stGenStatus</Name>
-							<Type GUID="{6303CCBB-4350-4A96-A125-310312E8608F}">ST_GeneralStatuses</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbVCN590.i_stGenWarnings</Name>
-							<Type GUID="{1962483A-0A76-4965-B6E3-E3BE74040062}">ST_GeneralWarning</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbVCN590.i_stExtnWarnings</Name>
-							<Type GUID="{FA88CEE6-DBFD-4ED2-88C0-0D9F5012B24A}">ST_ExtendedWarning</Type>
-						</Var>
-					</Vars>
-					<Vars VarGrpType="2">
-						<Name>PlcTask Outputs</Name>
 						<Var>
 							<Name>MAIN.fbMKS500.q_xHV_DIS</Name>
 							<Comment>
 								<![CDATA[ Enable High Voltage when True // 'TcLinkTo' (EP2624) ^Output]]>
 							</Comment>
 							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbVCN590.o_nRawPositionSP</Name>
-							<Comment>
-								<![CDATA[Ethercat outputs]]>
-							</Comment>
-							<Type>DINT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbVCN590.o_nRawPressureSP</Name>
-							<Type>DINT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbVCN590.o_nRawExtPressure</Name>
-							<Type>DINT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbVCN590.o_eCtrlModeSP</Name>
-							<Type GUID="{8663EC01-B508-4EF9-8E4E-C6F36A035D95}">E_ControlModeSP</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbVCN590.o_stGenCtrlSP</Name>
-							<Type GUID="{BF75A943-C9FE-4895-B56D-7B1A4C063819}">ST_GeneralControlSP</Type>
 						</Var>
 					</Vars>
 					<Vars VarGrpType="8">
