@@ -19,6 +19,9 @@
     <Released>false</Released>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="DUTs\ST_CoeParameter.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="DUTs\VAT590\EtherCAT Interface\E_ControlMode.TcDUT">
       <SubType>Code</SubType>
     </Compile>
@@ -58,6 +61,9 @@
     <Compile Include="PlcTask.TcTTO">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\CoE\FB_CoE_Interface.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="POUs\Valves\FB_VCN_VAT590.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -70,11 +76,16 @@
     <Folder Include="DUTs\VAT590" />
     <Folder Include="DUTs\VAT590\EtherCAT Interface" />
     <Folder Include="GVLs" />
+    <Folder Include="POUs\CoE" />
     <Folder Include="POUs\Valves" />
     <Folder Include="VISUs" />
     <Folder Include="POUs" />
   </ItemGroup>
   <ItemGroup>
+    <PlaceholderReference Include="LCLS General">
+      <DefaultResolution>LCLS General, * (SLAC)</DefaultResolution>
+      <Namespace>LCLS_General</Namespace>
+    </PlaceholderReference>
     <PlaceholderReference Include="Tc2_EtherCAT">
       <DefaultResolution>Tc2_EtherCAT, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc2_EtherCAT</Namespace>
@@ -107,8 +118,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <PlaceholderResolution Include="Tc2_EtherCAT">
-      <Resolution>Tc2_EtherCAT, * (Beckhoff Automation GmbH)</Resolution>
+    <PlaceholderResolution Include="LCLS General">
+      <Resolution>LCLS General, * (SLAC)</Resolution>
     </PlaceholderResolution>
   </ItemGroup>
   <ProjectExtensions>

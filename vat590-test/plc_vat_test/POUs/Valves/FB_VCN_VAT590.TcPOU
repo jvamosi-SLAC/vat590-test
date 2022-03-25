@@ -19,6 +19,8 @@ VAR CONSTANT
 	cClosePosition : REAL := 0.0;      // Default position setpoint lower scale value
 	cPresSPUpLim : REAL := 1E+6;       // Default pressure setpoint upper scale value
 	cPresSPLowLim : REAL := 0;         // Default pressure setpoint lower scale value
+	
+	MAX_PARAMETERS : UINT := 2;
 END_VAR
 VAR
 	fCalcPosSP : REAL := 0;
@@ -53,6 +55,10 @@ VAR
 	o_nRawPressureSP     AT %Q* : DINT;               // Pressure setpoint
 	o_eCtrlModeSP        AT %Q* : E_ControlModeSP;    // Valve control mode setpoint
 	o_stGenCtrlSP        AT %Q* : ST_GeneralControlSP;// General Control setpoint
+	
+	fbCoeInterface : FB_CoE_Interface;
+	aCoeParametersFloat : ARRAY [1..MAX_PARAMETERS] OF ST_CoeParameter;
+	nIterator : UINT := 1;
 END_VAR
 VAR PERSISTENT
     fUpperLimit	: REAL;                // Max position in % that can be requested
@@ -75,6 +81,9 @@ Valve position/flow linearization
 
 (*Read from EPICS and Valve Ethercat interface*)
 ReadFromInput();
+
+(*CoE interface*)
+fbCoeInterface();
 
 (*Checking which Control mode is selected*)
 IF bExtIlkOK THEN
@@ -152,6 +161,22 @@ IF stVcnVat590.stValveStatus.eRemoteStatus <> stVcnVat590.eRemoteControl THEN
 	END_IF
 END_IF
 tRemAcsTogg();
+
+(*Reading CoE Parameters*)
+IF NOT fbCoeInterface.IsBusy  AND NOT fbCoeInterface.InErrorState THEN
+	IF fbCoeInterface.IsDataReceived THEN
+		nIterator := nIterator + 1;
+		IF nIterator > MAX_PARAMETERS THEN
+			nIterator := 1;
+		END_IF
+		fbCoeInterface.ReadData(
+					nIndex := aCoeParametersFloat[nIterator].nIndex,
+					nSubIndex := aCoeParametersFloat[nIterator].nSubIndex,
+					pDstBuf := ADR(aCoeParametersFloat[nIterator].nValue),
+					cbBufLen := aCoeParametersFloat[nIterator].cbBufLen);
+	END_IF
+fbCoeInterface.ResetError();
+END_IF
 
 (*Write to EPICS and Valve Ethercat interface*)
 WriteToOutput();
@@ -289,47 +314,18 @@ o_stGenCtrlSP.Bit4AccessMode := bRemAcsToggle;]]></ST>
       </Implementation>
     </Action>
     <LineIds Name="FB_VCN_VAT590">
-      <LineId Id="3" Count="12" />
-      <LineId Id="372" Count="0" />
-      <LineId Id="17" Count="11" />
-      <LineId Id="30" Count="0" />
-      <LineId Id="356" Count="0" />
-      <LineId Id="31" Count="0" />
-      <LineId Id="357" Count="0" />
-      <LineId Id="359" Count="1" />
-      <LineId Id="358" Count="0" />
-      <LineId Id="32" Count="10" />
-      <LineId Id="462" Count="0" />
-      <LineId Id="461" Count="0" />
-      <LineId Id="43" Count="0" />
-      <LineId Id="45" Count="1" />
-      <LineId Id="460" Count="0" />
-      <LineId Id="47" Count="0" />
-      <LineId Id="451" Count="1" />
-      <LineId Id="473" Count="0" />
-      <LineId Id="48" Count="1" />
-      <LineId Id="54" Count="0" />
-      <LineId Id="56" Count="1" />
-      <LineId Id="370" Count="0" />
-      <LineId Id="464" Count="3" />
-      <LineId Id="463" Count="0" />
-      <LineId Id="364" Count="0" />
-      <LineId Id="470" Count="0" />
-      <LineId Id="468" Count="0" />
-      <LineId Id="58" Count="0" />
-      <LineId Id="382" Count="0" />
-      <LineId Id="381" Count="0" />
-      <LineId Id="376" Count="0" />
-      <LineId Id="380" Count="0" />
-      <LineId Id="388" Count="0" />
-      <LineId Id="375" Count="0" />
-      <LineId Id="350" Count="0" />
-      <LineId Id="69" Count="3" />
-      <LineId Id="536" Count="0" />
-      <LineId Id="73" Count="9" />
-      <LineId Id="85" Count="7" />
-      <LineId Id="362" Count="0" />
-      <LineId Id="361" Count="0" />
+      <LineId Id="664" Count="95" />
+      <LineId Id="770" Count="1" />
+      <LineId Id="773" Count="1" />
+      <LineId Id="787" Count="1" />
+      <LineId Id="791" Count="1" />
+      <LineId Id="777" Count="0" />
+      <LineId Id="783" Count="3" />
+      <LineId Id="778" Count="0" />
+      <LineId Id="796" Count="0" />
+      <LineId Id="775" Count="0" />
+      <LineId Id="780" Count="0" />
+      <LineId Id="761" Count="6" />
       <LineId Id="363" Count="0" />
     </LineIds>
     <LineIds Name="FB_VCN_VAT590.ACT_Logger">

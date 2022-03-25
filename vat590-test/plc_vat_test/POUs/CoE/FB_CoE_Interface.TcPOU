@@ -1,0 +1,301 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+  <POU Name="FB_CoE_Interface" Id="{0468dd5b-db8e-4ac3-9132-a360208fe36e}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_CoE_Interface
+VAR_INPUT
+	// Link this to your terminal's drive reference variables under InfoData.
+	stPlcDriveRef AT %I*: ST_PlcDriveRef;
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	// Read Error
+	bReadError : BOOL;
+	// Write Error
+	bWriteError : BOOL;
+	// Data successfully received
+	bDataReceived : BOOL := FALSE;
+	// Data successfully sent
+	bDataSent : BOOL := FALSE;
+	
+	fbCoeRead: FB_CoERead_ByDriveRef;
+	
+	fbCoeWrite: FB_CoEWrite_ByDriveRef;
+	
+	stDriveRef: ST_DriveRef;
+	
+	nState : BYTE := 0;   //State Machine
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[stDriveRef.sNetId := F_CreateAmsNetId(stPlcDriveRef.aNetId);
+stDriveRef.nSlaveAddr := stPlcDriveRef.nSlaveAddr;
+stDriveRef.nDriveNo := stPlcDriveRef.nDriveNo;
+stDriveRef.nDriveType := stPlcDriveRef.nDriveType;
+
+CASE nState OF
+	0: //Idle state
+		HandleIdle();
+	1: //Writing data
+		HandleWritingData();
+	10: //Reading data
+		HandleReadingData();
+	100: //Handle Error
+		HandleError();
+END_CASE]]></ST>
+    </Implementation>
+    <Action Name="HandleError" Id="{739f10f7-baba-4f6f-b8d7-517cb0c0f3d5}">
+      <Implementation>
+        <ST><![CDATA[// wait for reset ccmmand
+bDataReceived := FALSE;
+bDataSent := FALSE;]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="HandleIdle" Id="{5a4b6f43-8a2e-429c-92c5-ff603e1315c9}">
+      <Implementation>
+        <ST><![CDATA[fbCoeRead(bExecute := FALSE);
+fbCoeWrite(bExecute := FALSE);
+// Reset Data received bit
+bDataReceived := FALSE;
+// Reset DataSent bit
+bDataSent := FALSE;]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="HandleReadingData" Id="{9943e26d-2b69-489b-8bb7-40a6a7da0bb3}">
+      <Implementation>
+        <ST><![CDATA[fbCoeRead(bExecute := TRUE);        // Execute CoE read until done
+IF fbCoeRead.bError THEN
+	nState := 100;     // Error case
+	bReadError := TRUE;
+ELSE
+	IF NOT fbCoeRead.bBusy THEN
+         nState := 0;    // Done
+		 bDataReceived := TRUE;
+	END_IF
+END_IF]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="HandleWritingData" Id="{b7b1c84c-d546-4773-b7ad-8ff9f51a60de}">
+      <Implementation>
+        <ST><![CDATA[fbCoeWrite(bExecute := TRUE);       // Execute CoE write until done
+IF fbCoeWrite.bError THEN
+	nState := 100;     // Error case
+	bWriteError := TRUE;
+ELSE
+	IF NOT fbCoeWrite.bBusy THEN
+		nState := 0;    // Done
+		bDataSent := TRUE;
+	END_IF
+END_IF]]></ST>
+      </Implementation>
+    </Action>
+    <Method Name="InErrorState" Id="{872a0ecd-1ce5-4fe0-b2d2-1865bddf380a}">
+      <Declaration><![CDATA[METHOD InErrorState : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF nState = 100 THEN
+	InErrorState := TRUE;
+ELSE
+	InErrorState := FALSE;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="IsBusy" Id="{d8e5dfc6-4671-4eb4-af66-9eab1b3b1bb8}">
+      <Declaration><![CDATA[METHOD IsBusy : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF nState <> 0 THEN
+	IsBusy := TRUE;
+ELSE
+	IsBusy := FALSE;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="IsDataReceived" Id="{b22d3b98-89e5-4f82-a17a-7893834f5f52}">
+      <Declaration><![CDATA[PROPERTY IsDataReceived : BOOL]]></Declaration>
+      <Get Name="Get" Id="{4cc50464-2dbf-4e2e-8aed-cd6e6fdb232a}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[IsDataReceived := bDataReceived;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="IsDataSent" Id="{9f8a1544-9065-4281-96da-3b875aae3fcf}">
+      <Declaration><![CDATA[PROPERTY IsDataSent : BOOL]]></Declaration>
+      <Get Name="Get" Id="{a80ac2f0-5fbb-4a1f-a509-4608cd59f07a}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[IsDataSent := bDataSent;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="ReadData" Id="{e9d30cf0-2b10-4894-aa30-a14f26833486}">
+      <Declaration><![CDATA[METHOD ReadData
+VAR_INPUT
+	//stCoeParameter : ST_CoeParameter;
+	nIndex: WORD;
+	// Hexadecimal subindex of CoE, e.g. the 12 in 8010:12
+	nSubIndex: BYTE;
+	// Pointer to a value to fill with the result of the read, e.g. ADR(MyValue)
+	pDstBuf: PVOID;
+	// Data size of pDstBuf, e.g. SIZEOF(MyValue)
+	cbBufLen: UDINT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF nState <> 0 THEN
+	RETURN;
+END_IF
+
+fbCoeRead(
+	stDriveRef := stDriveRef,
+	nIndex := nIndex,
+	nSubIndex := nSubIndex,
+	pDstBuf := pDstBuf,
+	cbBufLen := cbBufLen,
+	tTimeout := T#1S,
+);
+
+// Go to Reading data state
+nState := 10;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="ResetError" Id="{9dcd208a-7420-4c68-8524-06b992b78ef5}">
+      <Declaration><![CDATA[METHOD ResetError
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF nState <> 100 THEN
+	RETURN;
+END_IF
+
+// Go to Idle state
+nState := 0;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="WriteData" Id="{a9857976-3963-4ebe-bdfe-79ee8257a845}">
+      <Declaration><![CDATA[METHOD WriteData
+VAR_INPUT
+	//stCoeParameter : ST_CoeParameter;
+	nIndex: WORD;
+	// Hexadecimal subindex of CoE, e.g. the 12 in 8010:12
+	nSubIndex: BYTE;
+	// Pointer to a value to fill with the result of the read, e.g. ADR(MyValue)
+	pSrcBuf: PVOID;
+	// Data size of pSrcBuf, e.g. SIZEOF(MyValue)
+	cbBufLen: UDINT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF nState <> 0 THEN
+	RETURN;
+END_IF
+
+fbCoeWrite(
+	stDriveRef := stDriveRef,
+	nIndex := nIndex,
+	nSubIndex := nSubIndex,
+	pSrcBuf := pSrcBuf,
+	cbBufLen := cbBufLen,
+	tTimeout := T#1S,
+);
+
+// Go to Writing Data state
+nState := 1;]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_CoE_Interface">
+      <LineId Id="39" Count="3" />
+      <LineId Id="98" Count="0" />
+      <LineId Id="50" Count="0" />
+      <LineId Id="52" Count="0" />
+      <LineId Id="54" Count="1" />
+      <LineId Id="58" Count="0" />
+      <LineId Id="61" Count="2" />
+      <LineId Id="65" Count="0" />
+      <LineId Id="53" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_CoE_Interface.HandleError">
+      <LineId Id="1" Count="0" />
+      <LineId Id="4" Count="0" />
+      <LineId Id="6" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_CoE_Interface.HandleIdle">
+      <LineId Id="15" Count="1" />
+      <LineId Id="21" Count="0" />
+      <LineId Id="19" Count="0" />
+      <LineId Id="22" Count="0" />
+      <LineId Id="17" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_CoE_Interface.HandleReadingData">
+      <LineId Id="2" Count="2" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="6" Count="1" />
+      <LineId Id="10" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_CoE_Interface.HandleWritingData">
+      <LineId Id="2" Count="2" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="7" Count="0" />
+      <LineId Id="10" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_CoE_Interface.InErrorState">
+      <LineId Id="6" Count="3" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_CoE_Interface.IsBusy">
+      <LineId Id="6" Count="3" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_CoE_Interface.IsDataReceived.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_CoE_Interface.IsDataSent.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_CoE_Interface.ReadData">
+      <LineId Id="10" Count="2" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="29" Count="5" />
+      <LineId Id="24" Count="0" />
+      <LineId Id="36" Count="0" />
+      <LineId Id="49" Count="0" />
+      <LineId Id="22" Count="0" />
+      <LineId Id="13" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_CoE_Interface.ResetError">
+      <LineId Id="7" Count="1" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="17" Count="0" />
+      <LineId Id="12" Count="0" />
+      <LineId Id="10" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_CoE_Interface.WriteData">
+      <LineId Id="10" Count="1" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="31" Count="0" />
+      <LineId Id="25" Count="5" />
+      <LineId Id="21" Count="0" />
+      <LineId Id="32" Count="0" />
+      <LineId Id="34" Count="0" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="12" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
