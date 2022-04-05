@@ -1,26 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
-  <POU Name="FB_CoE_Interface" Id="{0468dd5b-db8e-4ac3-9132-a360208fe36e}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK FB_CoE_Interface
+  <POU Name="FB_CoE_Read" Id="{0468dd5b-db8e-4ac3-9132-a360208fe36e}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_CoE_Read
 VAR_INPUT
 	// Link this to your terminal's drive reference variables under InfoData.
-	stPlcDriveRef AT %I*: ST_PlcDriveRef;
+	stPlcDriveRef : ST_PlcDriveRef;
 END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
 	// Read Error
 	bReadError : BOOL;
-	// Write Error
-	bWriteError : BOOL;
 	// Data successfully received
 	bDataReceived : BOOL := FALSE;
-	// Data successfully sent
-	bDataSent : BOOL := FALSE;
 	
 	fbCoeRead: FB_CoERead_ByDriveRef;
-	
-	fbCoeWrite: FB_CoEWrite_ByDriveRef;
 	
 	stDriveRef: ST_DriveRef;
 	
@@ -36,8 +30,6 @@ stDriveRef.nDriveType := stPlcDriveRef.nDriveType;
 CASE nState OF
 	0: //Idle state
 		HandleIdle();
-	1: //Writing data
-		HandleWritingData();
 	10: //Reading data
 		HandleReadingData();
 	100: //Handle Error
@@ -47,18 +39,14 @@ END_CASE]]></ST>
     <Action Name="HandleError" Id="{739f10f7-baba-4f6f-b8d7-517cb0c0f3d5}">
       <Implementation>
         <ST><![CDATA[// wait for reset ccmmand
-bDataReceived := FALSE;
-bDataSent := FALSE;]]></ST>
+bDataReceived := FALSE;]]></ST>
       </Implementation>
     </Action>
     <Action Name="HandleIdle" Id="{5a4b6f43-8a2e-429c-92c5-ff603e1315c9}">
       <Implementation>
         <ST><![CDATA[fbCoeRead(bExecute := FALSE);
-fbCoeWrite(bExecute := FALSE);
 // Reset Data received bit
-bDataReceived := FALSE;
-// Reset DataSent bit
-bDataSent := FALSE;]]></ST>
+bDataReceived := FALSE;]]></ST>
       </Implementation>
     </Action>
     <Action Name="HandleReadingData" Id="{9943e26d-2b69-489b-8bb7-40a6a7da0bb3}">
@@ -71,20 +59,6 @@ ELSE
 	IF NOT fbCoeRead.bBusy THEN
          nState := 0;    // Done
 		 bDataReceived := TRUE;
-	END_IF
-END_IF]]></ST>
-      </Implementation>
-    </Action>
-    <Action Name="HandleWritingData" Id="{b7b1c84c-d546-4773-b7ad-8ff9f51a60de}">
-      <Implementation>
-        <ST><![CDATA[fbCoeWrite(bExecute := TRUE);       // Execute CoE write until done
-IF fbCoeWrite.bError THEN
-	nState := 100;     // Error case
-	bWriteError := TRUE;
-ELSE
-	IF NOT fbCoeWrite.bBusy THEN
-		nState := 0;    // Done
-		bDataSent := TRUE;
 	END_IF
 END_IF]]></ST>
       </Implementation>
@@ -123,17 +97,6 @@ END_VAR
 ]]></Declaration>
         <Implementation>
           <ST><![CDATA[IsDataReceived := bDataReceived;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
-    <Property Name="IsDataSent" Id="{9f8a1544-9065-4281-96da-3b875aae3fcf}">
-      <Declaration><![CDATA[PROPERTY IsDataSent : BOOL]]></Declaration>
-      <Get Name="Get" Id="{a80ac2f0-5fbb-4a1f-a509-4608cd59f07a}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[IsDataSent := bDataSent;]]></ST>
         </Implementation>
       </Get>
     </Property>
@@ -178,65 +141,32 @@ END_VAR
 	RETURN;
 END_IF
 
+// Reset read error
+bReadError := FALSE;
 // Go to Idle state
 nState := 0;]]></ST>
       </Implementation>
     </Method>
-    <Method Name="WriteData" Id="{a9857976-3963-4ebe-bdfe-79ee8257a845}">
-      <Declaration><![CDATA[METHOD WriteData
-VAR_INPUT
-	//stCoeParameter : ST_CoeParameter;
-	nIndex: WORD;
-	// Hexadecimal subindex of CoE, e.g. the 12 in 8010:12
-	nSubIndex: BYTE;
-	// Pointer to a value to fill with the result of the read, e.g. ADR(MyValue)
-	pSrcBuf: PVOID;
-	// Data size of pSrcBuf, e.g. SIZEOF(MyValue)
-	cbBufLen: UDINT;
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[IF nState <> 0 THEN
-	RETURN;
-END_IF
-
-fbCoeWrite(
-	stDriveRef := stDriveRef,
-	nIndex := nIndex,
-	nSubIndex := nSubIndex,
-	pSrcBuf := pSrcBuf,
-	cbBufLen := cbBufLen,
-	tTimeout := T#1S,
-);
-
-// Go to Writing Data state
-nState := 1;]]></ST>
-      </Implementation>
-    </Method>
-    <LineIds Name="FB_CoE_Interface">
+    <LineIds Name="FB_CoE_Read">
       <LineId Id="39" Count="3" />
       <LineId Id="98" Count="0" />
       <LineId Id="50" Count="0" />
       <LineId Id="52" Count="0" />
-      <LineId Id="54" Count="1" />
-      <LineId Id="58" Count="0" />
+      <LineId Id="54" Count="0" />
       <LineId Id="61" Count="2" />
       <LineId Id="65" Count="0" />
       <LineId Id="53" Count="0" />
     </LineIds>
-    <LineIds Name="FB_CoE_Interface.HandleError">
+    <LineIds Name="FB_CoE_Read.HandleError">
       <LineId Id="1" Count="0" />
       <LineId Id="4" Count="0" />
-      <LineId Id="6" Count="0" />
     </LineIds>
-    <LineIds Name="FB_CoE_Interface.HandleIdle">
-      <LineId Id="15" Count="1" />
+    <LineIds Name="FB_CoE_Read.HandleIdle">
+      <LineId Id="15" Count="0" />
       <LineId Id="21" Count="0" />
       <LineId Id="19" Count="0" />
-      <LineId Id="22" Count="0" />
-      <LineId Id="17" Count="0" />
     </LineIds>
-    <LineIds Name="FB_CoE_Interface.HandleReadingData">
+    <LineIds Name="FB_CoE_Read.HandleReadingData">
       <LineId Id="2" Count="2" />
       <LineId Id="11" Count="0" />
       <LineId Id="9" Count="0" />
@@ -245,31 +175,18 @@ nState := 1;]]></ST>
       <LineId Id="8" Count="0" />
       <LineId Id="1" Count="0" />
     </LineIds>
-    <LineIds Name="FB_CoE_Interface.HandleWritingData">
-      <LineId Id="2" Count="2" />
-      <LineId Id="11" Count="0" />
-      <LineId Id="5" Count="0" />
-      <LineId Id="9" Count="0" />
-      <LineId Id="7" Count="0" />
-      <LineId Id="10" Count="0" />
-      <LineId Id="8" Count="0" />
-      <LineId Id="1" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_CoE_Interface.InErrorState">
+    <LineIds Name="FB_CoE_Read.InErrorState">
       <LineId Id="6" Count="3" />
       <LineId Id="5" Count="0" />
     </LineIds>
-    <LineIds Name="FB_CoE_Interface.IsBusy">
+    <LineIds Name="FB_CoE_Read.IsBusy">
       <LineId Id="6" Count="3" />
       <LineId Id="5" Count="0" />
     </LineIds>
-    <LineIds Name="FB_CoE_Interface.IsDataReceived.Get">
+    <LineIds Name="FB_CoE_Read.IsDataReceived.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="FB_CoE_Interface.IsDataSent.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_CoE_Interface.ReadData">
+    <LineIds Name="FB_CoE_Read.ReadData">
       <LineId Id="10" Count="2" />
       <LineId Id="23" Count="0" />
       <LineId Id="29" Count="5" />
@@ -279,23 +196,14 @@ nState := 1;]]></ST>
       <LineId Id="22" Count="0" />
       <LineId Id="13" Count="0" />
     </LineIds>
-    <LineIds Name="FB_CoE_Interface.ResetError">
+    <LineIds Name="FB_CoE_Read.ResetError">
       <LineId Id="7" Count="1" />
       <LineId Id="5" Count="0" />
+      <LineId Id="22" Count="0" />
+      <LineId Id="21" Count="0" />
       <LineId Id="17" Count="0" />
       <LineId Id="12" Count="0" />
       <LineId Id="10" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_CoE_Interface.WriteData">
-      <LineId Id="10" Count="1" />
-      <LineId Id="9" Count="0" />
-      <LineId Id="31" Count="0" />
-      <LineId Id="25" Count="5" />
-      <LineId Id="21" Count="0" />
-      <LineId Id="32" Count="0" />
-      <LineId Id="34" Count="0" />
-      <LineId Id="20" Count="0" />
-      <LineId Id="12" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

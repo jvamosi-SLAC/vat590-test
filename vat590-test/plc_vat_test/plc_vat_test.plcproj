@@ -22,6 +22,15 @@
     <Compile Include="DUTs\ST_CoeParameter.TcDUT">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DUTs\ST_CoeParameterInt.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\ST_CoeParameterREAL.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\ST_CoeParameterUSINT.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="DUTs\VAT590\EtherCAT Interface\E_ControlMode.TcDUT">
       <SubType>Code</SubType>
     </Compile>
@@ -52,16 +61,26 @@
     <Compile Include="DUTs\VAT590\E_VAT590_AccessMode.TcDUT">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DUTs\VAT590\ST_VAT590_PID.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="DUTs\VAT590\ST_VCN_VAT590.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DUTs\VAT590\ST_VAT590_STATUS.TcDUT">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="GVLs\GVL_IO.TcGVL">
+      <SubType>Code</SubType>
+      <LinkAlways>true</LinkAlways>
+    </Compile>
     <Compile Include="PlcTask.TcTTO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\CoE\FB_CoE_Interface.TcPOU">
+    <Compile Include="POUs\CoE\FB_CoE_Read.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\CoE\FB_CoE_Write.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\Valves\FB_VCN_VAT590.TcPOU">
@@ -85,6 +104,10 @@
     <PlaceholderReference Include="LCLS General">
       <DefaultResolution>LCLS General, * (SLAC)</DefaultResolution>
       <Namespace>LCLS_General</Namespace>
+    </PlaceholderReference>
+    <PlaceholderReference Include="PMPS">
+      <DefaultResolution>PMPS, * (SLAC - LCLS)</DefaultResolution>
+      <Namespace>PMPS</Namespace>
     </PlaceholderReference>
     <PlaceholderReference Include="Tc2_EtherCAT">
       <DefaultResolution>Tc2_EtherCAT, * (Beckhoff Automation GmbH)</DefaultResolution>
@@ -120,6 +143,9 @@
   <ItemGroup>
     <PlaceholderResolution Include="LCLS General">
       <Resolution>LCLS General, * (SLAC)</Resolution>
+    </PlaceholderResolution>
+    <PlaceholderResolution Include="PMPS">
+      <Resolution>PMPS, * (SLAC - LCLS)</Resolution>
     </PlaceholderResolution>
   </ItemGroup>
   <ProjectExtensions>

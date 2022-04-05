@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+  <DUT Name="ST_CoeParameterInt" Id="{d69619da-46b0-4c3c-845d-c25776ac45ae}">
+    <Declaration><![CDATA[TYPE ST_CoeParameterInt :
+STRUCT
+	nValue : INT;
+	nIndex : WORD;
+	nSubIndex : BYTE;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

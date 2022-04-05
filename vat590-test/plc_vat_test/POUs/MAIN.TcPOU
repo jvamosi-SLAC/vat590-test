@@ -1,29 +1,30 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
   <POU Name="MAIN" Id="{e705ade6-0f0a-4b24-98f0-3b81c602a7eb}" SpecialFunc="None">
-    <Declaration><![CDATA[{attribute 'no_check'}
-PROGRAM MAIN
+    <Declaration><![CDATA[PROGRAM MAIN
 VAR
     {attribute 'pytmc' := '
       pv: VCN:TEST:01
      '}
-	//fbVCN590 : FB_VCN_VAT590; // Variable leak valve VAT590 function block
+	fbVCN590 : FB_VCN_VAT590; // Variable leak valve VAT590 function block
 	//fbMKS500 : FB_MKS500;
 	//stVG : ST_VG;
-
-	fbCoeInterface : FB_CoE_Interface;
+	
 	aCoeParameters : ARRAY [1..2] OF ST_CoeParameter;
 	aCoeParametersEpics : ARRAY [1..2] OF ST_CoeParameter;
+	aCoeParametersInt : ARRAY [1..2] OF ST_CoeParameterInt;
+	aCoeParametersEpicsInt : ARRAY [1..2] OF ST_CoeParameterInt;
 	aCoeBuffer : ARRAY [1..10] OF ST_CoeParameter;
-	
-	
-	nTemperatureRBV : BYTE;
-	nSwTemperatureRBV : BYTE;
+	aCoeBufferInt : ARRAY [1..10] OF ST_CoeParameterInt;
 	
 	nTemperature : BYTE;
 	nSwTemperature : BYTE;
+	nOffsetA : INT;
+	nOffsetB : INT;
 	
-	nIterator : UINT := 1;
+	nGlobalIterator : UINT := 1;
+	nSubIterator : UINT := 1;
+	
 	bInit : BOOL := TRUE;
 	
 	counterValue AT %I* : WORD;
@@ -32,6 +33,9 @@ VAR
 	bReset : BOOL; 
 	nBuffPointer : UINT := 0;
 	bWrite : BOOL := FALSE;
+	bFirstRead : BOOL := TRUE;
+	fbCoeRead : FB_CoE_Read;
+	fbCoeWrite : FB_CoE_Write;
 END_VAR	
 ]]></Declaration>
     <Implementation>
@@ -40,107 +44,109 @@ END_VAR
 //fbMKS500.M_SetBits(30518);
 //fbMKS500(PG := stVG);
 //fbVCN590(bExtIlkOK := TRUE, IG := fbMKS500.IG);
+
+(*CoE interface*)
+fbCoeWrite(stPlcDriveRef := GVL_IO.stPlcDriveRef);
+fbCoeRead(stPlcDriveRef := GVL_IO.stPlcDriveRef);
+
 IF bInit THEN
 	aCoeParameters[1].nIndex := 16#F80F;
 	aCoeParameters[2].nIndex := 16#F80F;
 	aCoeParameters[1].nSubIndex := 4;
 	aCoeParameters[2].nSubIndex := 5;
+	aCoeParametersInt[1].nIndex := 16#F80F;
+	aCoeParametersInt[2].nIndex := 16#F80F;
+	aCoeParametersInt[1].nSubIndex := 7;
+	aCoeParametersInt[2].nSubIndex := 8;
+	
 	aCoeParametersEpics := aCoeParameters;
+	aCoeParametersEpicsInt := aCoeParametersInt;
 	bInit := FALSE;
 END_IF
 
-IF bWrite THEN
-nBuffPointer := 0;
 aCoeParametersEpics[1].nValue := nTemperature;
 aCoeParametersEpics[2].nValue := nSwTemperature;
+
+IF NOT bFirstRead THEN
 FOR nIteratorDiff := 1 TO 2 DO
 	IF aCoeParameters[nIteratorDiff].nValue <> aCoeParametersEpics[nIteratorDiff].nValue THEN
 		nBuffPointer := nBuffPointer + 1;
 		aCoeBuffer[nBuffPointer] := aCoeParametersEpics[nIteratorDiff];
+		aCoeParameters[nIteratorDiff] := aCoeParametersEpics[nIteratorDiff];
 	END_IF
 END_FOR
-bWrite := FALSE;
 END_IF
 
-(*CoE interface*)
-fbCoeInterface();
-
 (*Writing CoE Parameter*)
-IF fbCoeInterface.IsDataSent THEN
+IF fbCoeWrite.IsDataSent THEN
 	nBuffPointer := nBuffPointer - 1;
 	IF nBuffPointer < 1 THEN
 		nBuffPointer := 0;
 	END_IF	
-ELSIF NOT fbCoeInterface.IsBusy() AND NOT fbCoeInterface.InErrorState() THEN
+ELSIF NOT fbCoeWrite.IsBusy() AND NOT fbCoeWrite.InErrorState() THEN
 	IF nBuffPointer >= 1 THEN //If buffer has more than one element
-		fbCoeInterface.WriteData(
+		fbCoeWrite.WriteData(
 			nIndex := aCoeBuffer[nBuffPointer].nIndex,
 			nSubIndex := aCoeBuffer[nBuffPointer].nSubIndex,
 			pSrcBuf := ADR(aCoeBuffer[nBuffPointer].nValue),
 			cbBufLen := SIZEOF(aCoeBuffer[nBuffPointer].nValue));
 	END_IF			
-ELSIF fbCoeInterface.InErrorState() THEN
-	nBuffPointer := 0;
-	//fbCoeInterface.ResetError();
 END_IF
 
 (*Reading CoE Parameters*)
-IF fbCoeInterface.IsDataReceived THEN
-	nIterator := nIterator + 1;
-	IF nIterator > 2 THEN
-		nIterator := 1;
+IF fbCoeRead.IsDataReceived THEN
+	nGlobalIterator := nGlobalIterator + 1;
+	IF nGlobalIterator > 4 THEN
+		nGlobalIterator := 1;
 	END_IF	
-ELSIF NOT fbCoeInterface.IsBusy() AND NOT fbCoeInterface.InErrorState() THEN
-	fbCoeInterface.ReadData(
-		nIndex := aCoeParameters[nIterator].nIndex,
-		nSubIndex := aCoeParameters[nIterator].nSubIndex,
-		pDstBuf := ADR(aCoeParameters[nIterator].nValue),
-		cbBufLen := SIZEOF(aCoeParameters[nIterator].nValue));				
-ELSIF fbCoeInterface.InErrorState() THEN
-	//fbCoeInterface.ResetError();
+ELSIF NOT fbCoeRead.IsBusy() AND NOT fbCoeRead.InErrorState() THEN
+	IF nGlobalIterator >= 1 AND nGlobalIterator <=2 THEN
+	fbCoeRead.ReadData(
+		nIndex := aCoeParameters[nGlobalIterator].nIndex,
+		nSubIndex := aCoeParameters[nGlobalIterator].nSubIndex,
+		pDstBuf := ADR(aCoeParameters[nGlobalIterator].nValue),
+		cbBufLen := SIZEOF(aCoeParameters[nGlobalIterator].nValue));
+	END_IF
+	IF nGlobalIterator > 2 AND nGlobalIterator <= 4 THEN
+	nSubIterator := nGlobalIterator - 2;
+	fbCoeRead.ReadData(
+		nIndex := aCoeParametersInt[nSubIterator].nIndex,
+		nSubIndex := aCoeParametersInt[nSubIterator].nSubIndex,
+		pDstBuf := ADR(aCoeParametersInt[nSubIterator].nValue),
+		cbBufLen := SIZEOF(aCoeParametersInt[nSubIterator].nValue));
+	END_IF				
+END_IF
+
+IF fbCoeRead.InErrorState() THEN
+	nBuffPointer := 0;
+	nGlobalIterator := 1;
+	bFirstRead := TRUE;
+END_IF
+
+IF bFirstRead AND nGlobalIterator = 4 THEN
+	bFirstRead := FALSE;
 END_IF
 
 IF bReset THEN
-	fbCoeInterface.ResetError();
+	fbCoeRead.ResetError();
+	fbCoeWrite.ResetError();
 	bReset := FALSE;
 END_IF
 
-nTemperatureRBV := aCoeParameters[1].nValue;
-nSwTemperatureRBV := aCoeParameters[2].nValue;
-
+nTemperature := aCoeParameters[1].nValue;
+nSwTemperature := aCoeParameters[2].nValue;
+nOffsetA := aCoeParametersInt[1].nValue;
+nOffsetB := aCoeParametersInt[2].nValue;
 ]]></ST>
     </Implementation>
     <LineIds Name="MAIN">
-      <LineId Id="587" Count="4" />
-      <LineId Id="596" Count="4" />
-      <LineId Id="659" Count="0" />
-      <LineId Id="602" Count="1" />
-      <LineId Id="652" Count="0" />
-      <LineId Id="607" Count="0" />
-      <LineId Id="685" Count="0" />
-      <LineId Id="656" Count="0" />
-      <LineId Id="658" Count="0" />
-      <LineId Id="608" Count="1" />
-      <LineId Id="663" Count="0" />
-      <LineId Id="610" Count="2" />
-      <LineId Id="661" Count="0" />
-      <LineId Id="613" Count="0" />
-      <LineId Id="660" Count="0" />
-      <LineId Id="614" Count="3" />
-      <LineId Id="665" Count="5" />
-      <LineId Id="679" Count="0" />
-      <LineId Id="683" Count="0" />
-      <LineId Id="680" Count="2" />
-      <LineId Id="675" Count="0" />
-      <LineId Id="684" Count="0" />
-      <LineId Id="676" Count="1" />
-      <LineId Id="692" Count="0" />
-      <LineId Id="664" Count="0" />
-      <LineId Id="629" Count="15" />
-      <LineId Id="688" Count="3" />
-      <LineId Id="687" Count="0" />
-      <LineId Id="645" Count="3" />
-      <LineId Id="441" Count="0" />
+      <LineId Id="3" Count="23" />
+      <LineId Id="29" Count="12" />
+      <LineId Id="44" Count="2" />
+      <LineId Id="141" Count="0" />
+      <LineId Id="47" Count="4" />
+      <LineId Id="53" Count="51" />
+      <LineId Id="2" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>
