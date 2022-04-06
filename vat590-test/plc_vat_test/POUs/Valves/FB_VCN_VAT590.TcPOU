@@ -18,9 +18,24 @@ VAR CONSTANT
 	cClosePosition : REAL := 0.0;      // Default position setpoint lower scale value
 	cPresSPUpLim : REAL := 1E+6;       // Default pressure setpoint upper scale value
 	cPresSPLowLim : REAL := 0;         // Default pressure setpoint lower scale value
-	COE_PARAMETERS_REAL : UINT := 11;  // Max Array size for REAL type parameters 
-	COE_PARAMETERS_USINT : UINT := 7;  // Max Array size for USINT type parameters
-	COE_BUFF_MAX_LENGTH : UINT := 12;  // May Array size for buffer
+	cPressCtrl : ST_CoEIndSub := (nIndex := 16#2199, nSubIndex := 0); // Selected pressure controller CoE register
+	cSensorDelay_AD : ST_CoEIndSub := (nIndex := 16#219A, nSubIndex := 0); // Adaptive DS controller Sensor Delay CoE register
+	cRampTime_AD : ST_CoEIndSub := (nIndex := 16#219B, nSubIndex := 0); // Adaptive DS controller Ramp Time CoE register
+	cRampMode_AD : ST_CoEIndSub := (nIndex := 16#219C, nSubIndex := 0); // Adaptive DS controller Ramp Mode CoE register
+	cGainFactor_AD : ST_CoEIndSub := (nIndex := 16#219E, nSubIndex := 0); // Adaptive DS controller Gain factor CoE register
+	cRampTime_FIX1 : ST_CoEIndSub := (nIndex := 16#21A5, nSubIndex := 0); // Fixed 1 controller Ramp Time CoE register
+	cRampMode_FIX1 : ST_CoEIndSub := (nIndex := 16#21A6, nSubIndex := 0); // Fixed 1 controller Ramp Mode CoE register
+	cCtrlDir_FIX1 : ST_CoEIndSub := (nIndex := 16#21A7, nSubIndex := 0); // Fixed 1 controller Control Direction CoE register
+	cPGain_FIX1 : ST_CoEIndSub := (nIndex := 16#21A8, nSubIndex := 0); // Fixed 1 controller P Gain CoE register
+	cIGain_FIX1 : ST_CoEIndSub := (nIndex := 16#21A9, nSubIndex := 0); // Fixed 1 controller I Gain CoE register
+	cRampTime_FIX2 : ST_CoEIndSub := (nIndex := 16#21AF, nSubIndex := 0); // Fixed 2 controller Ramp Time CoE register
+	cRampMode_FIX2 : ST_CoEIndSub := (nIndex := 16#21B0, nSubIndex := 0); // Fixed 2 controller Ramp Mode CoE register
+	cCtrlDir_FIX2 : ST_CoEIndSub := (nIndex := 16#21B1, nSubIndex := 0); // Fixed 2 controller Control Direction CoE register
+	cPGain_FIX2 : ST_CoEIndSub := (nIndex := 16#21B2, nSubIndex := 0); // Fixed 2 controller P Gain CoE register
+	cIGain_FIX2 : ST_CoEIndSub := (nIndex := 16#21B3, nSubIndex := 0); // Fixed 2 controller I Gain CoE register
+	cRampTime_SP : ST_CoEIndSub := (nIndex := 16#21B9, nSubIndex := 0); // Soft Pump controller Ramp Time CoE register
+	cRampMode_SP : ST_CoEIndSub := (nIndex := 16#21BA, nSubIndex := 0); // Soft Pump controller Ramp Time CoE register
+	cPGain_SP : ST_CoEIndSub := (nIndex := 16#21BC, nSubIndex := 0); // Soft Pump controller Ramp Time CoE register
 END_VAR
 VAR
 	fCalcPosSP : REAL := 0;
@@ -34,37 +49,34 @@ VAR
 	bRemAcsToggle : BOOL;              // Remote access control bit
 	//timer for zero function 
 	tZeroTogg : TON := (PT := T#1S);
-	//Rising edge trigger for Zero function
-	rtZero : R_TRIG;
 	//timer for remote function
 	tRemAcsTogg : TON := (PT := T#500MS);
 	//used for logging
 	ePreviousState : E_VCN_VAT590;
-	(*CoE Parameters*)
-	aCoeParamReal : ARRAY [1..COE_PARAMETERS_REAL] OF ST_CoeParameterREAL;
-	aCoeParamUsint : ARRAY [1..COE_PARAMETERS_USINT] OF ST_CoeParameterUSINT;
-	aParamEpicsReal : ARRAY [1..COE_PARAMETERS_REAL] OF ST_CoeParameterREAL;;
-	aParamEpicsUsint : ARRAY [1..COE_PARAMETERS_USINT] OF ST_CoeParameterUSINT;
-	aWriteBuffReal : ARRAY [1..COE_BUFF_MAX_LENGTH] OF ST_CoeParameterREAL;
-	aWriteBuffUsint : ARRAY [1..COE_BUFF_MAX_LENGTH] OF ST_CoeParameterUSINT;
-	nGlobalIterator :UINT := 1;
-	nIteratorReal : UINT := 1;
-	nIteratorUsint : UINT := 1;
-	nGlobalBuffPoint : UINT := 0;
-	nBuffPointReal : UINT := 0;
-	nBuffPointUsint : UINT := 0;
-	nIteratorDiffReal : UINT := 1;
-	nIteratorDiffUsint : UINT := 1;
-	
-	bInit : BOOL := TRUE;
-	bFirstRead : BOOL := TRUE;
 	
 	(*CoE Interface*)
-	fbCoeRead : FB_CoE_Read;
-	fbCoeWrite : FB_CoE_Write;
-	
 	(*Link this to your VAT590 reference variables under InfoData.*)
-	stVat590DriveRef AT %I*: ST_PlcDriveRef;
+	stVat590PlcDriveRef AT %I*: ST_PlcDriveRef;
+	stVat590DriveRef : ST_DriveRef := (
+		sNetId := F_CreateAmsNetId(stVat590PlcDriveRef.aNetId),
+		nSlaveAddr := stVat590PlcDriveRef.nSlaveAddr,
+		nDriveNo := stVat590PlcDriveRef.nDriveNo,
+		nDriveType := stVat590PlcDriveRef.nDriveType
+	);
+
+	fbCoeRead : FB_CoERead_ByDriveRef := (
+		stDriveRef := stVat590DriveRef
+	);
+	fbCoeWrite : FB_CoEWrite_ByDriveRef := (
+		stDriveRef := stVat590DriveRef
+	);
+	
+	stCoeParameters : ST_VAT590_COE;   //Internal storage of CoE parameters
+	nCaseReadCoe : UINT := 1;          //Iterator for going through all CoE parameters
+	rtCoeReset : R_TRIG;               //Rising edge trigger for reset CoE Interface error
+	ftCoeReadBusy : F_TRIG;            //Falling edge trigger for CoE read new data
+	ftCoeWriteBusy : F_TRIG;           //Falling edge trigger for CoE write data
+	bFirstRead : BOOL := TRUE;
 	
 	(*VAT590 Ethercat IO Interface*)
 	//Ethercat Interface Inputs
@@ -80,7 +92,6 @@ VAR
 	o_nRawPressureSP     AT %Q* : DINT;               // Pressure setpoint
 	o_eCtrlModeSP        AT %Q* : E_ControlModeSP;    // Valve control mode setpoint
 	o_stGenCtrlSP        AT %Q* : ST_GeneralControlSP;// General Control setpoint
-	aCoeParameters: INT;
 END_VAR
 VAR PERSISTENT
     fUpperLimit	: REAL;                // Max position in % that can be requested
@@ -101,21 +112,9 @@ Scaling
 It could be used for:
 Valve position/flow linearization
 *)
-(*Prepare CoE Data*)
-IF bInit THEN
-	SetCoeParameters();
-	bInit := FALSE;
-END_IF
 
 (*Read from EPICS and Valve Ethercat interface*)
 ReadFromInput();
-
-(*Read CoE Parameters from EPICS*)
-ReadCoeFromEpics();
-
-(*CoE Interface*)
-fbCoeWrite(stPlcDriveRef := stVat590DriveRef);
-fbCoeRead(stPlcDriveRef := stVat590DriveRef);
 
 (*Checking which Control mode is selected*)
 IF bExtIlkOK THEN
@@ -185,8 +184,7 @@ END_IF
 IF stVcnVat590.stValveStatus.bZeroDisabled OR tZeroTogg.Q THEN
 	stVcnVat590.bZero := FALSE;
 END_IF
-rtZero(CLK := stVcnVat590.bZero);
-tZeroTogg.IN := rtZero.Q;
+tZeroTogg.IN := stVcnVat590.bZero;
 tZeroTogg();
 
 (*Set Remote Access*)
@@ -199,95 +197,45 @@ IF stVcnVat590.stValveStatus.eRemoteStatus <> stVcnVat590.eRemoteControl THEN
 END_IF
 tRemAcsTogg();
 
-IF NOT bFirstRead THEN
-	FOR nIteratorDiffReal := 1 TO COE_PARAMETERS_REAL DO
-		IF aCoeParamReal[nIteratorDiffReal].fValue <> aParamEpicsReal[nIteratorDiffReal].fValue THEN
-			nGlobalBuffPoint := nGlobalBuffPoint + 1;
-			nBuffPointReal := nBuffPointReal + 1;
-			aWriteBuffReal[nIteratorDiffReal] := aParamEpicsReal[nIteratorDiffReal];
-			aCoeParamReal[nIteratorDiffReal] := aParamEpicsReal[nIteratorDiffReal];
-		END_IF
-	END_FOR
-	FOR nIteratorDiffUsint := 1 TO COE_PARAMETERS_USINT DO
-		IF aCoeParamUsint[nIteratorDiffUsint].nValue <> aParamEpicsUsint[nIteratorDiffUsint].nValue THEN
-			nGlobalBuffPoint := nGlobalBuffPoint + 1;
-			nBuffPointUsint := nBuffPointUsint + 1;
-			aWriteBuffUsint[nIteratorDiffUsint] := aParamEpicsUsint[nIteratorDiffUsint];
-			aCoeParamUsint[nIteratorDiffUsint] := aParamEpicsUsint[nIteratorDiffUsint];
-		END_IF
-	END_FOR
+(*Reset Coe Interface error*)
+rtCoeReset(CLK := stVcnVat590.bResetCoeError);
+IF rtCoeReset.Q THEN
+	stVcnVat590.bResetCoeError := FALSE;
 END_IF
 
-(*Writing CoE Parameter*)
-IF fbCoeWrite.IsDataSent THEN
-	nGlobalBuffPoint := nGlobalBuffPoint - 1;
-	IF nGlobalBuffPoint < 1 THEN
-		nGlobalBuffPoint := 0;
-	END_IF	
-ELSIF NOT fbCoeWrite.IsBusy() AND NOT fbCoeWrite.InErrorState() THEN
-(*	IF nBuffPointer >= 1 THEN //If buffer has more than one element
-		fbCoeWrite.WriteData(
-			nIndex := aCoeBuffer[nBuffPointer].nIndex,
-			nSubIndex := aCoeBuffer[nBuffPointer].nSubIndex,
-			pSrcBuf := ADR(aCoeBuffer[nBuffPointer].nValue),
-			cbBufLen := SIZEOF(aCoeBuffer[nBuffPointer].nValue));
-	END_IF	*);		
-END_IF
+(*Read CoE Parameters*)
+ReadCoeParameters();
 
-(*Reading CoE Parameters*)
-IF fbCoeRead.IsDataReceived THEN
-	nGlobalIterator := nGlobalIterator + 1;
-	IF nGlobalIterator > (COE_PARAMETERS_REAL + COE_PARAMETERS_USINT) THEN
-		nGlobalIterator := 1;
-	END_IF	
-ELSIF NOT fbCoeRead.IsBusy() AND NOT fbCoeRead.InErrorState() THEN
-	IF nGlobalIterator >= 1 AND nGlobalIterator <= COE_PARAMETERS_REAL THEN
-		nIteratorReal := nGlobalIterator;
-		fbCoeRead.ReadData(
-			nIndex := aCoeParamReal[nIteratorReal].nIndex,
-			nSubIndex := aCoeParamReal[nIteratorReal].nSubIndex,
-			pDstBuf := ADR(aCoeParamReal[nIteratorReal].fValue),
-			cbBufLen := SIZEOF(aCoeParamReal[nIteratorReal].fValue));
-	END_IF
-	IF nGlobalIterator > COE_PARAMETERS_REAL AND nGlobalIterator <= (COE_PARAMETERS_REAL + COE_PARAMETERS_USINT) THEN
-		nIteratorUsint := nGlobalIterator - COE_PARAMETERS_REAL;
-		fbCoeRead.ReadData(
-			nIndex := aCoeParamUsint[nIteratorUsint].nIndex,
-			nSubIndex := aCoeParamUsint[nIteratorUsint].nSubIndex,
-			pDstBuf := ADR(aCoeParamUsint[nIteratorUsint].nValue),
-			cbBufLen := SIZEOF(aCoeParamUsint[nIteratorUsint].nValue));
-	END_IF				
-END_IF
-
-IF fbCoeRead.InErrorState() THEN
-	nGlobalBuffPoint := 0;
-	nGlobalIterator := 1;
-	bFirstRead := TRUE;
-END_IF
-
-IF bFirstRead AND nGlobalIterator = (COE_PARAMETERS_REAL + COE_PARAMETERS_USINT) THEN
-	bFirstRead := FALSE;
-END_IF
-
-IF stVcnVat590.bResetCoeInterface THEN
-	fbCoeRead.ResetError();
-	fbCoeWrite.ResetError();
-	stVcnVat590.bResetCoeInterface := FALSE;
-END_IF
-
-(*Write CoE Parameters back to EPICS*)
-WriteCoeToEpics();
+(*Write CoE Parameters*)
+WriteCoeParameters();
 
 (*Write to EPICS and Valve Ethercat interface*)
 WriteToOutput();
 
 (*Load or save the persistent variables*)
-ACT_Persistent();
+LoadPersistentData();
 
 (*Logging*)
-ACT_Logger();]]></ST>
+Logger();]]></ST>
     </Implementation>
-    <Action Name="ACT_Logger" Id="{e05977be-b3df-4692-b1e1-f426b01665a8}">
+    <Action Name="LoadPersistentData" Id="{e5168615-6ef3-4946-b318-5dac9816d744}">
+      <Implementation>
+        <ST><![CDATA[(*On first PLC pass, load the persistent value into the structrue variable*)
+IF (bRestorePersistentData) THEN
+	bRestorePersistentData	:= FALSE;
+	IF (fUpperLimit <> 0) THEN
+		stVcnVat590.fPosSetLimit := fUpperLimit;
+	END_IF;
+	IF (fPresMaxLim <> 0) THEN
+		stVcnVat590.fPresSetLimit := fPresMaxLim;
+	END_IF;
+	IF (fPresRbMaxLim <> 0) THEN
+		stVcnVat590.fPresRdbkLimit := fPresRbMaxLim;
+	END_IF;    
+END_IF]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="Logger" Id="{e05977be-b3df-4692-b1e1-f426b01665a8}">
       <Implementation>
         <ST><![CDATA[// ILK logger
 IF NOT (stVcnVat590.bIlkOK ) AND NOT(ePreviousState = E_VCN_VAT590.CloseValve) THEN
@@ -319,67 +267,142 @@ IF tAction.Q THEN fbLogger(sMsg:='Valve commanded to fully open', eSevr:=TcEvent
 ]]></ST>
       </Implementation>
     </Action>
-    <Action Name="ACT_Persistent" Id="{e5168615-6ef3-4946-b318-5dac9816d744}">
+    <Action Name="ReadCoeParameters" Id="{dceab739-9779-4d3e-8c12-eb434a1eb90a}">
       <Implementation>
-        <ST><![CDATA[(*On first PLC pass, load the persistent value into the structrue variable*)
-IF (bRestorePersistentData) THEN
-	bRestorePersistentData	:= FALSE;
-	IF (fUpperLimit <> 0) THEN
-		stVcnVat590.fPosSetLimit := fUpperLimit;
-	END_IF;
-	IF (fPresMaxLim <> 0) THEN
-		stVcnVat590.fPresSetLimit := fPresMaxLim;
-	END_IF;
-	IF (fPresRbMaxLim <> 0) THEN
-		stVcnVat590.fPresRdbkLimit := fPresRbMaxLim;
-	END_IF;
-	
-	    
-END_IF]]></ST>
-      </Implementation>
-    </Action>
-    <Method Name="M_SetThrottle" Id="{bc87ba94-efcb-4d7b-ace0-cb07482f478f}">
-      <Declaration><![CDATA[METHOD M_SetThrottle : BOOL
-VAR_INPUT
-	rUpperLimit	:	REAL;
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[
-stVcnVat590.fPosSetLimit := LIMIT(0, rUpperLimit, 100);]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_ValveControl" Id="{25066385-eb5f-47fb-8ac4-a5fcdc50740f}">
-      <Declaration><![CDATA[METHOD M_ValveControl : BOOL
-VAR_INPUT
-	state : E_VCN_VAT590; // Set Control modes
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[stVcnVat590.eValveControl := state;]]></ST>
-      </Implementation>
-    </Method>
-    <Action Name="ReadCoeFromEpics" Id="{dceab739-9779-4d3e-8c12-eb434a1eb90a}">
-      <Implementation>
-        <ST><![CDATA[aParamEpicsReal[1].fValue := stVcnVat590.stPIDParameters.fSensorDelay_AD;
-aParamEpicsReal[2].fValue := stVcnVat590.stPIDParameters.fRampTime_AD;
-aParamEpicsReal[3].fValue := stVcnVat590.stPIDParameters.fGainFactor_AD;
-aParamEpicsReal[4].fValue := stVcnVat590.stPIDParameters.fRampTime_FIX1;
-aParamEpicsReal[5].fValue := stVcnVat590.stPIDParameters.fPGain_FIX1;
-aParamEpicsReal[6].fValue := stVcnVat590.stPIDParameters.fIGain_FIX1;
-aParamEpicsReal[7].fValue := stVcnVat590.stPIDParameters.fRampTime_FIX2;
-aParamEpicsReal[8].fValue := stVcnVat590.stPIDParameters.fPGain_FIX2;
-aParamEpicsReal[9].fValue := stVcnVat590.stPIDParameters.fIGain_FIX2;
-aParamEpicsReal[10].fValue := stVcnVat590.stPIDParameters.fRampTime_SP;
-aParamEpicsReal[11].fValue := stVcnVat590.stPIDParameters.fPGain_SP;
+        <ST><![CDATA[CASE nCaseReadCoe OF
+	0:
+		//fbCoeRead.bExecute := FALSE;
+		stVcnVat590.bCoeError := TRUE;
+		IF rtCoeReset.Q THEN
+			nCaseReadCoe := 1;
+			stVcnVat590.bCoeError := FALSE;
+			bFirstRead := TRUE; // Set bFirstRead after Coe interface reset
+		END_IF
+	1:
+		fbCoeRead.nIndex := cPressCtrl.nIndex;
+		fbCoeRead.nSubIndex := cPressCtrl.nSubIndex;
+		fbCoeRead.pDstBuf := ADR(stVcnVat590.stCoeInterface.nPressCtrl);
+		fbCoeRead.cbBufLen := SIZEOF(stVcnVat590.stCoeInterface.nPressCtrl);
+		fbCoeRead.bExecute := TRUE;
+	2:
+		fbCoeRead.nIndex := cSensorDelay_AD.nIndex;
+		fbCoeRead.nSubIndex := cSensorDelay_AD.nSubIndex;
+		fbCoeRead.pDstBuf := ADR(stVcnVat590.stCoeInterface.fSensorDelay_AD);
+		fbCoeRead.cbBufLen := SIZEOF(stVcnVat590.stCoeInterface.fSensorDelay_AD);
+		fbCoeRead.bExecute := TRUE;
+	3:
+		fbCoeRead.nIndex := cRampTime_AD.nIndex;
+		fbCoeRead.nSubIndex := cRampTime_AD.nSubIndex;
+		fbCoeRead.pDstBuf := ADR(stVcnVat590.stCoeInterface.fRampTime_AD);
+		fbCoeRead.cbBufLen := SIZEOF(stVcnVat590.stCoeInterface.fRampTime_AD);
+		fbCoeRead.bExecute := TRUE;
+	4:
+		fbCoeRead.nIndex := cRampMode_AD.nIndex;
+		fbCoeRead.nSubIndex := cRampMode_AD.nSubIndex;
+		fbCoeRead.pDstBuf := ADR(stVcnVat590.stCoeInterface.nRampMode_AD);
+		fbCoeRead.cbBufLen := SIZEOF(stVcnVat590.stCoeInterface.nRampMode_AD);
+		fbCoeRead.bExecute := TRUE;
+	5:
+		fbCoeRead.nIndex := cGainFactor_AD.nIndex;
+		fbCoeRead.nSubIndex := cGainFactor_AD.nSubIndex;
+		fbCoeRead.pDstBuf := ADR(stVcnVat590.stCoeInterface.fGainFactor_AD);
+		fbCoeRead.cbBufLen := SIZEOF(stVcnVat590.stCoeInterface.fGainFactor_AD);
+		fbCoeRead.bExecute := TRUE;
+	6:
+		fbCoeRead.nIndex := cRampTime_FIX1.nIndex;
+		fbCoeRead.nSubIndex := cRampTime_FIX1.nSubIndex;
+		fbCoeRead.pDstBuf := ADR(stVcnVat590.stCoeInterface.fRampTime_FIX1);
+		fbCoeRead.cbBufLen := SIZEOF(stVcnVat590.stCoeInterface.fRampTime_FIX1);
+		fbCoeRead.bExecute := TRUE;
+	7:
+		fbCoeRead.nIndex := cRampMode_FIX1.nIndex;
+		fbCoeRead.nSubIndex := cRampMode_FIX1.nSubIndex;
+		fbCoeRead.pDstBuf := ADR(stVcnVat590.stCoeInterface.nRampMode_FIX1);
+		fbCoeRead.cbBufLen := SIZEOF(stVcnVat590.stCoeInterface.nRampMode_FIX1);
+		fbCoeRead.bExecute := TRUE;
+	8:
+		fbCoeRead.nIndex := cCtrlDir_FIX1.nIndex;
+		fbCoeRead.nSubIndex := cCtrlDir_FIX1.nSubIndex;
+		fbCoeRead.pDstBuf := ADR(stVcnVat590.stCoeInterface.nCtrlDir_FIX1);
+		fbCoeRead.cbBufLen := SIZEOF(stVcnVat590.stCoeInterface.nCtrlDir_FIX1);
+		fbCoeRead.bExecute := TRUE;
+	9:
+		fbCoeRead.nIndex := cPGain_FIX1.nIndex;
+		fbCoeRead.nSubIndex := cPGain_FIX1.nSubIndex;
+		fbCoeRead.pDstBuf := ADR(stVcnVat590.stCoeInterface.fPGain_FIX1);
+		fbCoeRead.cbBufLen := SIZEOF(stVcnVat590.stCoeInterface.fPGain_FIX1);
+		fbCoeRead.bExecute := TRUE;
+	10:
+		fbCoeRead.nIndex := cIGain_FIX1.nIndex;
+		fbCoeRead.nSubIndex := cIGain_FIX1.nSubIndex;
+		fbCoeRead.pDstBuf := ADR(stVcnVat590.stCoeInterface.fIGain_FIX1);
+		fbCoeRead.cbBufLen := SIZEOF(stVcnVat590.stCoeInterface.fIGain_FIX1);
+		fbCoeRead.bExecute := TRUE;
+	11:
+		fbCoeRead.nIndex := cRampTime_FIX2.nIndex;
+		fbCoeRead.nSubIndex := cRampTime_FIX2.nSubIndex;
+		fbCoeRead.pDstBuf := ADR(stVcnVat590.stCoeInterface.fRampTime_FIX2);
+		fbCoeRead.cbBufLen := SIZEOF(stVcnVat590.stCoeInterface.fRampTime_FIX2);
+		fbCoeRead.bExecute := TRUE;
+	12:
+		fbCoeRead.nIndex := cRampMode_FIX2.nIndex;
+		fbCoeRead.nSubIndex := cRampMode_FIX2.nSubIndex;
+		fbCoeRead.pDstBuf := ADR(stVcnVat590.stCoeInterface.nRampMode_FIX2);
+		fbCoeRead.cbBufLen := SIZEOF(stVcnVat590.stCoeInterface.nRampMode_FIX2);
+		fbCoeRead.bExecute := TRUE;
+	13:
+		fbCoeRead.nIndex := cCtrlDir_FIX2.nIndex;
+		fbCoeRead.nSubIndex := cCtrlDir_FIX2.nSubIndex;
+		fbCoeRead.pDstBuf := ADR(stVcnVat590.stCoeInterface.nCtrlDir_FIX2);
+		fbCoeRead.cbBufLen := SIZEOF(stVcnVat590.stCoeInterface.nCtrlDir_FIX2);
+		fbCoeRead.bExecute := TRUE;
+	14:
+		fbCoeRead.nIndex := cPGain_FIX2.nIndex;
+		fbCoeRead.nSubIndex := cPGain_FIX2.nSubIndex;
+		fbCoeRead.pDstBuf := ADR(stVcnVat590.stCoeInterface.fPGain_FIX2);
+		fbCoeRead.cbBufLen := SIZEOF(stVcnVat590.stCoeInterface.fPGain_FIX2);
+		fbCoeRead.bExecute := TRUE;
+	15:
+		fbCoeRead.nIndex := cIGain_FIX2.nIndex;
+		fbCoeRead.nSubIndex := cIGain_FIX2.nSubIndex;
+		fbCoeRead.pDstBuf := ADR(stVcnVat590.stCoeInterface.fIGain_FIX2);
+		fbCoeRead.cbBufLen := SIZEOF(stVcnVat590.stCoeInterface.fIGain_FIX2);
+		fbCoeRead.bExecute := TRUE;
+	16:
+		fbCoeRead.nIndex := cRampTime_SP.nIndex;
+		fbCoeRead.nSubIndex := cRampTime_SP.nSubIndex;
+		fbCoeRead.pDstBuf := ADR(stVcnVat590.stCoeInterface.fRampTime_SP);
+		fbCoeRead.cbBufLen := SIZEOF(stVcnVat590.stCoeInterface.fRampTime_SP);
+		fbCoeRead.bExecute := TRUE;
+	17:
+		fbCoeRead.nIndex := cRampMode_SP.nIndex;
+		fbCoeRead.nSubIndex := cRampMode_SP.nSubIndex;
+		fbCoeRead.pDstBuf := ADR(stVcnVat590.stCoeInterface.nRampMode_SP);
+		fbCoeRead.cbBufLen := SIZEOF(stVcnVat590.stCoeInterface.nRampMode_SP);
+		fbCoeRead.bExecute := TRUE;
+	18:
+		fbCoeRead.nIndex := cPGain_SP.nIndex;
+		fbCoeRead.nSubIndex := cPGain_SP.nSubIndex;
+		fbCoeRead.pDstBuf := ADR(stVcnVat590.stCoeInterface.fPGain_SP);
+		fbCoeRead.cbBufLen := SIZEOF(stVcnVat590.stCoeInterface.fPGain_SP);
+		fbCoeRead.bExecute := TRUE;
+END_CASE
 
-aParamEpicsUsint[1].nValue := stVcnVat590.stPIDParameters.nPressCtrl;
-aParamEpicsUsint[2].nValue := stVcnVat590.stPIDParameters.nRampMode_AD;
-aParamEpicsUsint[3].nValue := stVcnVat590.stPIDParameters.nRampMode_FIX1;
-aParamEpicsUsint[4].nValue := stVcnVat590.stPIDParameters.nCtrlDir_FIX1;
-aParamEpicsUsint[5].nValue := stVcnVat590.stPIDParameters.nRampMode_FIX2;
-aParamEpicsUsint[6].nValue := stVcnVat590.stPIDParameters.nCtrlDir_FIX2;
-aParamEpicsUsint[7].nValue := stVcnVat590.stPIDParameters.nRampMode_SP;]]></ST>
+ftCoeReadBusy(CLK:=fbCoeRead.bBusy);
+
+IF ftCoeReadBusy.Q THEN
+	fbCoeRead.bExecute := FALSE;
+	IF NOT fbCoeRead.bError THEN
+		nCaseReadCoe := nCaseReadCoe + 1;
+		IF nCaseReadCoe > 18 THEN
+			nCaseReadCoe := 1;
+			bFirstRead := FALSE; // Reset bFirstRead after successfull readout of all parameters
+		END_IF
+	END_IF
+END_IF
+
+fbCoeRead();
+stCoeParameters := stVcnVat590.stCoeInterface; //Save current values to internal structure]]></ST>
       </Implementation>
     </Action>
     <Action Name="ReadFromInput" Id="{2b46db7d-12fe-424a-afdf-e2d60ed01bdb}">
@@ -423,71 +446,155 @@ stVcnVat590.stValveStatus.bProcDataSettingsNotvalid := i_stExtnWarnings.Bit12Pro
 ]]></ST>
       </Implementation>
     </Action>
-    <Action Name="SetCoeParameters" Id="{ecad0ae6-09df-45e4-9d96-b1722ec43dd2}">
+    <Method Name="SetThrottle" Id="{bc87ba94-efcb-4d7b-ace0-cb07482f478f}">
+      <Declaration><![CDATA[METHOD SetThrottle : BOOL
+VAR_INPUT
+	rUpperLimit	:	REAL;
+END_VAR
+]]></Declaration>
       <Implementation>
-        <ST><![CDATA[aCoeParamReal[1].nIndex := 16#219A;
-aCoeParamReal[1].nSubIndex := 0;
-aCoeParamReal[2].nIndex := 16#219B;
-aCoeParamReal[1].nSubIndex := 0;
-aCoeParamReal[3].nIndex := 16#219E;
-aCoeParamReal[1].nSubIndex := 0;
-aCoeParamReal[4].nIndex := 16#21A5;
-aCoeParamReal[1].nSubIndex := 0;
-aCoeParamReal[5].nIndex := 16#21A8;
-aCoeParamReal[1].nSubIndex := 0;
-aCoeParamReal[6].nIndex := 16#21A9;
-aCoeParamReal[1].nSubIndex := 0;
-aCoeParamReal[7].nIndex := 16#21AF;
-aCoeParamReal[1].nSubIndex := 0;
-aCoeParamReal[8].nIndex := 16#21B2;
-aCoeParamReal[1].nSubIndex := 0;
-aCoeParamReal[9].nIndex := 16#21B3;
-aCoeParamReal[1].nSubIndex := 0;
-aCoeParamReal[10].nIndex := 16#21B9;
-aCoeParamReal[1].nSubIndex := 0;
-aCoeParamReal[11].nIndex := 16#21BC;
-aCoeParamReal[1].nSubIndex := 0;
-	
-aCoeParamUsint[1].nIndex := 16#2199;
-aCoeParamUsint[1].nSubIndex := 0;
-aCoeParamUsint[2].nIndex := 16#219C;
-aCoeParamUsint[2].nSubIndex := 0;
-aCoeParamUsint[3].nIndex := 16#21A6;
-aCoeParamUsint[3].nSubIndex := 0;
-aCoeParamUsint[4].nIndex := 16#21A7;
-aCoeParamUsint[4].nSubIndex := 0;
-aCoeParamUsint[5].nIndex := 16#21B0;
-aCoeParamUsint[5].nSubIndex := 0;
-aCoeParamUsint[6].nIndex := 16#21B1;
-aCoeParamUsint[6].nSubIndex := 0;
-aCoeParamUsint[7].nIndex := 16#21BA;
-aCoeParamUsint[7].nSubIndex := 0;
-	
-aParamEpicsReal := aCoeParamReal;
-aParamEpicsUsint := aCoeParamUsint;]]></ST>
+        <ST><![CDATA[stVcnVat590.fPosSetLimit := LIMIT(0, rUpperLimit, 100);]]></ST>
       </Implementation>
-    </Action>
-    <Action Name="WriteCoeToEpics" Id="{9f7f239a-46a5-4609-b528-6b15a6fa6552}">
+    </Method>
+    <Method Name="ValveControl" Id="{25066385-eb5f-47fb-8ac4-a5fcdc50740f}">
+      <Declaration><![CDATA[METHOD ValveControl : BOOL
+VAR_INPUT
+	state : E_VCN_VAT590; // Set Control modes
+END_VAR
+]]></Declaration>
       <Implementation>
-        <ST><![CDATA[stVcnVat590.stPIDParameters.fSensorDelay_AD := aCoeParamReal[1].fValue;
-stVcnVat590.stPIDParameters.fRampTime_AD := aCoeParamReal[2].fValue;
-stVcnVat590.stPIDParameters.fGainFactor_AD := aCoeParamReal[3].fValue;
-stVcnVat590.stPIDParameters.fRampTime_FIX1 := aCoeParamReal[4].fValue;
-stVcnVat590.stPIDParameters.fPGain_FIX1 := aCoeParamReal[5].fValue;
-stVcnVat590.stPIDParameters.fIGain_FIX1 := aCoeParamReal[6].fValue;
-stVcnVat590.stPIDParameters.fRampTime_FIX2 := aCoeParamReal[7].fValue;
-stVcnVat590.stPIDParameters.fPGain_FIX2 := aCoeParamReal[8].fValue;
-stVcnVat590.stPIDParameters.fIGain_FIX2 := aCoeParamReal[9].fValue;
-stVcnVat590.stPIDParameters.fRampTime_SP := aCoeParamReal[10].fValue;
-stVcnVat590.stPIDParameters.fPGain_SP := aCoeParamReal[11].fValue;
+        <ST><![CDATA[stVcnVat590.eValveControl := state;]]></ST>
+      </Implementation>
+    </Method>
+    <Action Name="WriteCoeParameters" Id="{9f7f239a-46a5-4609-b528-6b15a6fa6552}">
+      <Implementation>
+        <ST><![CDATA[// User will change one parameter at a time so solution with ELSIF should work OK
+IF stVcnVat590.bCoeError THEN
+	//fbCoeWrite.bExecute := FALSE;
+	IF rtCoeReset.Q THEN
+		stVcnVat590.bCoeError := FALSE;
+	END_IF;
+ELSIF bFirstRead THEN
+	;//Wait until first first readout of all CoE parameters is completed
+ELSIF stVcnVat590.stCoeInterface.nPressCtrl <> stCoeParameters.nPressCtrl THEN
+	fbCoeWrite.nIndex := cPressCtrl.nIndex;
+	fbCoeWrite.nSubIndex := cPressCtrl.nSubIndex;
+	fbCoeWrite.pSrcBuf := ADR(stVcnVat590.stCoeInterface.nPressCtrl);
+	fbCoeWrite.cbBufLen := SIZEOF(stVcnVat590.stCoeInterface.nPressCtrl);
+	fbCoeWrite.bExecute := TRUE;
+ELSIF stVcnVat590.stCoeInterface.fSensorDelay_AD <> stCoeParameters.fSensorDelay_AD THEN
+	fbCoeWrite.nIndex := cSensorDelay_AD.nIndex;
+	fbCoeWrite.nSubIndex := cSensorDelay_AD.nSubIndex;
+	fbCoeWrite.pSrcBuf := ADR(stVcnVat590.stCoeInterface.fSensorDelay_AD);
+	fbCoeWrite.cbBufLen := SIZEOF(stVcnVat590.stCoeInterface.fSensorDelay_AD);
+	fbCoeWrite.bExecute := TRUE;
+ELSIF stVcnVat590.stCoeInterface.fRampTime_AD <> stCoeParameters.fRampTime_AD THEN
+	fbCoeWrite.nIndex := cRampTime_AD.nIndex;
+	fbCoeWrite.nSubIndex := cRampTime_AD.nSubIndex;
+	fbCoeWrite.pSrcBuf := ADR(stVcnVat590.stCoeInterface.fRampTime_AD);
+	fbCoeWrite.cbBufLen := SIZEOF(stVcnVat590.stCoeInterface.fRampTime_AD);
+	fbCoeWrite.bExecute := TRUE;
+ELSIF stVcnVat590.stCoeInterface.nRampMode_AD <> stCoeParameters.nRampMode_AD THEN
+	fbCoeWrite.nIndex := cRampMode_AD.nIndex;
+	fbCoeWrite.nSubIndex := cRampMode_AD.nSubIndex;
+	fbCoeWrite.pSrcBuf := ADR(stVcnVat590.stCoeInterface.nRampMode_AD);
+	fbCoeWrite.cbBufLen := SIZEOF(stVcnVat590.stCoeInterface.nRampMode_AD);
+	fbCoeWrite.bExecute := TRUE;
+ELSIF stVcnVat590.stCoeInterface.fGainFactor_AD <> stCoeParameters.fGainFactor_AD THEN
+	fbCoeWrite.nIndex := cGainFactor_AD.nIndex;
+	fbCoeWrite.nSubIndex := cGainFactor_AD.nSubIndex;
+	fbCoeWrite.pSrcBuf := ADR(stVcnVat590.stCoeInterface.fGainFactor_AD);
+	fbCoeWrite.cbBufLen := SIZEOF(stVcnVat590.stCoeInterface.fGainFactor_AD);
+	fbCoeWrite.bExecute := TRUE;
+ELSIF stVcnVat590.stCoeInterface.fRampTime_FIX1 <> stCoeParameters.fRampTime_FIX1 THEN
+	fbCoeWrite.nIndex := cRampTime_FIX1.nIndex;
+	fbCoeWrite.nSubIndex := cRampTime_FIX1.nSubIndex;
+	fbCoeWrite.pSrcBuf := ADR(stVcnVat590.stCoeInterface.fRampTime_FIX1);
+	fbCoeWrite.cbBufLen := SIZEOF(stVcnVat590.stCoeInterface.fRampTime_FIX1);
+	fbCoeWrite.bExecute := TRUE;
+ELSIF stVcnVat590.stCoeInterface.nRampMode_FIX1 <> stCoeParameters.nRampMode_FIX1 THEN
+	fbCoeWrite.nIndex := cRampMode_FIX1.nIndex;
+	fbCoeWrite.nSubIndex := cRampMode_FIX1.nSubIndex;
+	fbCoeWrite.pSrcBuf := ADR(stVcnVat590.stCoeInterface.nRampMode_FIX1);
+	fbCoeWrite.cbBufLen := SIZEOF(stVcnVat590.stCoeInterface.nRampMode_FIX1);
+	fbCoeWrite.bExecute := TRUE;
+ELSIF stVcnVat590.stCoeInterface.nCtrlDir_FIX1 <> stCoeParameters.nCtrlDir_FIX1 THEN
+	fbCoeWrite.nIndex := cCtrlDir_FIX1.nIndex;
+	fbCoeWrite.nSubIndex := cCtrlDir_FIX1.nSubIndex;
+	fbCoeWrite.pSrcBuf := ADR(stVcnVat590.stCoeInterface.nCtrlDir_FIX1);
+	fbCoeWrite.cbBufLen := SIZEOF(stVcnVat590.stCoeInterface.nCtrlDir_FIX1);
+	fbCoeWrite.bExecute := TRUE;
+ELSIF stVcnVat590.stCoeInterface.fPGain_FIX1 <> stCoeParameters.fPGain_FIX1 THEN
+	fbCoeWrite.nIndex := cPGain_FIX1.nIndex;
+	fbCoeWrite.nSubIndex := cPGain_FIX1.nSubIndex;
+	fbCoeWrite.pSrcBuf := ADR(stVcnVat590.stCoeInterface.fPGain_FIX1);
+	fbCoeWrite.cbBufLen := SIZEOF(stVcnVat590.stCoeInterface.fPGain_FIX1);
+	fbCoeWrite.bExecute := TRUE;
+ELSIF stVcnVat590.stCoeInterface.fIGain_FIX1 <> stCoeParameters.fIGain_FIX1 THEN
+	fbCoeWrite.nIndex := cIGain_FIX1.nIndex;
+	fbCoeWrite.nSubIndex := cIGain_FIX1.nSubIndex;
+	fbCoeWrite.pSrcBuf := ADR(stVcnVat590.stCoeInterface.fIGain_FIX1);
+	fbCoeWrite.cbBufLen := SIZEOF(stVcnVat590.stCoeInterface.fIGain_FIX1);
+	fbCoeWrite.bExecute := TRUE;
+ELSIF stVcnVat590.stCoeInterface.fRampTime_FIX2 <> stCoeParameters.fRampTime_FIX2 THEN
+	fbCoeWrite.nIndex := cRampTime_FIX2.nIndex;
+	fbCoeWrite.nSubIndex := cRampTime_FIX2.nSubIndex;
+	fbCoeWrite.pSrcBuf := ADR(stVcnVat590.stCoeInterface.fRampTime_FIX2);
+	fbCoeWrite.cbBufLen := SIZEOF(stVcnVat590.stCoeInterface.fRampTime_FIX2);
+	fbCoeWrite.bExecute := TRUE;
+ELSIF stVcnVat590.stCoeInterface.nRampMode_FIX2 <> stCoeParameters.nRampMode_FIX2 THEN
+	fbCoeWrite.nIndex := cRampMode_FIX2.nIndex;
+	fbCoeWrite.nSubIndex := cRampMode_FIX2.nSubIndex;
+	fbCoeWrite.pSrcBuf := ADR(stVcnVat590.stCoeInterface.nRampMode_FIX2);
+	fbCoeWrite.cbBufLen := SIZEOF(stVcnVat590.stCoeInterface.nRampMode_FIX2);
+	fbCoeWrite.bExecute := TRUE;
+ELSIF stVcnVat590.stCoeInterface.nCtrlDir_FIX2 <> stCoeParameters.nCtrlDir_FIX2 THEN
+	fbCoeWrite.nIndex := cCtrlDir_FIX2.nIndex;
+	fbCoeWrite.nSubIndex := cCtrlDir_FIX2.nSubIndex;
+	fbCoeWrite.pSrcBuf := ADR(stVcnVat590.stCoeInterface.nCtrlDir_FIX2);
+	fbCoeWrite.cbBufLen := SIZEOF(stVcnVat590.stCoeInterface.nCtrlDir_FIX2);
+	fbCoeWrite.bExecute := TRUE;
+ELSIF stVcnVat590.stCoeInterface.fPGain_FIX2 <> stCoeParameters.fPGain_FIX2 THEN
+	fbCoeWrite.nIndex := cPGain_FIX2.nIndex;
+	fbCoeWrite.nSubIndex := cPGain_FIX2.nSubIndex;
+	fbCoeWrite.pSrcBuf := ADR(stVcnVat590.stCoeInterface.fPGain_FIX2);
+	fbCoeWrite.cbBufLen := SIZEOF(stVcnVat590.stCoeInterface.fPGain_FIX2);
+	fbCoeWrite.bExecute := TRUE;
+ELSIF stVcnVat590.stCoeInterface.fIGain_FIX2 <> stCoeParameters.fIGain_FIX2 THEN
+	fbCoeWrite.nIndex := cIGain_FIX2.nIndex;
+	fbCoeWrite.nSubIndex := cIGain_FIX2.nSubIndex;
+	fbCoeWrite.pSrcBuf := ADR(stVcnVat590.stCoeInterface.fIGain_FIX2);
+	fbCoeWrite.cbBufLen := SIZEOF(stVcnVat590.stCoeInterface.fIGain_FIX2);
+	fbCoeWrite.bExecute := TRUE;
+ELSIF stVcnVat590.stCoeInterface.fRampTime_SP <> stCoeParameters.fRampTime_SP THEN
+	fbCoeWrite.nIndex := cRampTime_SP.nIndex;
+	fbCoeWrite.nSubIndex := cRampTime_SP.nSubIndex;
+	fbCoeWrite.pSrcBuf := ADR(stVcnVat590.stCoeInterface.fRampTime_SP);
+	fbCoeWrite.cbBufLen := SIZEOF(stVcnVat590.stCoeInterface.fRampTime_SP);
+	fbCoeWrite.bExecute := TRUE;
+ELSIF stVcnVat590.stCoeInterface.nRampMode_SP <> stCoeParameters.nRampMode_SP THEN
+	fbCoeWrite.nIndex := cRampMode_SP.nIndex;
+	fbCoeWrite.nSubIndex := cRampMode_SP.nSubIndex;
+	fbCoeWrite.pSrcBuf := ADR(stVcnVat590.stCoeInterface.nRampMode_SP);
+	fbCoeWrite.cbBufLen := SIZEOF(stVcnVat590.stCoeInterface.nRampMode_SP);
+	fbCoeWrite.bExecute := TRUE;
+ELSIF stVcnVat590.stCoeInterface.fPGain_SP <> stCoeParameters.fPGain_SP THEN
+	fbCoeWrite.nIndex := cPGain_SP.nIndex;
+	fbCoeWrite.nSubIndex := cPGain_SP.nSubIndex;
+	fbCoeWrite.pSrcBuf := ADR(stVcnVat590.stCoeInterface.fPGain_SP);
+	fbCoeWrite.cbBufLen := SIZEOF(stVcnVat590.stCoeInterface.fPGain_SP);
+	fbCoeWrite.bExecute := TRUE;
+END_IF
 
-stVcnVat590.stPIDParameters.nPressCtrl := aCoeParamUsint[1].nValue;
-stVcnVat590.stPIDParameters.nRampMode_AD := aCoeParamUsint[2].nValue;
-stVcnVat590.stPIDParameters.nRampMode_FIX1 := aCoeParamUsint[3].nValue;
-stVcnVat590.stPIDParameters.nCtrlDir_FIX1 := aCoeParamUsint[4].nValue;
-stVcnVat590.stPIDParameters.nRampMode_FIX2 := aCoeParamUsint[5].nValue;
-stVcnVat590.stPIDParameters.nCtrlDir_FIX2 := aCoeParamUsint[6].nValue;
-stVcnVat590.stPIDParameters.nRampMode_SP := aCoeParamUsint[7].nValue;]]></ST>
+ftCoeWriteBusy(CLK:=fbCoeWrite.bBusy);
+IF ftCoeWriteBusy.Q THEN
+	fbCoeWrite.bExecute := FALSE;
+	IF fbCoeWrite.bError THEN
+		stVcnVat590.bCoeError := TRUE;
+	END_IF
+END_IF
+
+fbCoeWrite();]]></ST>
       </Implementation>
     </Action>
     <Action Name="WriteToOutput" Id="{d6e20cf1-2c45-411b-b669-d1005d8dcb97}">
@@ -510,43 +617,122 @@ o_stGenCtrlSP.Bit4AccessMode := bRemAcsToggle;]]></ST>
       </Implementation>
     </Action>
     <LineIds Name="FB_VCN_VAT590">
-      <LineId Id="1200" Count="111" />
-      <LineId Id="1319" Count="2" />
-      <LineId Id="1397" Count="0" />
-      <LineId Id="1322" Count="3" />
-      <LineId Id="1399" Count="6" />
-      <LineId Id="1398" Count="0" />
-      <LineId Id="1326" Count="68" />
+      <LineId Id="1200" Count="12" />
+      <LineId Id="1218" Count="2" />
+      <LineId Id="1228" Count="68" />
+      <LineId Id="1573" Count="0" />
+      <LineId Id="1299" Count="10" />
+      <LineId Id="1554" Count="0" />
+      <LineId Id="1550" Count="1" />
+      <LineId Id="1555" Count="2" />
+      <LineId Id="1570" Count="1" />
+      <LineId Id="1569" Count="0" />
+      <LineId Id="1384" Count="10" />
       <LineId Id="363" Count="0" />
     </LineIds>
-    <LineIds Name="FB_VCN_VAT590.ACT_Logger">
-      <LineId Id="2" Count="0" />
-      <LineId Id="4" Count="25" />
-      <LineId Id="1" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_VCN_VAT590.ACT_Persistent">
+    <LineIds Name="FB_VCN_VAT590.LoadPersistentData">
       <LineId Id="2" Count="5" />
       <LineId Id="17" Count="1" />
       <LineId Id="16" Count="0" />
       <LineId Id="22" Count="1" />
       <LineId Id="21" Count="0" />
-      <LineId Id="20" Count="0" />
-      <LineId Id="19" Count="0" />
       <LineId Id="9" Count="0" />
     </LineIds>
-    <LineIds Name="FB_VCN_VAT590.M_SetThrottle">
-      <LineId Id="3" Count="0" />
+    <LineIds Name="FB_VCN_VAT590.Logger">
       <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_VCN_VAT590.M_ValveControl">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_VCN_VAT590.ReadCoeFromEpics">
+      <LineId Id="4" Count="25" />
       <LineId Id="1" Count="0" />
-      <LineId Id="3" Count="9" />
-      <LineId Id="17" Count="0" />
-      <LineId Id="16" Count="0" />
-      <LineId Id="19" Count="5" />
+    </LineIds>
+    <LineIds Name="FB_VCN_VAT590.ReadCoeParameters">
+      <LineId Id="24" Count="1" />
+      <LineId Id="145" Count="0" />
+      <LineId Id="66" Count="0" />
+      <LineId Id="142" Count="2" />
+      <LineId Id="181" Count="0" />
+      <LineId Id="141" Count="0" />
+      <LineId Id="29" Count="0" />
+      <LineId Id="67" Count="3" />
+      <LineId Id="147" Count="0" />
+      <LineId Id="30" Count="0" />
+      <LineId Id="73" Count="2" />
+      <LineId Id="72" Count="0" />
+      <LineId Id="148" Count="0" />
+      <LineId Id="31" Count="0" />
+      <LineId Id="77" Count="2" />
+      <LineId Id="76" Count="0" />
+      <LineId Id="149" Count="0" />
+      <LineId Id="32" Count="0" />
+      <LineId Id="81" Count="2" />
+      <LineId Id="80" Count="0" />
+      <LineId Id="150" Count="0" />
+      <LineId Id="33" Count="0" />
+      <LineId Id="85" Count="2" />
+      <LineId Id="84" Count="0" />
+      <LineId Id="151" Count="0" />
+      <LineId Id="34" Count="0" />
+      <LineId Id="89" Count="2" />
+      <LineId Id="88" Count="0" />
+      <LineId Id="152" Count="0" />
+      <LineId Id="35" Count="0" />
+      <LineId Id="93" Count="2" />
+      <LineId Id="92" Count="0" />
+      <LineId Id="153" Count="0" />
+      <LineId Id="36" Count="0" />
+      <LineId Id="97" Count="2" />
+      <LineId Id="96" Count="0" />
+      <LineId Id="154" Count="0" />
+      <LineId Id="37" Count="0" />
+      <LineId Id="101" Count="2" />
+      <LineId Id="100" Count="0" />
+      <LineId Id="155" Count="0" />
+      <LineId Id="38" Count="0" />
+      <LineId Id="105" Count="2" />
+      <LineId Id="104" Count="0" />
+      <LineId Id="156" Count="0" />
+      <LineId Id="39" Count="0" />
+      <LineId Id="109" Count="2" />
+      <LineId Id="108" Count="0" />
+      <LineId Id="157" Count="0" />
+      <LineId Id="40" Count="0" />
+      <LineId Id="113" Count="2" />
+      <LineId Id="112" Count="0" />
+      <LineId Id="158" Count="0" />
+      <LineId Id="41" Count="0" />
+      <LineId Id="117" Count="2" />
+      <LineId Id="116" Count="0" />
+      <LineId Id="159" Count="0" />
+      <LineId Id="42" Count="0" />
+      <LineId Id="121" Count="2" />
+      <LineId Id="120" Count="0" />
+      <LineId Id="160" Count="0" />
+      <LineId Id="43" Count="0" />
+      <LineId Id="125" Count="2" />
+      <LineId Id="124" Count="0" />
+      <LineId Id="161" Count="0" />
+      <LineId Id="44" Count="0" />
+      <LineId Id="129" Count="2" />
+      <LineId Id="128" Count="0" />
+      <LineId Id="182" Count="0" />
+      <LineId Id="45" Count="0" />
+      <LineId Id="133" Count="2" />
+      <LineId Id="132" Count="0" />
+      <LineId Id="162" Count="0" />
+      <LineId Id="46" Count="0" />
+      <LineId Id="137" Count="2" />
+      <LineId Id="136" Count="0" />
+      <LineId Id="163" Count="0" />
+      <LineId Id="26" Count="0" />
+      <LineId Id="146" Count="0" />
+      <LineId Id="63" Count="0" />
+      <LineId Id="52" Count="0" />
+      <LineId Id="184" Count="1" />
+      <LineId Id="187" Count="0" />
+      <LineId Id="190" Count="3" />
+      <LineId Id="188" Count="1" />
+      <LineId Id="186" Count="0" />
+      <LineId Id="65" Count="0" />
+      <LineId Id="64" Count="0" />
+      <LineId Id="165" Count="0" />
     </LineIds>
     <LineIds Name="FB_VCN_VAT590.ReadFromInput">
       <LineId Id="2" Count="1" />
@@ -559,14 +745,81 @@ o_stGenCtrlSP.Bit4AccessMode := bRemAcsToggle;]]></ST>
       <LineId Id="18" Count="13" />
       <LineId Id="1" Count="0" />
     </LineIds>
-    <LineIds Name="FB_VCN_VAT590.SetCoeParameters">
-      <LineId Id="2" Count="38" />
-      <LineId Id="1" Count="0" />
+    <LineIds Name="FB_VCN_VAT590.SetThrottle">
+      <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="FB_VCN_VAT590.WriteCoeToEpics">
-      <LineId Id="2" Count="6" />
-      <LineId Id="21" Count="0" />
-      <LineId Id="10" Count="10" />
+    <LineIds Name="FB_VCN_VAT590.ValveControl">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_VCN_VAT590.WriteCoeParameters">
+      <LineId Id="63" Count="0" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="156" Count="0" />
+      <LineId Id="152" Count="0" />
+      <LineId Id="154" Count="0" />
+      <LineId Id="27" Count="2" />
+      <LineId Id="24" Count="0" />
+      <LineId Id="34" Count="3" />
+      <LineId Id="26" Count="0" />
+      <LineId Id="38" Count="0" />
+      <LineId Id="64" Count="3" />
+      <LineId Id="40" Count="0" />
+      <LineId Id="39" Count="0" />
+      <LineId Id="68" Count="3" />
+      <LineId Id="43" Count="0" />
+      <LineId Id="42" Count="0" />
+      <LineId Id="73" Count="3" />
+      <LineId Id="72" Count="0" />
+      <LineId Id="44" Count="0" />
+      <LineId Id="78" Count="3" />
+      <LineId Id="77" Count="0" />
+      <LineId Id="45" Count="0" />
+      <LineId Id="83" Count="3" />
+      <LineId Id="82" Count="0" />
+      <LineId Id="46" Count="0" />
+      <LineId Id="88" Count="3" />
+      <LineId Id="87" Count="0" />
+      <LineId Id="47" Count="0" />
+      <LineId Id="98" Count="3" />
+      <LineId Id="92" Count="0" />
+      <LineId Id="48" Count="0" />
+      <LineId Id="102" Count="3" />
+      <LineId Id="97" Count="0" />
+      <LineId Id="49" Count="0" />
+      <LineId Id="107" Count="3" />
+      <LineId Id="106" Count="0" />
+      <LineId Id="50" Count="0" />
+      <LineId Id="112" Count="3" />
+      <LineId Id="111" Count="0" />
+      <LineId Id="51" Count="0" />
+      <LineId Id="117" Count="2" />
+      <LineId Id="151" Count="0" />
+      <LineId Id="116" Count="0" />
+      <LineId Id="53" Count="0" />
+      <LineId Id="122" Count="3" />
+      <LineId Id="121" Count="0" />
+      <LineId Id="54" Count="0" />
+      <LineId Id="127" Count="3" />
+      <LineId Id="126" Count="0" />
+      <LineId Id="55" Count="0" />
+      <LineId Id="132" Count="3" />
+      <LineId Id="131" Count="0" />
+      <LineId Id="56" Count="0" />
+      <LineId Id="137" Count="3" />
+      <LineId Id="136" Count="0" />
+      <LineId Id="57" Count="0" />
+      <LineId Id="142" Count="3" />
+      <LineId Id="141" Count="0" />
+      <LineId Id="58" Count="0" />
+      <LineId Id="147" Count="3" />
+      <LineId Id="146" Count="0" />
+      <LineId Id="25" Count="0" />
+      <LineId Id="158" Count="1" />
+      <LineId Id="175" Count="1" />
+      <LineId Id="178" Count="2" />
+      <LineId Id="177" Count="0" />
+      <LineId Id="173" Count="0" />
+      <LineId Id="157" Count="0" />
     </LineIds>
     <LineIds Name="FB_VCN_VAT590.WriteToOutput">
       <LineId Id="2" Count="5" />

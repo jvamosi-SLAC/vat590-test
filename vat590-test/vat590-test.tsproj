@@ -755,9 +755,17 @@
 							<Type GUID="{18071995-0000-0000-0000-000000000041}">AMSNETID</Type>
 						</Var>
 						<Var>
-							<Name>MAIN.fbVCN590.stVat590DriveRef</Name>
+							<Name>LCLS_Vacuum.LCLS_Vacuum_Serial.LCLS_Vacuum.Global_Variables.g_stSystem.I_EcatMaster1</Name>
 							<Comment>
-								<![CDATA[Link this to your VAT590 reference variables under InfoData.]]>
+								<![CDATA[ AMS Net ID used for FB_EcatDiag, among others ]]>
+							</Comment>
+							<Type GUID="{18071995-0000-0000-0000-000000000041}">AMSNETID</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbVCN590.stVat590PlcDriveRef</Name>
+							<Comment>
+								<![CDATA[CoE Interface
+Link this to your VAT590 reference variables under InfoData.]]>
 							</Comment>
 							<Type GUID="{A4E8CC1B-1E2D-4CDC-90BD-02F29812736E}" Namespace="Tc2_EtherCAT">ST_PlcDriveRef</Type>
 							<SubVar>
@@ -1948,11 +1956,8 @@ Bit1: Value smaller than Limit2]]>
 	</Project>
 	<Mappings>
 		<MappingInfo Identifier="{00000000-2001-0850-0020-500810000403}" Id="#x02030010"/>
-		<MappingInfo Identifier="{00000000-2001-0850-0020-500821000403}" Id="#x02030020"/>
 		<OwnerA Name="TIPC^plc_vat_test^plc_vat_test Instance">
 			<OwnerB Name="TIID^Device 1 (EtherCAT)^Term 1 (EK1200)^Term 2 (EL7041)">
-				<Link VarA="PlcTask Inputs^GVL_IO.stPlcDriveRef^aNetId" VarB="InfoData^AdsAddr^netId"/>
-				<Link VarA="PlcTask Inputs^GVL_IO.stPlcDriveRef^nSlaveAddr" VarB="InfoData^AdsAddr^port"/>
 				<Link VarA="PlcTask Inputs^MAIN.counterValue" VarB="ENC Status compact^Counter value"/>
 			</OwnerB>
 		</OwnerA>

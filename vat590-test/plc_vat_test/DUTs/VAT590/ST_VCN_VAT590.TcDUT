@@ -100,12 +100,17 @@ STRUCT
 	{attribute 'pytmc' := '
     pv: 
 	'}
-	stPIDParameters : ST_VAT590_PID; //Coe Paramters
+	stCoeInterface : ST_VAT590_COE; //Coe Interface
+	{attribute 'pytmc' := '
+	pv: COE_ERROR
+	io: i
+	'}
+	bCoeError : BOOL; //Reset Coe Interface
 	{attribute 'pytmc' := '
 	pv: COE_RESET
 	io: io
 	'}
-	bResetCoeInterface : BOOL; //Reset Coe Interface
+	bResetCoeError : BOOL; //Reset Coe Interface
 END_STRUCT
 END_TYPE
 ]]></Declaration>

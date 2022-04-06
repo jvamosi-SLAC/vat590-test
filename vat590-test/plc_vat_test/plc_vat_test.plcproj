@@ -19,6 +19,9 @@
     <Released>false</Released>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="DUTs\ST_CoEIndSub.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="DUTs\ST_CoeParameter.TcDUT">
       <SubType>Code</SubType>
     </Compile>
@@ -61,7 +64,7 @@
     <Compile Include="DUTs\VAT590\E_VAT590_AccessMode.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\VAT590\ST_VAT590_PID.TcDUT">
+    <Compile Include="DUTs\VAT590\ST_VAT590_COE.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DUTs\VAT590\ST_VCN_VAT590.TcDUT">
