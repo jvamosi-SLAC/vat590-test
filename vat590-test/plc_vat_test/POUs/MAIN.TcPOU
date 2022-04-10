@@ -10,32 +10,28 @@ VAR
 	//fbMKS500 : FB_MKS500;
 	//stVG : ST_VG;
 	
-	aCoeParameters : ARRAY [1..2] OF ST_CoeParameter;
-	aCoeParametersEpics : ARRAY [1..2] OF ST_CoeParameter;
-	aCoeParametersInt : ARRAY [1..2] OF ST_CoeParameterInt;
-	aCoeParametersEpicsInt : ARRAY [1..2] OF ST_CoeParameterInt;
-	aCoeBuffer : ARRAY [1..10] OF ST_CoeParameter;
-	aCoeBufferInt : ARRAY [1..10] OF ST_CoeParameterInt;
+	nCounterValue AT %I*: WORD;
+	(*Link this to your VAT590 reference variables under InfoData.*)
+	stVat590PlcDriveRef AT %I*: ST_PlcDriveRef;
+	stVat590DriveRef : ST_DriveRef;
+
+	fbCoeRead : FB_CoERead_ByDriveRef;
+	fbCoeWrite : FB_CoEWrite_ByDriveRef;
 	
-	nTemperature : BYTE;
-	nSwTemperature : BYTE;
-	nOffsetA : INT;
-	nOffsetB : INT;
-	
-	nGlobalIterator : UINT := 1;
-	nSubIterator : UINT := 1;
-	
-	bInit : BOOL := TRUE;
-	
-	counterValue AT %I* : WORD;
-	bDifferent : BOOL := FALSE;
-	nIteratorDiff : UINT := 1;
-	bReset : BOOL; 
-	nBuffPointer : UINT := 0;
-	bWrite : BOOL := FALSE;
+	nCaseReadCoe : UINT := 1;          //Iterator for going through all CoE parameters
+	rtCoeReset : R_TRIG;               //Rising edge trigger for reset CoE Interface error
+	ftCoeReadBusy : F_TRIG;            //Falling edge trigger for CoE read new data
+	ftCoeWriteBusy : F_TRIG;           //Falling edge trigger for CoE write data
 	bFirstRead : BOOL := TRUE;
-	fbCoeRead : FB_CoE_Read;
-	fbCoeWrite : FB_CoE_Write;
+	
+	cWarnTemp : ST_CoEIndSub := (nIndex := 16#F80F, nSubIndex := 4); // Selected pressure controller CoE register
+	cSwOffTemp : ST_CoEIndSub := (nIndex := 16#F80F, nSubIndex := 5); // Adaptive DS controller Sensor Delay CoE register
+	cOffestA : ST_CoEIndSub := (nIndex := 16#F80F, nSubIndex := 7); // Adaptive DS controller Ramp Time CoE register
+	cOffestB : ST_CoEIndSub := (nIndex := 16#F80F, nSubIndex := 8); // Adaptive DS controller Ramp Mode CoE register
+	stCoeParameters : ST_CoeParamsTest;
+	stCoeInterface : ST_CoeParamsTest;
+	bResetCoeError : BOOL;
+	bCoeError : BOOL;
 END_VAR	
 ]]></Declaration>
     <Implementation>
@@ -45,108 +41,167 @@ END_VAR
 //fbMKS500(PG := stVG);
 //fbVCN590(bExtIlkOK := TRUE, IG := fbMKS500.IG);
 
-(*CoE interface*)
-fbCoeWrite(stPlcDriveRef := GVL_IO.stPlcDriveRef);
-fbCoeRead(stPlcDriveRef := GVL_IO.stPlcDriveRef);
+stVat590DriveRef.sNetId := F_CreateAmsNetId(stVat590PlcDriveRef.aNetId);
+stVat590DriveRef.nSlaveAddr := stVat590PlcDriveRef.nSlaveAddr;
+stVat590DriveRef.nDriveNo := stVat590PlcDriveRef.nDriveNo;
+stVat590DriveRef.nDriveType := stVat590PlcDriveRef.nDriveType;
+fbCoeRead.stDriveRef := stVat590DriveRef;
+fbCoeWrite.stDriveRef := stVat590DriveRef;
 
-IF bInit THEN
-	aCoeParameters[1].nIndex := 16#F80F;
-	aCoeParameters[2].nIndex := 16#F80F;
-	aCoeParameters[1].nSubIndex := 4;
-	aCoeParameters[2].nSubIndex := 5;
-	aCoeParametersInt[1].nIndex := 16#F80F;
-	aCoeParametersInt[2].nIndex := 16#F80F;
-	aCoeParametersInt[1].nSubIndex := 7;
-	aCoeParametersInt[2].nSubIndex := 8;
-	
-	aCoeParametersEpics := aCoeParameters;
-	aCoeParametersEpicsInt := aCoeParametersInt;
-	bInit := FALSE;
+(*Reset Coe Interface error*)
+rtCoeReset(CLK := bResetCoeError);
+IF rtCoeReset.Q THEN
+	bResetCoeError := FALSE;
 END_IF
 
-aCoeParametersEpics[1].nValue := nTemperature;
-aCoeParametersEpics[2].nValue := nSwTemperature;
+// User will change one parameter at a time so solution with ELSIF should work OK
+IF bCoeError THEN
+	//fbCoeWrite.bExecute := FALSE;
+	IF rtCoeReset.Q THEN
+		bCoeError := FALSE;
+	END_IF;
+ELSIF bFirstRead THEN
+	;//Wait until first first readout of all CoE parameters is completed
+ELSIF stCoeInterface.nWarnTemp <> stCoeParameters.nWarnTemp THEN
+	fbCoeWrite.nIndex := cWarnTemp.nIndex;
+	fbCoeWrite.nSubIndex := cWarnTemp.nSubIndex;
+	fbCoeWrite.pSrcBuf := ADR(stCoeInterface.nWarnTemp);
+	fbCoeWrite.cbBufLen := SIZEOF(stCoeInterface.nWarnTemp);
+	fbCoeWrite.bExecute := TRUE;
+ELSIF stCoeInterface.nSwOffTemp <> stCoeParameters.nSwOffTemp THEN
+	fbCoeWrite.nIndex := cSwOffTemp.nIndex;
+	fbCoeWrite.nSubIndex := cSwOffTemp.nSubIndex;
+	fbCoeWrite.pSrcBuf := ADR(stCoeInterface.nSwOffTemp);
+	fbCoeWrite.cbBufLen := SIZEOF(stCoeInterface.nSwOffTemp);
+	fbCoeWrite.bExecute := TRUE;
+ELSIF stCoeInterface.nOffestA <> stCoeParameters.nOffestA THEN
+	fbCoeWrite.nIndex := cOffestA.nIndex;
+	fbCoeWrite.nSubIndex := cOffestA.nSubIndex;
+	fbCoeWrite.pSrcBuf := ADR(stCoeInterface.nOffestA);
+	fbCoeWrite.cbBufLen := SIZEOF(stCoeInterface.nOffestA);
+	fbCoeWrite.bExecute := TRUE;
+ELSIF stCoeInterface.nOffestB <> stCoeParameters.nOffestB THEN
+	fbCoeWrite.nIndex := cOffestB.nIndex;
+	fbCoeWrite.nSubIndex := cOffestB.nSubIndex;
+	fbCoeWrite.pSrcBuf := ADR(stCoeInterface.nOffestB);
+	fbCoeWrite.cbBufLen := SIZEOF(stCoeInterface.nOffestB);
+	fbCoeWrite.bExecute := TRUE;
+END_IF
 
-IF NOT bFirstRead THEN
-FOR nIteratorDiff := 1 TO 2 DO
-	IF aCoeParameters[nIteratorDiff].nValue <> aCoeParametersEpics[nIteratorDiff].nValue THEN
-		nBuffPointer := nBuffPointer + 1;
-		aCoeBuffer[nBuffPointer] := aCoeParametersEpics[nIteratorDiff];
-		aCoeParameters[nIteratorDiff] := aCoeParametersEpics[nIteratorDiff];
+ftCoeWriteBusy(CLK:=fbCoeWrite.bBusy);
+IF ftCoeWriteBusy.Q THEN
+	fbCoeWrite.bExecute := FALSE;
+	IF fbCoeWrite.bError THEN
+		bCoeError := TRUE;
 	END_IF
-END_FOR
 END_IF
 
-(*Writing CoE Parameter*)
-IF fbCoeWrite.IsDataSent THEN
-	nBuffPointer := nBuffPointer - 1;
-	IF nBuffPointer < 1 THEN
-		nBuffPointer := 0;
-	END_IF	
-ELSIF NOT fbCoeWrite.IsBusy() AND NOT fbCoeWrite.InErrorState() THEN
-	IF nBuffPointer >= 1 THEN //If buffer has more than one element
-		fbCoeWrite.WriteData(
-			nIndex := aCoeBuffer[nBuffPointer].nIndex,
-			nSubIndex := aCoeBuffer[nBuffPointer].nSubIndex,
-			pSrcBuf := ADR(aCoeBuffer[nBuffPointer].nValue),
-			cbBufLen := SIZEOF(aCoeBuffer[nBuffPointer].nValue));
-	END_IF			
-END_IF
+fbCoeWrite();
 
-(*Reading CoE Parameters*)
-IF fbCoeRead.IsDataReceived THEN
-	nGlobalIterator := nGlobalIterator + 1;
-	IF nGlobalIterator > 4 THEN
-		nGlobalIterator := 1;
-	END_IF	
-ELSIF NOT fbCoeRead.IsBusy() AND NOT fbCoeRead.InErrorState() THEN
-	IF nGlobalIterator >= 1 AND nGlobalIterator <=2 THEN
-	fbCoeRead.ReadData(
-		nIndex := aCoeParameters[nGlobalIterator].nIndex,
-		nSubIndex := aCoeParameters[nGlobalIterator].nSubIndex,
-		pDstBuf := ADR(aCoeParameters[nGlobalIterator].nValue),
-		cbBufLen := SIZEOF(aCoeParameters[nGlobalIterator].nValue));
+CASE nCaseReadCoe OF
+	0:
+		//fbCoeRead.bExecute := FALSE;
+		bCoeError := TRUE;
+		IF rtCoeReset.Q THEN
+			nCaseReadCoe := 1;
+			bCoeError := FALSE;
+			bFirstRead := TRUE; // Set bFirstRead after Coe interface reset
+		END_IF
+	1:
+		fbCoeRead.nIndex := cSwOffTemp.nIndex;
+		fbCoeRead.nSubIndex := cSwOffTemp.nSubIndex;
+		fbCoeRead.pDstBuf := ADR(stCoeInterface.nSwOffTemp);
+		fbCoeRead.cbBufLen := SIZEOF(stCoeInterface.nSwOffTemp);
+		fbCoeRead.bExecute := TRUE;
+	2:
+		fbCoeRead.nIndex := cSwOffTemp.nIndex;
+		fbCoeRead.nSubIndex := cSwOffTemp.nSubIndex;
+		fbCoeRead.pDstBuf := ADR(stCoeInterface.nSwOffTemp);
+		fbCoeRead.cbBufLen := SIZEOF(stCoeInterface.nSwOffTemp);
+		fbCoeRead.bExecute := TRUE;
+	3:
+		fbCoeRead.nIndex := cOffestA.nIndex;
+		fbCoeRead.nSubIndex := cOffestA.nSubIndex;
+		fbCoeRead.pDstBuf := ADR(stCoeInterface.nOffestA);
+		fbCoeRead.cbBufLen := SIZEOF(stCoeInterface.nOffestB);
+		fbCoeRead.bExecute := TRUE;
+	4:
+		fbCoeRead.nIndex := cOffestB.nIndex;
+		fbCoeRead.nSubIndex := cOffestB.nSubIndex;
+		fbCoeRead.pDstBuf := ADR(stCoeInterface.nOffestB);
+		fbCoeRead.cbBufLen := SIZEOF(stCoeInterface.nOffestB);
+		fbCoeRead.bExecute := TRUE;
+	5:
+		fbCoeRead.nIndex := cSwOffTemp.nIndex;
+		fbCoeRead.nSubIndex := cSwOffTemp.nSubIndex;
+		fbCoeRead.pDstBuf := ADR(stCoeInterface.nSwOffTemp);
+		fbCoeRead.cbBufLen := SIZEOF(stCoeInterface.nSwOffTemp);
+		fbCoeRead.bExecute := TRUE;
+	6:
+		fbCoeRead.nIndex := cOffestA.nIndex;
+		fbCoeRead.nSubIndex := cOffestA.nSubIndex;
+		fbCoeRead.pDstBuf := ADR(stCoeInterface.nOffestA);
+		fbCoeRead.cbBufLen := SIZEOF(stCoeInterface.nOffestB);
+		fbCoeRead.bExecute := TRUE;
+	7:
+		fbCoeRead.nIndex := cOffestB.nIndex;
+		fbCoeRead.nSubIndex := cOffestB.nSubIndex;
+		fbCoeRead.pDstBuf := ADR(stCoeInterface.nOffestB);
+		fbCoeRead.cbBufLen := SIZEOF(stCoeInterface.nOffestB);
+		fbCoeRead.bExecute := TRUE;
+	8:
+		fbCoeRead.nIndex := cWarnTemp.nIndex;
+		fbCoeRead.nSubIndex := cWarnTemp.nSubIndex;
+		fbCoeRead.pDstBuf := ADR(stCoeInterface.nWarnTemp);
+		fbCoeRead.cbBufLen := SIZEOF(stCoeInterface.nWarnTemp);
+		fbCoeRead.bExecute := TRUE;
+END_CASE
+
+ftCoeReadBusy(CLK:=fbCoeRead.bBusy);
+
+IF ftCoeReadBusy.Q THEN
+	fbCoeRead.bExecute := FALSE;
+	IF NOT fbCoeRead.bError THEN
+		nCaseReadCoe := nCaseReadCoe + 1;
+		IF nCaseReadCoe > 8 THEN
+			nCaseReadCoe := 1;
+			bFirstRead := FALSE; // Reset bFirstRead after successfull readout of all parameters
+		END_IF
+	ELSE
+		nCaseReadCoe := 0;
 	END_IF
-	IF nGlobalIterator > 2 AND nGlobalIterator <= 4 THEN
-	nSubIterator := nGlobalIterator - 2;
-	fbCoeRead.ReadData(
-		nIndex := aCoeParametersInt[nSubIterator].nIndex,
-		nSubIndex := aCoeParametersInt[nSubIterator].nSubIndex,
-		pDstBuf := ADR(aCoeParametersInt[nSubIterator].nValue),
-		cbBufLen := SIZEOF(aCoeParametersInt[nSubIterator].nValue));
-	END_IF				
 END_IF
 
-IF fbCoeRead.InErrorState() THEN
-	nBuffPointer := 0;
-	nGlobalIterator := 1;
-	bFirstRead := TRUE;
-END_IF
+fbCoeRead();
+stCoeParameters := stCoeInterface; //Save current values to internal structure
 
-IF bFirstRead AND nGlobalIterator = 4 THEN
-	bFirstRead := FALSE;
-END_IF
-
-IF bReset THEN
-	fbCoeRead.ResetError();
-	fbCoeWrite.ResetError();
-	bReset := FALSE;
-END_IF
-
-nTemperature := aCoeParameters[1].nValue;
-nSwTemperature := aCoeParameters[2].nValue;
-nOffsetA := aCoeParametersInt[1].nValue;
-nOffsetB := aCoeParametersInt[2].nValue;
 ]]></ST>
     </Implementation>
     <LineIds Name="MAIN">
-      <LineId Id="3" Count="23" />
-      <LineId Id="29" Count="12" />
-      <LineId Id="44" Count="2" />
-      <LineId Id="141" Count="0" />
-      <LineId Id="47" Count="4" />
-      <LineId Id="53" Count="51" />
-      <LineId Id="2" Count="0" />
+      <LineId Id="3" Count="4" />
+      <LineId Id="361" Count="0" />
+      <LineId Id="356" Count="3" />
+      <LineId Id="362" Count="1" />
+      <LineId Id="614" Count="0" />
+      <LineId Id="355" Count="0" />
+      <LineId Id="347" Count="2" />
+      <LineId Id="194" Count="0" />
+      <LineId Id="496" Count="0" />
+      <LineId Id="500" Count="41" />
+      <LineId Id="497" Count="0" />
+      <LineId Id="195" Count="10" />
+      <LineId Id="574" Count="3" />
+      <LineId Id="210" Count="18" />
+      <LineId Id="547" Count="16" />
+      <LineId Id="546" Count="0" />
+      <LineId Id="569" Count="4" />
+      <LineId Id="564" Count="0" />
+      <LineId Id="313" Count="11" />
+      <LineId Id="344" Count="1" />
+      <LineId Id="325" Count="3" />
+      <LineId Id="495" Count="0" />
+      <LineId Id="368" Count="0" />
+      <LineId Id="364" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

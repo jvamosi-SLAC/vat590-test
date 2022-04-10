@@ -4,14 +4,10 @@
     <Declaration><![CDATA[TYPE ST_VAT590_COE :
 STRUCT
 	{attribute 'pytmc' := '
-	pv: PRES_CTRL
+	pv: PID_CTRL
 	io: io
-	field: ZRST Adaptive DS
-	field: ONST Fixed 1
-	field: TWST Fixed 2
-	field: THST Soft Pump
 	'}
-	nPressCtrl: USINT;
+	ePIDCtrl: E_VAT590_PID_CTRL;
 	(*Adaptive Downstream Parameters*)
 	{attribute 'pytmc' := '
     pv: SENS_DELAY_AD
@@ -32,10 +28,10 @@ STRUCT
 	{attribute 'pytmc' := '
     pv: RAMP_MODE_AD
 	io: io
-	field: ZNAM CONSTANT_TIME
-	field: ONAM CONSTANT_SLOPE
+	field: ZNAM CONST_TIME
+	field: ONAM CONST_SLOPE
     '}
-	nRampMode_AD : USINT;
+	nRampMode_AD : BOOL;
 	{attribute 'pytmc' := '
     pv: GAIN_FACTOR_AD
 	io: io
@@ -55,17 +51,17 @@ STRUCT
 	{attribute 'pytmc' := '
     pv: RAMP_MODE_FIX1
 	io: io
-	field: ZNAM CONSTANT_TIME
-	field: ONAM CONSTANT_SLOPE
+	field: ZNAM CONST_TIME
+	field: ONAM CONST_SLOPE
     '}
-	nRampMode_FIX1 : USINT;
+	nRampMode_FIX1 : BOOL;
 	{attribute 'pytmc' := '
     pv: CTRL_DIR_FIX1
 	io: io
 	field: ZNAM DOWNSTREAM
 	field: ONAM UPSTREAM
     '}
-	nCtrlDir_FIX1 : USINT;
+	nCtrlDir_FIX1 : BOOL;
 	{attribute 'pytmc' := '
     pv: PGAIN_FIX1
 	io: io
@@ -92,17 +88,17 @@ STRUCT
 	{attribute 'pytmc' := '
     pv: RAMP_MODE_FIX2
 	io: io
-	field: ZNAM CONSTANT_TIME
-	field: ONAM CONSTANT_SLOPE
+	field: ZNAM CONST_TIME
+	field: ONAM CONST_SLOPE
     '}
-	nRampMode_FIX2 : USINT;
+	nRampMode_FIX2 : BOOL;
 	{attribute 'pytmc' := '
     pv: CTRL_DIR_FIX2
 	io: io
 	field: ZNAM DOWNSTREAM
 	field: ONAM UPSTREAM
     '}
-	nCtrlDir_FIX2 : USINT;
+	nCtrlDir_FIX2 : BOOL;
 	{attribute 'pytmc' := '
     pv: PGAIN_FIX2
 	io: io
@@ -129,10 +125,10 @@ STRUCT
 	{attribute 'pytmc' := '
     pv: RAMP_MODE_SP
 	io: io
-	field: ZNAM CONSTANT_TIME
-	field: ONAM CONSTANT_SLOPE
+	field: ZNAM CONST_TIME
+	field: ONAM CONST_SLOPE
     '}
-	nRampMode_SP : USINT;
+	nRampMode_SP : BOOL;
 	{attribute 'pytmc' := '
     pv: PGAIN_SP
 	io: io

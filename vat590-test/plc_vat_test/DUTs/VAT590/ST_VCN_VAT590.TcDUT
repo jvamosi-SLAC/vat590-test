@@ -92,20 +92,20 @@ STRUCT
 	eRemoteControl : E_VAT590_AccessMode; // Select remote control mode
 	{attribute 'pytmc' := '
 	pv: ZERO
-	field: ZNAM NO_OPERATION
-	field: ONAM ZERO
+	field: ZNAM NOT_ACTIVE
+	field: ONAM ACTIVE
 	io: o
 	'}
 	bZero : BOOL; // Activate Zero function bit
 	{attribute 'pytmc' := '
     pv: 
 	'}
-	stCoeInterface : ST_VAT590_COE; //Coe Interface
+	stCoeParameters : ST_VAT590_COE; //Coe Parameters
 	{attribute 'pytmc' := '
 	pv: COE_ERROR
 	io: i
 	'}
-	bCoeError : BOOL; //Reset Coe Interface
+	bCoeError : BOOL; //Coe Interface Error
 	{attribute 'pytmc' := '
 	pv: COE_RESET
 	io: io

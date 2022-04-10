@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+  <DUT Name="ST_CoeParamsTest" Id="{d0d0df25-ee6f-45b4-9851-a5ed58c99a79}">
+    <Declaration><![CDATA[TYPE ST_CoeParamsTest :
+STRUCT
+	nWarnTemp : BYTE;
+	nSwOffTemp : BYTE;
+	nOffestA : INT;
+	nOffestB : INT;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

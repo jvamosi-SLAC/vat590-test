@@ -68,7 +68,7 @@
 			</SubItem>
 		</DataType>
 		<DataType>
-			<Name GUID="{0BF527B5-D5C7-479C-876B-F907D850CD46}" AutoDeleteType="true">E_ControlMode</Name>
+			<Name GUID="{09F8D5D6-E1A2-4C42-950A-FF15B62416A0}" AutoDeleteType="true">E_ControlMode</Name>
 			<BitSize>8</BitSize>
 			<BaseType GUID="{18071995-0000-0000-0000-000000000002}">USINT</BaseType>
 			<EnumInfo>
@@ -163,7 +163,7 @@
 			</EnumInfo>
 		</DataType>
 		<DataType>
-			<Name GUID="{5D4C0ABC-BDC6-4653-B398-00FAE610499F}" AutoDeleteType="true">E_FatalErrors</Name>
+			<Name GUID="{835D859C-0821-4A2B-8F26-46B5528967E0}" AutoDeleteType="true">E_FatalErrors</Name>
 			<BitSize>16</BitSize>
 			<BaseType GUID="{18071995-0000-0000-0000-000000000005}">UINT</BaseType>
 			<EnumInfo>
@@ -204,7 +204,7 @@
 			</EnumInfo>
 		</DataType>
 		<DataType>
-			<Name GUID="{95B9F6D5-1685-4D29-8FF4-80458E05B58B}" AutoDeleteType="true">ST_GeneralStatus</Name>
+			<Name GUID="{5CC2697F-24D8-427A-B646-79FCF06EBCEB}" AutoDeleteType="true">ST_GeneralStatus</Name>
 			<BitSize>16</BitSize>
 			<SubItem>
 				<Name>Bit0FieldBusDatavalid</Name>
@@ -304,7 +304,7 @@
 			</SubItem>
 		</DataType>
 		<DataType>
-			<Name GUID="{DBF81C3B-4DFF-4439-951C-C34A21D2B65F}" AutoDeleteType="true">ST_GeneralWarnings</Name>
+			<Name GUID="{197DEB44-100F-40E2-AF88-166E0F0EBF83}" AutoDeleteType="true">ST_GeneralWarnings</Name>
 			<BitSize>16</BitSize>
 			<SubItem>
 				<Name>Bit0ServiceRequest</Name>
@@ -404,7 +404,7 @@
 			</SubItem>
 		</DataType>
 		<DataType>
-			<Name GUID="{BA793536-DAE1-4DBF-88FC-9BB0D817DDE1}" AutoDeleteType="true">ST_ExtendedWarnings</Name>
+			<Name GUID="{3341117C-672E-4688-966D-B1F9E77D40F7}" AutoDeleteType="true">ST_ExtendedWarnings</Name>
 			<BitSize>16</BitSize>
 			<SubItem>
 				<Name>Bit0RemoteControlNotPossible</Name>
@@ -504,7 +504,7 @@
 			</SubItem>
 		</DataType>
 		<DataType>
-			<Name GUID="{CCEA4F59-943C-4D75-862D-56EF10870ADC}" AutoDeleteType="true">E_ControlModeSP</Name>
+			<Name GUID="{F46A15F9-1765-406C-A912-825DC6ED7B96}" AutoDeleteType="true">E_ControlModeSP</Name>
 			<BitSize>8</BitSize>
 			<BaseType GUID="{18071995-0000-0000-0000-000000000002}">USINT</BaseType>
 			<EnumInfo>
@@ -545,7 +545,7 @@
 			</EnumInfo>
 		</DataType>
 		<DataType>
-			<Name GUID="{0966EA71-826E-4CF3-A984-837388169D86}" AutoDeleteType="true">ST_GeneralControlSP</Name>
+			<Name GUID="{242DEC69-EEAA-49AB-8C9E-0B5958282FBF}" AutoDeleteType="true">ST_GeneralControlSP</Name>
 			<BitSize>16</BitSize>
 			<SubItem>
 				<Name>Bit0ExecuteZero</Name>
@@ -762,7 +762,15 @@
 							<Type GUID="{18071995-0000-0000-0000-000000000041}">AMSNETID</Type>
 						</Var>
 						<Var>
-							<Name>MAIN.fbVCN590.stVat590PlcDriveRef</Name>
+							<Name>MAIN.nCounterValue</Name>
+							<Comment>
+								<![CDATA[fbMKS500 : FB_MKS500;
+stVG : ST_VG;]]>
+							</Comment>
+							<Type>WORD</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbVCN590.i_stVat590PlcDriveRef</Name>
 							<Comment>
 								<![CDATA[CoE Interface
 Link this to your VAT590 reference variables under InfoData.]]>
@@ -812,42 +820,41 @@ Link this to your VAT590 reference variables under InfoData.]]>
 							<Comment>
 								<![CDATA[ Valve control mode readback]]>
 							</Comment>
-							<Type GUID="{0BF527B5-D5C7-479C-876B-F907D850CD46}">E_ControlMode</Type>
+							<Type GUID="{09F8D5D6-E1A2-4C42-950A-FF15B62416A0}">E_ControlMode</Type>
 						</Var>
 						<Var>
 							<Name>MAIN.fbVCN590.i_eFatalError</Name>
 							<Comment>
 								<![CDATA[ Valve Fatal Errors readback]]>
 							</Comment>
-							<Type GUID="{5D4C0ABC-BDC6-4653-B398-00FAE610499F}">E_FatalErrors</Type>
+							<Type GUID="{835D859C-0821-4A2B-8F26-46B5528967E0}">E_FatalErrors</Type>
 						</Var>
 						<Var>
 							<Name>MAIN.fbVCN590.i_stGenStatus</Name>
 							<Comment>
 								<![CDATA[ Valve General Status readback]]>
 							</Comment>
-							<Type GUID="{95B9F6D5-1685-4D29-8FF4-80458E05B58B}">ST_GeneralStatus</Type>
+							<Type GUID="{5CC2697F-24D8-427A-B646-79FCF06EBCEB}">ST_GeneralStatus</Type>
 						</Var>
 						<Var>
 							<Name>MAIN.fbVCN590.i_stGenWarnings</Name>
 							<Comment>
 								<![CDATA[ Valve General Warnings readback]]>
 							</Comment>
-							<Type GUID="{DBF81C3B-4DFF-4439-951C-C34A21D2B65F}">ST_GeneralWarnings</Type>
+							<Type GUID="{197DEB44-100F-40E2-AF88-166E0F0EBF83}">ST_GeneralWarnings</Type>
 						</Var>
 						<Var>
 							<Name>MAIN.fbVCN590.i_stExtnWarnings</Name>
 							<Comment>
 								<![CDATA[ Valve Extended Warnings readback]]>
 							</Comment>
-							<Type GUID="{BA793536-DAE1-4DBF-88FC-9BB0D817DDE1}">ST_ExtendedWarnings</Type>
+							<Type GUID="{3341117C-672E-4688-966D-B1F9E77D40F7}">ST_ExtendedWarnings</Type>
 						</Var>
 						<Var>
-							<Name>MAIN.counterValue</Name>
-							<Type>WORD</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.stPlcDriveRef</Name>
+							<Name>MAIN.stVat590PlcDriveRef</Name>
+							<Comment>
+								<![CDATA[Link this to your VAT590 reference variables under InfoData.]]>
+							</Comment>
 							<Type GUID="{A4E8CC1B-1E2D-4CDC-90BD-02F29812736E}" Namespace="Tc2_EtherCAT">ST_PlcDriveRef</Type>
 							<SubVar>
 								<Name>aNetId</Name>
@@ -896,14 +903,14 @@ Link this to your VAT590 reference variables under InfoData.]]>
 							<Comment>
 								<![CDATA[ Valve control mode setpoint]]>
 							</Comment>
-							<Type GUID="{CCEA4F59-943C-4D75-862D-56EF10870ADC}">E_ControlModeSP</Type>
+							<Type GUID="{F46A15F9-1765-406C-A912-825DC6ED7B96}">E_ControlModeSP</Type>
 						</Var>
 						<Var>
 							<Name>MAIN.fbVCN590.o_stGenCtrlSP</Name>
 							<Comment>
 								<![CDATA[ General Control setpoint]]>
 							</Comment>
-							<Type GUID="{0966EA71-826E-4CF3-A984-837388169D86}">ST_GeneralControlSP</Type>
+							<Type GUID="{242DEC69-EEAA-49AB-8C9E-0B5958282FBF}">ST_GeneralControlSP</Type>
 						</Var>
 					</Vars>
 					<Vars VarGrpType="8">
@@ -974,6 +981,21 @@ Link this to your VAT590 reference variables under InfoData.]]>
 							<OwnerB Name="TIID^Device 1 (EtherCAT)^Term 1 (EK1200)^Term 2 (EL7041)">
 								<Link VarA="MAIN.fbCoeRead.stPlcDriveRef^aNetId" TypeA="Tc2_System.T_AmsNetIdArr" InOutA="0" ParentTypeA="ST_PlcDriveRef" GuidA="{35AB967D-7913-4933-A3F6-38B4994FB6EF}" VarB="InfoData^AdsAddr^netId" RestoreInfo="ANotFound"/>
 								<Link VarA="MAIN.fbCoeRead.stPlcDriveRef^nSlaveAddr" TypeA="UINT" InOutA="0" ParentTypeA="ST_PlcDriveRef" GuidA="{18071995-0000-0000-0000-000000000005}" VarB="InfoData^AdsAddr^port" RestoreInfo="ANotFound"/>
+							</OwnerB>
+						</OwnerA>
+					</UnrestoredVarLinks>
+					<UnrestoredVarLinks ImportTime="2022-04-08T16:23:29">
+						<OwnerA Name="InputDst" Prefix="TIPC^plc_vat_test^plc_vat_test Instance" Type="1">
+							<OwnerB Name="TIID^Device 1 (EtherCAT)^Term 1 (EK1200)^Term 2 (EL7041)">
+								<Link VarA="MAIN.counterValue" TypeA="WORD" InOutA="0" GuidA="{18071995-0000-0000-0000-000000000004}" VarB="ENC Status compact^Counter value" RestoreInfo="ANotFound"/>
+							</OwnerB>
+						</OwnerA>
+					</UnrestoredVarLinks>
+					<UnrestoredVarLinks ImportTime="2022-04-09T20:37:08">
+						<OwnerA Name="InputDst" Prefix="TIPC^plc_vat_test^plc_vat_test Instance" Type="1">
+							<OwnerB Name="TIID^Device 1 (EtherCAT)^Term 1 (EK1200)^Term 11 (EL3174-0002)">
+								<Link VarA="MAIN.fbTest.stVat590PlcDriveRef^aNetId" TypeA="Tc2_System.T_AmsNetIdArr" InOutA="0" ParentTypeA="ST_PlcDriveRef" GuidA="{C7DAFAB5-364C-4F20-B9AE-B3EF55F017B0}" VarB="InfoData^AdsAddr^netId" RestoreInfo="ANotFound"/>
+								<Link VarA="MAIN.fbTest.stVat590PlcDriveRef^nSlaveAddr" TypeA="UINT" InOutA="0" ParentTypeA="ST_PlcDriveRef" GuidA="{18071995-0000-0000-0000-000000000005}" VarB="InfoData^AdsAddr^port" RestoreInfo="ANotFound"/>
 							</OwnerB>
 						</OwnerA>
 					</UnrestoredVarLinks>
@@ -1956,9 +1978,12 @@ Bit1: Value smaller than Limit2]]>
 	</Project>
 	<Mappings>
 		<MappingInfo Identifier="{00000000-2001-0850-0020-500810000403}" Id="#x02030010"/>
+		<MappingInfo Identifier="{00000000-2001-0850-0020-500821000403}" Id="#x02030020"/>
 		<OwnerA Name="TIPC^plc_vat_test^plc_vat_test Instance">
 			<OwnerB Name="TIID^Device 1 (EtherCAT)^Term 1 (EK1200)^Term 2 (EL7041)">
-				<Link VarA="PlcTask Inputs^MAIN.counterValue" VarB="ENC Status compact^Counter value"/>
+				<Link VarA="PlcTask Inputs^MAIN.nCounterValue" VarB="ENC Status compact^Counter value"/>
+				<Link VarA="PlcTask Inputs^MAIN.stVat590PlcDriveRef^aNetId" VarB="InfoData^AdsAddr^netId"/>
+				<Link VarA="PlcTask Inputs^MAIN.stVat590PlcDriveRef^nSlaveAddr" VarB="InfoData^AdsAddr^port"/>
 			</OwnerB>
 		</OwnerA>
 	</Mappings>

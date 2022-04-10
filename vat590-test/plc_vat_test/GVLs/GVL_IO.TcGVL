@@ -3,7 +3,7 @@
   <GVL Name="GVL_IO" Id="{f32668ec-d1e3-41ae-be6d-1816d8810958}">
     <Declaration><![CDATA[{attribute 'qualified_only'}
 VAR_GLOBAL
-	stPlcDriveRef AT %I*: ST_PlcDriveRef;
+	//stPlcDriveRef AT %I*: ST_PlcDriveRef;
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>

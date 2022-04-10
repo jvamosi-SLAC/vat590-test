@@ -19,19 +19,7 @@
     <Released>false</Released>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="DUTs\ST_CoEIndSub.TcDUT">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DUTs\ST_CoeParameter.TcDUT">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DUTs\ST_CoeParameterInt.TcDUT">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DUTs\ST_CoeParameterREAL.TcDUT">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DUTs\ST_CoeParameterUSINT.TcDUT">
+    <Compile Include="DUTs\ST_CoeParamsTest.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DUTs\VAT590\EtherCAT Interface\E_ControlMode.TcDUT">
@@ -55,6 +43,9 @@
     <Compile Include="DUTs\VAT590\EtherCAT Interface\ST_GeneralWarnings.TcDUT">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DUTs\VAT590\E_VAT590_PID_CTRL.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="DUTs\VAT590\E_VAT590_PressureSensor.TcDUT">
       <SubType>Code</SubType>
     </Compile>
@@ -62,6 +53,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DUTs\VAT590\E_VAT590_AccessMode.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\VAT590\ST_CoEIndSub.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DUTs\VAT590\ST_VAT590_COE.TcDUT">
