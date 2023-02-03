@@ -12,7 +12,7 @@ VAR
 	
 	nCounterValue AT %I*: WORD;
 	(*Link this to your VAT590 reference variables under InfoData.*)
-	stVat590PlcDriveRef AT %I*: ST_PlcDriveRef;
+	//stVat590PlcDriveRef AT %I*: ST_PlcDriveRef;
 	stVat590DriveRef : ST_DriveRef;
 
 	fbCoeRead : FB_CoERead_ByDriveRef;
@@ -32,6 +32,19 @@ VAR
 	stCoeInterface : ST_CoeParamsTest;
 	bResetCoeError : BOOL;
 	bCoeError : BOOL;
+	
+	{attribute 'pytmc' := '
+		pv: TEST_ENUM
+		io: io
+		field: ZRVL 0
+		field: ONVL 1
+		field: TWVL 2
+		field: ZRST 2oo3
+		field: ONST GAUGE_01
+		field: TWST GAUGE_02
+	'}
+	nTest : UINT;
+	
 END_VAR	
 ]]></Declaration>
     <Implementation>
@@ -40,7 +53,9 @@ END_VAR
 //fbMKS500.M_SetBits(30518);
 //fbMKS500(PG := stVG);
 //fbVCN590(bExtIlkOK := TRUE, IG := fbMKS500.IG);
+fbVCN590(bExtIlkOK := TRUE);
 
+(*
 stVat590DriveRef.sNetId := F_CreateAmsNetId(stVat590PlcDriveRef.aNetId);
 stVat590DriveRef.nSlaveAddr := stVat590PlcDriveRef.nSlaveAddr;
 stVat590DriveRef.nDriveNo := stVat590PlcDriveRef.nDriveNo;
@@ -174,34 +189,8 @@ END_IF
 
 fbCoeRead();
 stCoeParameters := stCoeInterface; //Save current values to internal structure
-
+*)
 ]]></ST>
     </Implementation>
-    <LineIds Name="MAIN">
-      <LineId Id="3" Count="4" />
-      <LineId Id="361" Count="0" />
-      <LineId Id="356" Count="3" />
-      <LineId Id="362" Count="1" />
-      <LineId Id="614" Count="0" />
-      <LineId Id="355" Count="0" />
-      <LineId Id="347" Count="2" />
-      <LineId Id="194" Count="0" />
-      <LineId Id="496" Count="0" />
-      <LineId Id="500" Count="41" />
-      <LineId Id="497" Count="0" />
-      <LineId Id="195" Count="10" />
-      <LineId Id="574" Count="3" />
-      <LineId Id="210" Count="18" />
-      <LineId Id="547" Count="16" />
-      <LineId Id="546" Count="0" />
-      <LineId Id="569" Count="4" />
-      <LineId Id="564" Count="0" />
-      <LineId Id="313" Count="11" />
-      <LineId Id="344" Count="1" />
-      <LineId Id="325" Count="3" />
-      <LineId Id="495" Count="0" />
-      <LineId Id="368" Count="0" />
-      <LineId Id="364" Count="0" />
-    </LineIds>
   </POU>
 </TcPlcObject>

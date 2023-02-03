@@ -7,24 +7,7 @@ record(bi, "$(PREFIX)LCLSGeneral:GlobalLogTrickleTrip_RBV") {
   field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/GVL_Logger.bTrickleTripped?")
   field(ZNAM, "FALSE")
   field(ONAM, "TRUE")
-  info(archive, "VAL")
-}
-
-record(longin, "$(PREFIX)LCLSGeneral:LogPort_RBV") {
-  field(DESC, "The log host UDP port")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynInt32")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/GVL_Logger.iLogPort?")
-  info(archive, "VAL")
-}
-
-record(longout, "$(PREFIX)LCLSGeneral:LogPort") {
-  field(DESC, "The log host UDP port")
-  field(DTYP, "asynInt32")
-  field(OUT, "@asyn($(PORT),0,1)ADSPORT=851/GVL_Logger.iLogPort=")
-  info(autosaveFields_pass0, "VAL")
+  info(autosaveFields_pass0, "DESC DISS OSV SIMS UDFS ZSV")
   info(archive, "VAL")
 }
 
@@ -39,18 +22,40 @@ record(waveform, "$(PREFIX)LCLSGeneral:LogHost_RBV") {
   field(NELM, "15")
   field(MPST, "On Change")
   field(APST, "On Change")
+  info(autosaveFields_pass0, "DESC DISS SIMS UDFS")
   info(archive, "VAL")
 }
 
 record(waveform, "$(PREFIX)LCLSGeneral:LogHost") {
   field(DESC, "The log host IP address")
   field(DTYP, "asynInt8ArrayOut")
+  field(UDFS, "0")
   field(INP, "@asyn($(PORT),0,1)ADSPORT=851/GVL_Logger.cLogHost=")
   field(FTVL, "CHAR")
   field(NELM, "15")
   field(MPST, "On Change")
   field(APST, "On Change")
-  info(autosaveFields_pass0, "VAL")
+  info(autosaveFields_pass0, "DESC DISS SIMS UDFS VAL")
+  info(archive, "VAL")
+}
+
+record(longin, "$(PREFIX)LCLSGeneral:LogPort_RBV") {
+  field(DESC, "The log host UDP port")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynInt32")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/GVL_Logger.iLogPort?")
+  info(autosaveFields_pass0, "DESC DISS HHSV HIGH HIHI HSV LLSV LOLO LOW LSV SIMS UDFS")
+  info(archive, "VAL")
+}
+
+record(longout, "$(PREFIX)LCLSGeneral:LogPort") {
+  field(DESC, "The log host UDP port")
+  field(DTYP, "asynInt32")
+  field(UDFS, "0")
+  field(OUT, "@asyn($(PORT),0,1)ADSPORT=851/GVL_Logger.iLogPort=")
+  info(autosaveFields_pass0, "DESC DISS DRVH DRVL HHSV HIGH HIHI HSV LLSV LOLO LOW LSV SIMS UDFS VAL")
   info(archive, "VAL")
 }
 
@@ -61,410 +66,20 @@ record(longin, "$(PREFIX)LCLSGeneral:LogMessageCount_RBV") {
   field(TSE, "-2")
   field(DTYP, "asynInt32")
   field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/GVL_Logger.nGlobAccEvents?")
+  info(autosaveFields_pass0, "DESC DISS HHSV HIGH HIHI HSV LLSV LOLO LOW LSV SIMS UDFS")
   info(archive, "VAL")
 }
 
-record(ai, "$(PREFIX)RequestedBP:Transmission_RBV") {
-  field(DESC, "PMPS_GVL.stRequestedBeamParameters.nTran")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynFloat64")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/PMPS_GVL.stRequestedBeamParameters.nTran?")
-  field(PREC, "2")
-  field(HOPR, "1")
-  field(LOPR, "0")
-  info(autosaveFields_pass0, "PREC")
-  info(archive, "monitor 1: VAL")
-}
-
-record(longin, "$(PREFIX)RequestedBP:Rate_RBV") {
-  field(DESC, "PMPS_GVL.stRequestedBeamParameters.nRate")
+record(bi, "VCN:TEST:01:COE_ERROR_RBV") {
+  field(DESC, "MAIN.fbVCN590.stVcnVat590.bCoeError")
   field(SCAN, "I/O Intr")
   field(PINI, "1")
   field(TSE, "-2")
   field(DTYP, "asynInt32")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/PMPS_GVL.stRequestedBeamParameters.nRate?")
-  field(EGU, "Hz")
-  info(archive, "monitor 1: VAL")
-}
-
-record(longin, "$(PREFIX)RequestedBP:PhotonEnergyRanges_RBV") {
-  # PMPS_GVL.stRequestedBeamParameters.neVRange
-  field(DESC, "PMPS_GVL.stRequested...rameters.neVRange")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynInt32")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/PMPS_GVL.stRequestedBeamParameters.neVRange?")
-  field(EGU, "eV")
-  info(archive, "monitor 1: VAL")
-}
-
-record(waveform, "$(PREFIX)RequestedBP:Veto_RBV") {
-  # PMPS_GVL.stRequestedBeamParameters.aVetoDevices
-  field(DESC, "PMPS_GVL.stRequested...ters.aVetoDevices")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynInt8ArrayIn")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/PMPS_GVL.stRequestedBeamParameters.aVetoDevices?")
-  field(FTVL, "CHAR")
-  field(NELM, "16")
-  field(MPST, "On Change")
-  field(APST, "On Change")
-  info(archive, "monitor 1: VAL")
-}
-
-record(bi, "$(PREFIX)RequestedBP:Valid_RBV") {
-  # PMPS_GVL.stRequestedBeamParameters.xValid
-  field(DESC, "PMPS_GVL.stRequested...Parameters.xValid")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynInt32")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/PMPS_GVL.stRequestedBeamParameters.xValid?")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.bCoeError?")
   field(ZNAM, "FALSE")
   field(ONAM, "TRUE")
-  info(archive, "monitor 1: VAL")
-}
-
-record(longin, "$(PREFIX)RequestedBP:Cohort_RBV") {
-  field(DESC, "Cohort inc on each arb cycle")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynInt32")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/PMPS_GVL.stRequestedBeamParameters.nCohortInt?")
-  info(archive, "monitor 1: VAL")
-}
-
-record(ai, "$(PREFIX)CurrentBP:Transmission_RBV") {
-  field(DESC, "PMPS_GVL.stCurrentBeamParameters.nTran")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynFloat64")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/PMPS_GVL.stCurrentBeamParameters.nTran?")
-  field(PREC, "2")
-  field(HOPR, "1")
-  field(LOPR, "0")
-  info(autosaveFields_pass0, "PREC")
-  info(archive, "monitor 1: VAL")
-}
-
-record(longin, "$(PREFIX)CurrentBP:Rate_RBV") {
-  field(DESC, "PMPS_GVL.stCurrentBeamParameters.nRate")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynInt32")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/PMPS_GVL.stCurrentBeamParameters.nRate?")
-  field(EGU, "Hz")
-  info(archive, "monitor 1: VAL")
-}
-
-record(longin, "$(PREFIX)CurrentBP:PhotonEnergyRanges_RBV") {
-  # PMPS_GVL.stCurrentBeamParameters.neVRange
-  field(DESC, "PMPS_GVL.stCurrentBe...rameters.neVRange")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynInt32")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/PMPS_GVL.stCurrentBeamParameters.neVRange?")
-  field(EGU, "eV")
-  info(archive, "monitor 1: VAL")
-}
-
-record(waveform, "$(PREFIX)CurrentBP:Veto_RBV") {
-  # PMPS_GVL.stCurrentBeamParameters.aVetoDevices
-  field(DESC, "PMPS_GVL.stCurrentBe...ters.aVetoDevices")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynInt8ArrayIn")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/PMPS_GVL.stCurrentBeamParameters.aVetoDevices?")
-  field(FTVL, "CHAR")
-  field(NELM, "16")
-  field(MPST, "On Change")
-  field(APST, "On Change")
-  info(archive, "monitor 1: VAL")
-}
-
-record(bi, "$(PREFIX)CurrentBP:Valid_RBV") {
-  field(DESC, "PMPS_GVL.stCurrentBeamParameters.xValid")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynInt32")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/PMPS_GVL.stCurrentBeamParameters.xValid?")
-  field(ZNAM, "FALSE")
-  field(ONAM, "TRUE")
-  info(archive, "monitor 1: VAL")
-}
-
-record(longin, "$(PREFIX)CurrentBP:Cohort_RBV") {
-  field(DESC, "Cohort inc on each arb cycle")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynInt32")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/PMPS_GVL.stCurrentBeamParameters.nCohortInt?")
-  info(archive, "monitor 1: VAL")
-}
-
-record(waveform, "$(PREFIX)eVRangeCnst_RBV") {
-  field(DESC, "Active eV Range constants")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynFloat32ArrayIn")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/PMPS_GVL.g_areVBoundaries?")
-  field(FTVL, "FLOAT")
-  field(EGU, "eV")
-  field(NELM, "32")
-  field(MPST, "On Change")
-  field(APST, "On Change")
-  info(archive, "monitor 1: VAL")
-}
-
-record(ai, "$(PREFIX)FullBeamCnst:Transmission_RBV") {
-  field(DESC, "Full beam constant")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynFloat64")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/PMPS_GVL.cstFullBeam.nTran?")
-  field(PREC, "2")
-  field(HOPR, "1")
-  field(LOPR, "0")
-  info(autosaveFields_pass0, "PREC")
-  info(archive, "monitor 1: VAL")
-}
-
-record(longin, "$(PREFIX)FullBeamCnst:Rate_RBV") {
-  field(DESC, "Full beam constant")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynInt32")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/PMPS_GVL.cstFullBeam.nRate?")
-  field(EGU, "Hz")
-  info(archive, "monitor 1: VAL")
-}
-
-record(longin, "$(PREFIX)FullBeamCnst:PhotonEnergyRanges_RBV") {
-  field(DESC, "Full beam constant")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynInt32")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/PMPS_GVL.cstFullBeam.neVRange?")
-  field(EGU, "eV")
-  info(archive, "monitor 1: VAL")
-}
-
-record(waveform, "$(PREFIX)FullBeamCnst:Veto_RBV") {
-  field(DESC, "Full beam constant")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynInt8ArrayIn")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/PMPS_GVL.cstFullBeam.aVetoDevices?")
-  field(FTVL, "CHAR")
-  field(NELM, "16")
-  field(MPST, "On Change")
-  field(APST, "On Change")
-  info(archive, "monitor 1: VAL")
-}
-
-record(bi, "$(PREFIX)FullBeamCnst:Valid_RBV") {
-  field(DESC, "Full beam constant")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynInt32")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/PMPS_GVL.cstFullBeam.xValid?")
-  field(ZNAM, "FALSE")
-  field(ONAM, "TRUE")
-  info(archive, "monitor 1: VAL")
-}
-
-record(longin, "$(PREFIX)FullBeamCnst:Cohort_RBV") {
-  field(DESC, "Cohort inc on each arb cycle")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynInt32")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/PMPS_GVL.cstFullBeam.nCohortInt?")
-  info(archive, "monitor 1: VAL")
-}
-
-record(ai, "$(PREFIX)0RateBeamCnst:Transmission_RBV") {
-  field(DESC, "0-rate beam constant")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynFloat64")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/PMPS_GVL.cst0RateBeam.nTran?")
-  field(PREC, "2")
-  field(HOPR, "1")
-  field(LOPR, "0")
-  info(autosaveFields_pass0, "PREC")
-  info(archive, "monitor 1: VAL")
-}
-
-record(longin, "$(PREFIX)0RateBeamCnst:Rate_RBV") {
-  field(DESC, "0-rate beam constant")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynInt32")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/PMPS_GVL.cst0RateBeam.nRate?")
-  field(EGU, "Hz")
-  info(archive, "monitor 1: VAL")
-}
-
-record(longin, "$(PREFIX)0RateBeamCnst:PhotonEnergyRanges_RBV") {
-  field(DESC, "0-rate beam constant")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynInt32")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/PMPS_GVL.cst0RateBeam.neVRange?")
-  field(EGU, "eV")
-  info(archive, "monitor 1: VAL")
-}
-
-record(waveform, "$(PREFIX)0RateBeamCnst:Veto_RBV") {
-  field(DESC, "0-rate beam constant")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynInt8ArrayIn")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/PMPS_GVL.cst0RateBeam.aVetoDevices?")
-  field(FTVL, "CHAR")
-  field(NELM, "16")
-  field(MPST, "On Change")
-  field(APST, "On Change")
-  info(archive, "monitor 1: VAL")
-}
-
-record(bi, "$(PREFIX)0RateBeamCnst:Valid_RBV") {
-  field(DESC, "0-rate beam constant")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynInt32")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/PMPS_GVL.cst0RateBeam.xValid?")
-  field(ZNAM, "FALSE")
-  field(ONAM, "TRUE")
-  info(archive, "monitor 1: VAL")
-}
-
-record(longin, "$(PREFIX)0RateBeamCnst:Cohort_RBV") {
-  field(DESC, "Cohort inc on each arb cycle")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynInt32")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/PMPS_GVL.cst0RateBeam.nCohortInt?")
-  info(archive, "monitor 1: VAL")
-}
-
-record(ai, "$(PREFIX)eVRangeHyst_RBV") {
-  field(DESC, "eV Range hystersis")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynFloat64")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/PMPS_GVL.reVHyst?")
-  field(PREC, "3")
-  field(EGU, "eV")
-  info(autosaveFields_pass0, "PREC")
-  info(archive, "monitor 1: VAL")
-}
-
-record(waveform, "$(PREFIX)L:eVRangeCnst_RBV") {
-  field(DESC, "eV Range constants")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynFloat32ArrayIn")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/PMPS_GVL.g_areVBoundariesL?")
-  field(FTVL, "FLOAT")
-  field(EGU, "eV")
-  field(NELM, "32")
-  field(MPST, "On Change")
-  field(APST, "On Change")
-  info(archive, "monitor 1: VAL")
-}
-
-record(waveform, "$(PREFIX)K:eVRangeCnst_RBV") {
-  field(DESC, "eV Range constants")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynFloat32ArrayIn")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/PMPS_GVL.g_areVBoundariesK?")
-  field(FTVL, "FLOAT")
-  field(EGU, "eV")
-  field(NELM, "32")
-  field(MPST, "On Change")
-  field(APST, "On Change")
-  info(archive, "monitor 1: VAL")
-}
-
-record(longin, "VCN:TEST:01:POS_RAW_RBV") {
-  field(DESC, "MAIN.fbVCN590.stVcnVat590.nRawPosition")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynInt32")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.nRawPosition?")
-  info(archive, "VAL")
-}
-
-record(longin, "VCN:TEST:01:PRES_RAW_RBV") {
-  field(DESC, "MAIN.fbVCN590.stVcnVat590.nRawPressure")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynInt32")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.nRawPressure?")
-  info(archive, "VAL")
-}
-
-record(ai, "VCN:TEST:01:PRES_TORR_RBV") {
-  field(DESC, "MAIN.fbVCN590.stVcnVat590.fPressure")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynFloat64")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.fPressure?")
-  field(PREC, "3")
-  field(EGU, "TORR")
-  info(autosaveFields_pass0, "PREC")
-  info(archive, "VAL")
-}
-
-record(longin, "VCN:TEST:01:POS_SP_RBV") {
-  field(DESC, "MAIN.fbVCN590.stVcnVat590.nPositionSP")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynInt32")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.nPositionSP?")
-  info(archive, "VAL")
-}
-
-record(longin, "VCN:TEST:01:PRES_SP_RBV") {
-  field(DESC, "MAIN.fbVCN590.stVcnVat590.nPressureSP")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynInt32")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.nPressureSP?")
+  info(autosaveFields_pass0, "DESC DISS OSV SIMS UDFS ZSV")
   info(archive, "VAL")
 }
 
@@ -479,124 +94,117 @@ record(bi, "VCN:TEST:01:ILK_OK_RBV") {
   field(OSV, "NO_ALARM")
   field(ZNAM, "NOT OK")
   field(ONAM, "OK")
+  info(autosaveFields_pass0, "DESC DISS OSV SIMS UDFS ZSV")
   info(archive, "VAL")
 }
 
-record(ai, "VCN:TEST:01:POS_LIMIT_RBV") {
-  field(DESC, "MAIN.fbVCN590.stVcnVat590.fPosSetLimit")
+record(bi, "VCN:TEST:01:COE_RESET_RBV") {
+  field(DESC, "MAIN.fbVCN590.stVcnVat590.bResetCoeError")
   field(SCAN, "I/O Intr")
   field(PINI, "1")
   field(TSE, "-2")
-  field(DTYP, "asynFloat64")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.fPosSetLimit?")
-  field(PREC, "3")
-  info(autosaveFields, "DESC VAL")
-  info(autosaveFields_pass0, "PREC")
+  field(DTYP, "asynInt32")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.bResetCoeError?")
+  field(ZNAM, "FALSE")
+  field(ONAM, "TRUE")
+  info(autosaveFields_pass0, "DESC DISS OSV SIMS UDFS ZSV")
   info(archive, "VAL")
 }
 
-record(ao, "VCN:TEST:01:POS_LIMIT") {
-  field(DESC, "MAIN.fbVCN590.stVcnVat590.fPosSetLimit")
-  field(PINI, "1")
-  field(DTYP, "asynFloat64")
-  field(OUT, "@asyn($(PORT),0,1)ADSPORT=851/MAIN.fbVCN590.stVcnVat590.fPosSetLimit=")
-  field(PREC, "3")
-  info(autosaveFields, "DESC VAL")
-  info(autosaveFields_pass0, "PREC VAL")
+record(bo, "VCN:TEST:01:COE_RESET") {
+  field(DESC, "MAIN.fbVCN590.stVcnVat590.bResetCoeError")
+  field(DTYP, "asynInt32")
+  field(UDFS, "0")
+  field(OUT, "@asyn($(PORT),0,1)ADSPORT=851/MAIN.fbVCN590.stVcnVat590.bResetCoeError=")
+  field(ZNAM, "FALSE")
+  field(ONAM, "TRUE")
+  info(autosaveFields_pass0, "COSV DESC DISS OSV SIMS UDFS VAL ZSV")
   info(archive, "VAL")
 }
 
-record(ai, "VCN:TEST:01:PRES_SET_LIMIT_RBV") {
-  field(DESC, "MAIN.fbVCN590.stVcnVat590.fPresSetLimit")
+record(bi, "VCN:TEST:01:ZERO_RBV") {
+  field(DESC, "MAIN.fbVCN590.stVcnVat590.bZero")
   field(SCAN, "I/O Intr")
   field(PINI, "1")
   field(TSE, "-2")
-  field(DTYP, "asynFloat64")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.fPresSetLimit?")
-  field(PREC, "3")
-  info(autosaveFields, "DESC VAL")
-  info(autosaveFields_pass0, "PREC")
+  field(DTYP, "asynInt32")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.bZero?")
+  field(ZNAM, "NOT_ACTIVE")
+  field(ONAM, "ACTIVE")
+  info(autosaveFields_pass0, "DESC DISS OSV SIMS UDFS ZSV")
   info(archive, "VAL")
 }
 
-record(ao, "VCN:TEST:01:PRES_SET_LIMIT") {
-  field(DESC, "MAIN.fbVCN590.stVcnVat590.fPresSetLimit")
-  field(PINI, "1")
-  field(DTYP, "asynFloat64")
-  field(OUT, "@asyn($(PORT),0,1)ADSPORT=851/MAIN.fbVCN590.stVcnVat590.fPresSetLimit=")
-  field(PREC, "3")
-  info(autosaveFields, "DESC VAL")
-  info(autosaveFields_pass0, "PREC VAL")
+record(bo, "VCN:TEST:01:ZERO") {
+  field(DESC, "MAIN.fbVCN590.stVcnVat590.bZero")
+  field(DTYP, "asynInt32")
+  field(UDFS, "0")
+  field(OUT, "@asyn($(PORT),0,1)ADSPORT=851/MAIN.fbVCN590.stVcnVat590.bZero=")
+  field(ZNAM, "NOT_ACTIVE")
+  field(ONAM, "ACTIVE")
+  info(autosaveFields_pass0, "COSV DESC DISS OSV SIMS UDFS VAL ZSV")
   info(archive, "VAL")
 }
 
-record(ai, "VCN:TEST:01:PRES_RDBK_LIMIT_RBV") {
-  field(DESC, "MAIN.fbVCN590.stVcnVat590.fPresRdbkLimit")
+record(mbbi, "VCN:TEST:01:PRES_SENS_RBV") {
+  # MAIN.fbVCN590.stVcnVat590.ePressureSensor
+  field(DESC, "MAIN.fbVCN590.stVcnV...0.ePressureSensor")
   field(SCAN, "I/O Intr")
   field(PINI, "1")
   field(TSE, "-2")
-  field(DTYP, "asynFloat64")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.fPresRdbkLimit?")
-  field(PREC, "3")
-  info(autosaveFields, "DESC VAL")
-  info(autosaveFields_pass0, "PREC")
+  field(DTYP, "asynInt32")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.ePressureSensor?")
+  field(ZRVL, "0")
+  field(ONVL, "1")
+  field(ZRST, "NOT_DEFINED")
+  field(ONST, "MKS500")
+  info(autosaveFields_pass0, "DESC DISS EISV ELSV FFSV FRSV FTSV FVSV NISV ONSV SIMS SVSV SXSV TESV THSV TTSV TVSV TWSV UDFS UNSV ZRSV")
   info(archive, "VAL")
 }
 
-record(ao, "VCN:TEST:01:PRES_RDBK_LIMIT") {
-  field(DESC, "MAIN.fbVCN590.stVcnVat590.fPresRdbkLimit")
-  field(PINI, "1")
-  field(DTYP, "asynFloat64")
-  field(OUT, "@asyn($(PORT),0,1)ADSPORT=851/MAIN.fbVCN590.stVcnVat590.fPresRdbkLimit=")
-  field(PREC, "3")
-  info(autosaveFields, "DESC VAL")
-  info(autosaveFields_pass0, "PREC VAL")
+record(mbbo, "VCN:TEST:01:PRES_SENS") {
+  # MAIN.fbVCN590.stVcnVat590.ePressureSensor
+  field(DESC, "MAIN.fbVCN590.stVcnV...0.ePressureSensor")
+  field(DTYP, "asynInt32")
+  field(UDFS, "0")
+  field(ZRVL, "0")
+  field(ONVL, "1")
+  field(ZRST, "NOT_DEFINED")
+  field(ONST, "MKS500")
+  field(OUT, "@asyn($(PORT),0,1)ADSPORT=851/MAIN.fbVCN590.stVcnVat590.ePressureSensor=")
+  info(autosaveFields_pass0, "COSV DESC DISS EISV ELSV FFSV FRSV FTSV FVSV NISV ONSV SIMS SVSV SXSV TESV THSV TTSV TVSV TWSV UDFS UNSV VAL ZRSV")
   info(archive, "VAL")
 }
 
-record(ai, "VCN:TEST:01:POS_REQ_RBV") {
-  field(DESC, "MAIN.fbVCN590.stVcnVat590.fReqPosition")
+record(mbbi, "VCN:TEST:01:REM_CTRL_RBV") {
+  field(DESC, "MAIN.fbVCN590.stVcnVat590.eRemoteControl")
   field(SCAN, "I/O Intr")
   field(PINI, "1")
   field(TSE, "-2")
-  field(DTYP, "asynFloat64")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.fReqPosition?")
-  field(PREC, "3")
-  info(autosaveFields_pass0, "PREC")
+  field(DTYP, "asynInt32")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.eRemoteControl?")
+  field(ZRVL, "0")
+  field(ONVL, "1")
+  field(TWVL, "2")
+  field(ZRST, "LOCAL")
+  field(ONST, "REMOTE")
+  field(TWST, "LOCKED")
+  info(autosaveFields_pass0, "DESC DISS EISV ELSV FFSV FRSV FTSV FVSV NISV ONSV SIMS SVSV SXSV TESV THSV TTSV TVSV TWSV UDFS UNSV ZRSV")
   info(archive, "VAL")
 }
 
-record(ao, "VCN:TEST:01:POS_REQ") {
-  field(DESC, "MAIN.fbVCN590.stVcnVat590.fReqPosition")
-  field(DTYP, "asynFloat64")
-  field(OUT, "@asyn($(PORT),0,1)ADSPORT=851/MAIN.fbVCN590.stVcnVat590.fReqPosition=")
-  field(PREC, "3")
-  field(DRVH, "100.0")
-  field(DRVL, "0.0")
-  info(autosaveFields_pass0, "PREC VAL")
-  info(archive, "VAL")
-}
-
-record(ai, "VCN:TEST:01:PRES_REQ_RBV") {
-  field(DESC, "MAIN.fbVCN590.stVcnVat590.fReqPressure")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynFloat64")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.fReqPressure?")
-  field(PREC, "3")
-  field(EGU, "TORR")
-  info(autosaveFields_pass0, "PREC")
-  info(archive, "VAL")
-}
-
-record(ao, "VCN:TEST:01:PRES_REQ") {
-  field(DESC, "MAIN.fbVCN590.stVcnVat590.fReqPressure")
-  field(DTYP, "asynFloat64")
-  field(OUT, "@asyn($(PORT),0,1)ADSPORT=851/MAIN.fbVCN590.stVcnVat590.fReqPressure=")
-  field(PREC, "3")
-  field(EGU, "TORR")
-  info(autosaveFields_pass0, "PREC VAL")
+record(mbbo, "VCN:TEST:01:REM_CTRL") {
+  field(DESC, "MAIN.fbVCN590.stVcnVat590.eRemoteControl")
+  field(DTYP, "asynInt32")
+  field(UDFS, "0")
+  field(ZRVL, "0")
+  field(ONVL, "1")
+  field(TWVL, "2")
+  field(ZRST, "LOCAL")
+  field(ONST, "REMOTE")
+  field(TWST, "LOCKED")
+  field(OUT, "@asyn($(PORT),0,1)ADSPORT=851/MAIN.fbVCN590.stVcnVat590.eRemoteControl=")
+  info(autosaveFields_pass0, "COSV DESC DISS EISV ELSV FFSV FRSV FTSV FVSV NISV ONSV SIMS SVSV SXSV TESV THSV TTSV TVSV TWSV UDFS UNSV VAL ZRSV")
   info(archive, "VAL")
 }
 
@@ -617,12 +225,14 @@ record(mbbi, "VCN:TEST:01:STATE_RBV") {
   field(TWST, "OpenValve")
   field(THST, "PressureControl")
   field(FRST, "HoldValve")
+  info(autosaveFields_pass0, "DESC DISS EISV ELSV FFSV FRSV FTSV FVSV NISV ONSV SIMS SVSV SXSV TESV THSV TTSV TVSV TWSV UDFS UNSV ZRSV")
   info(archive, "VAL")
 }
 
 record(mbbo, "VCN:TEST:01:STATE") {
   field(DESC, "MAIN.fbVCN590.stVcnVat590.eValveControl")
   field(DTYP, "asynInt32")
+  field(UDFS, "0")
   field(ZRVL, "0")
   field(ONVL, "1")
   field(TWVL, "2")
@@ -634,7 +244,965 @@ record(mbbo, "VCN:TEST:01:STATE") {
   field(THST, "PressureControl")
   field(FRST, "HoldValve")
   field(OUT, "@asyn($(PORT),0,1)ADSPORT=851/MAIN.fbVCN590.stVcnVat590.eValveControl=")
-  info(autosaveFields_pass0, "VAL")
+  info(autosaveFields_pass0, "COSV DESC DISS EISV ELSV FFSV FRSV FTSV FVSV NISV ONSV SIMS SVSV SXSV TESV THSV TTSV TVSV TWSV UDFS UNSV VAL ZRSV")
+  info(archive, "VAL")
+}
+
+record(ai, "VCN:TEST:01:POS_LIMIT_RBV") {
+  field(DESC, "MAIN.fbVCN590.stVcnVat590.fPosSetLimit")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynFloat64")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.fPosSetLimit?")
+  field(PREC, "3")
+  info(autosaveFields, "DESC VAL")
+  info(autosaveFields_pass0, "DESC DISS HHSV HIGH HIHI HSV LLSV LOLO LOW LSV PREC SIMS UDFS")
+  info(archive, "VAL")
+}
+
+record(ao, "VCN:TEST:01:POS_LIMIT") {
+  field(DESC, "MAIN.fbVCN590.stVcnVat590.fPosSetLimit")
+  field(PINI, "1")
+  field(DTYP, "asynFloat64")
+  field(UDFS, "0")
+  field(OUT, "@asyn($(PORT),0,1)ADSPORT=851/MAIN.fbVCN590.stVcnVat590.fPosSetLimit=")
+  field(PREC, "3")
+  info(autosaveFields, "DESC VAL")
+  info(autosaveFields_pass0, "DESC DISS DRVH DRVL HHSV HIGH HIHI HSV LLSV LOLO LOW LSV PREC SIMS UDFS VAL")
+  info(archive, "VAL")
+}
+
+record(ai, "VCN:TEST:01:PRES_RDBK_LIMIT_RBV") {
+  field(DESC, "MAIN.fbVCN590.stVcnVat590.fPresRdbkLimit")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynFloat64")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.fPresRdbkLimit?")
+  field(PREC, "3")
+  info(autosaveFields, "DESC VAL")
+  info(autosaveFields_pass0, "DESC DISS HHSV HIGH HIHI HSV LLSV LOLO LOW LSV PREC SIMS UDFS")
+  info(archive, "VAL")
+}
+
+record(ao, "VCN:TEST:01:PRES_RDBK_LIMIT") {
+  field(DESC, "MAIN.fbVCN590.stVcnVat590.fPresRdbkLimit")
+  field(PINI, "1")
+  field(DTYP, "asynFloat64")
+  field(UDFS, "0")
+  field(OUT, "@asyn($(PORT),0,1)ADSPORT=851/MAIN.fbVCN590.stVcnVat590.fPresRdbkLimit=")
+  field(PREC, "3")
+  info(autosaveFields, "DESC VAL")
+  info(autosaveFields_pass0, "DESC DISS DRVH DRVL HHSV HIGH HIHI HSV LLSV LOLO LOW LSV PREC SIMS UDFS VAL")
+  info(archive, "VAL")
+}
+
+record(ai, "VCN:TEST:01:PRES_SET_LIMIT_RBV") {
+  field(DESC, "MAIN.fbVCN590.stVcnVat590.fPresSetLimit")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynFloat64")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.fPresSetLimit?")
+  field(PREC, "3")
+  info(autosaveFields, "DESC VAL")
+  info(autosaveFields_pass0, "DESC DISS HHSV HIGH HIHI HSV LLSV LOLO LOW LSV PREC SIMS UDFS")
+  info(archive, "VAL")
+}
+
+record(ao, "VCN:TEST:01:PRES_SET_LIMIT") {
+  field(DESC, "MAIN.fbVCN590.stVcnVat590.fPresSetLimit")
+  field(PINI, "1")
+  field(DTYP, "asynFloat64")
+  field(UDFS, "0")
+  field(OUT, "@asyn($(PORT),0,1)ADSPORT=851/MAIN.fbVCN590.stVcnVat590.fPresSetLimit=")
+  field(PREC, "3")
+  info(autosaveFields, "DESC VAL")
+  info(autosaveFields_pass0, "DESC DISS DRVH DRVL HHSV HIGH HIHI HSV LLSV LOLO LOW LSV PREC SIMS UDFS VAL")
+  info(archive, "VAL")
+}
+
+record(ai, "VCN:TEST:01:PRES_TORR_RBV") {
+  field(DESC, "MAIN.fbVCN590.stVcnVat590.fPressure")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynFloat64")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.fPressure?")
+  field(PREC, "3")
+  field(EGU, "TORR")
+  info(autosaveFields_pass0, "DESC DISS HHSV HIGH HIHI HSV LLSV LOLO LOW LSV PREC SIMS UDFS")
+  info(archive, "VAL")
+}
+
+record(ai, "VCN:TEST:01:POS_REQ_RBV") {
+  field(DESC, "MAIN.fbVCN590.stVcnVat590.fReqPosition")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynFloat64")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.fReqPosition?")
+  field(PREC, "3")
+  info(autosaveFields_pass0, "DESC DISS HHSV HIGH HIHI HSV LLSV LOLO LOW LSV PREC SIMS UDFS")
+  info(archive, "VAL")
+}
+
+record(ao, "VCN:TEST:01:POS_REQ") {
+  field(DESC, "MAIN.fbVCN590.stVcnVat590.fReqPosition")
+  field(DTYP, "asynFloat64")
+  field(UDFS, "0")
+  field(OUT, "@asyn($(PORT),0,1)ADSPORT=851/MAIN.fbVCN590.stVcnVat590.fReqPosition=")
+  field(PREC, "3")
+  field(DRVH, "100.0")
+  field(DRVL, "0.0")
+  info(autosaveFields_pass0, "DESC DISS DRVH DRVL HHSV HIGH HIHI HSV LLSV LOLO LOW LSV PREC SIMS UDFS VAL")
+  info(archive, "VAL")
+}
+
+record(ai, "VCN:TEST:01:PRES_REQ_RBV") {
+  field(DESC, "MAIN.fbVCN590.stVcnVat590.fReqPressure")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynFloat64")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.fReqPressure?")
+  field(PREC, "3")
+  field(EGU, "TORR")
+  info(autosaveFields_pass0, "DESC DISS HHSV HIGH HIHI HSV LLSV LOLO LOW LSV PREC SIMS UDFS")
+  info(archive, "VAL")
+}
+
+record(ao, "VCN:TEST:01:PRES_REQ") {
+  field(DESC, "MAIN.fbVCN590.stVcnVat590.fReqPressure")
+  field(DTYP, "asynFloat64")
+  field(UDFS, "0")
+  field(OUT, "@asyn($(PORT),0,1)ADSPORT=851/MAIN.fbVCN590.stVcnVat590.fReqPressure=")
+  field(PREC, "3")
+  field(EGU, "TORR")
+  info(autosaveFields_pass0, "DESC DISS DRVH DRVL HHSV HIGH HIHI HSV LLSV LOLO LOW LSV PREC SIMS UDFS VAL")
+  info(archive, "VAL")
+}
+
+record(longin, "VCN:TEST:01:POS_SP_RBV") {
+  field(DESC, "MAIN.fbVCN590.stVcnVat590.nPositionSP")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynInt32")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.nPositionSP?")
+  info(autosaveFields_pass0, "DESC DISS HHSV HIGH HIHI HSV LLSV LOLO LOW LSV SIMS UDFS")
+  info(archive, "VAL")
+}
+
+record(longin, "VCN:TEST:01:PRES_SP_RBV") {
+  field(DESC, "MAIN.fbVCN590.stVcnVat590.nPressureSP")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynInt32")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.nPressureSP?")
+  info(autosaveFields_pass0, "DESC DISS HHSV HIGH HIHI HSV LLSV LOLO LOW LSV SIMS UDFS")
+  info(archive, "VAL")
+}
+
+record(longin, "VCN:TEST:01:POS_RAW_RBV") {
+  field(DESC, "MAIN.fbVCN590.stVcnVat590.nRawPosition")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynInt32")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.nRawPosition?")
+  info(autosaveFields_pass0, "DESC DISS HHSV HIGH HIHI HSV LLSV LOLO LOW LSV SIMS UDFS")
+  info(archive, "VAL")
+}
+
+record(longin, "VCN:TEST:01:PRES_RAW_RBV") {
+  field(DESC, "MAIN.fbVCN590.stVcnVat590.nRawPressure")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynInt32")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.nRawPressure?")
+  info(autosaveFields_pass0, "DESC DISS HHSV HIGH HIHI HSV LLSV LOLO LOW LSV SIMS UDFS")
+  info(archive, "VAL")
+}
+
+record(bi, "VCN:TEST:01:CTRL_DIR_FIX1_RBV") {
+  # MAIN.fbVCN590.stVcnVat590.stCoeParameters.bCtrlDir_FIX1
+  field(DESC, "MAIN.fbVCN590.stVcnV...ers.bCtrlDir_FIX1")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynInt32")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.stCoeParameters.bCtrlDir_FIX1?")
+  field(ZNAM, "DOWNSTREAM")
+  field(ONAM, "UPSTREAM")
+  info(autosaveFields_pass0, "DESC DISS OSV SIMS UDFS ZSV")
+  info(archive, "VAL")
+}
+
+record(bo, "VCN:TEST:01:CTRL_DIR_FIX1") {
+  # MAIN.fbVCN590.stVcnVat590.stCoeParameters.bCtrlDir_FIX1
+  field(DESC, "MAIN.fbVCN590.stVcnV...ers.bCtrlDir_FIX1")
+  field(DTYP, "asynInt32")
+  field(UDFS, "0")
+  field(OUT, "@asyn($(PORT),0,1)ADSPORT=851/MAIN.fbVCN590.stVcnVat590.stCoeParameters.bCtrlDir_FIX1=")
+  field(ZNAM, "DOWNSTREAM")
+  field(ONAM, "UPSTREAM")
+  info(autosaveFields_pass0, "COSV DESC DISS OSV SIMS UDFS VAL ZSV")
+  info(archive, "VAL")
+}
+
+record(bi, "VCN:TEST:01:CTRL_DIR_FIX2_RBV") {
+  # MAIN.fbVCN590.stVcnVat590.stCoeParameters.bCtrlDir_FIX2
+  field(DESC, "MAIN.fbVCN590.stVcnV...ers.bCtrlDir_FIX2")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynInt32")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.stCoeParameters.bCtrlDir_FIX2?")
+  field(ZNAM, "DOWNSTREAM")
+  field(ONAM, "UPSTREAM")
+  info(autosaveFields_pass0, "DESC DISS OSV SIMS UDFS ZSV")
+  info(archive, "VAL")
+}
+
+record(bo, "VCN:TEST:01:CTRL_DIR_FIX2") {
+  # MAIN.fbVCN590.stVcnVat590.stCoeParameters.bCtrlDir_FIX2
+  field(DESC, "MAIN.fbVCN590.stVcnV...ers.bCtrlDir_FIX2")
+  field(DTYP, "asynInt32")
+  field(UDFS, "0")
+  field(OUT, "@asyn($(PORT),0,1)ADSPORT=851/MAIN.fbVCN590.stVcnVat590.stCoeParameters.bCtrlDir_FIX2=")
+  field(ZNAM, "DOWNSTREAM")
+  field(ONAM, "UPSTREAM")
+  info(autosaveFields_pass0, "COSV DESC DISS OSV SIMS UDFS VAL ZSV")
+  info(archive, "VAL")
+}
+
+record(bi, "VCN:TEST:01:RAMP_MODE_AD_RBV") {
+  # MAIN.fbVCN590.stVcnVat590.stCoeParameters.bRampMode_AD
+  field(DESC, "MAIN.fbVCN590.stVcnV...ters.bRampMode_AD")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynInt32")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.stCoeParameters.bRampMode_AD?")
+  field(ZNAM, "CONST_TIME")
+  field(ONAM, "CONST_SLOPE")
+  info(autosaveFields_pass0, "DESC DISS OSV SIMS UDFS ZSV")
+  info(archive, "VAL")
+}
+
+record(bo, "VCN:TEST:01:RAMP_MODE_AD") {
+  # MAIN.fbVCN590.stVcnVat590.stCoeParameters.bRampMode_AD
+  field(DESC, "MAIN.fbVCN590.stVcnV...ters.bRampMode_AD")
+  field(DTYP, "asynInt32")
+  field(UDFS, "0")
+  field(OUT, "@asyn($(PORT),0,1)ADSPORT=851/MAIN.fbVCN590.stVcnVat590.stCoeParameters.bRampMode_AD=")
+  field(ZNAM, "CONST_TIME")
+  field(ONAM, "CONST_SLOPE")
+  info(autosaveFields_pass0, "COSV DESC DISS OSV SIMS UDFS VAL ZSV")
+  info(archive, "VAL")
+}
+
+record(bi, "VCN:TEST:01:RAMP_MODE_FIX1_RBV") {
+  # MAIN.fbVCN590.stVcnVat590.stCoeParameters.bRampMode_FIX1
+  field(DESC, "MAIN.fbVCN590.stVcnV...rs.bRampMode_FIX1")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynInt32")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.stCoeParameters.bRampMode_FIX1?")
+  field(ZNAM, "CONST_TIME")
+  field(ONAM, "CONST_SLOPE")
+  info(autosaveFields_pass0, "DESC DISS OSV SIMS UDFS ZSV")
+  info(archive, "VAL")
+}
+
+record(bo, "VCN:TEST:01:RAMP_MODE_FIX1") {
+  # MAIN.fbVCN590.stVcnVat590.stCoeParameters.bRampMode_FIX1
+  field(DESC, "MAIN.fbVCN590.stVcnV...rs.bRampMode_FIX1")
+  field(DTYP, "asynInt32")
+  field(UDFS, "0")
+  field(OUT, "@asyn($(PORT),0,1)ADSPORT=851/MAIN.fbVCN590.stVcnVat590.stCoeParameters.bRampMode_FIX1=")
+  field(ZNAM, "CONST_TIME")
+  field(ONAM, "CONST_SLOPE")
+  info(autosaveFields_pass0, "COSV DESC DISS OSV SIMS UDFS VAL ZSV")
+  info(archive, "VAL")
+}
+
+record(bi, "VCN:TEST:01:RAMP_MODE_FIX2_RBV") {
+  # MAIN.fbVCN590.stVcnVat590.stCoeParameters.bRampMode_FIX2
+  field(DESC, "MAIN.fbVCN590.stVcnV...rs.bRampMode_FIX2")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynInt32")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.stCoeParameters.bRampMode_FIX2?")
+  field(ZNAM, "CONST_TIME")
+  field(ONAM, "CONST_SLOPE")
+  info(autosaveFields_pass0, "DESC DISS OSV SIMS UDFS ZSV")
+  info(archive, "VAL")
+}
+
+record(bo, "VCN:TEST:01:RAMP_MODE_FIX2") {
+  # MAIN.fbVCN590.stVcnVat590.stCoeParameters.bRampMode_FIX2
+  field(DESC, "MAIN.fbVCN590.stVcnV...rs.bRampMode_FIX2")
+  field(DTYP, "asynInt32")
+  field(UDFS, "0")
+  field(OUT, "@asyn($(PORT),0,1)ADSPORT=851/MAIN.fbVCN590.stVcnVat590.stCoeParameters.bRampMode_FIX2=")
+  field(ZNAM, "CONST_TIME")
+  field(ONAM, "CONST_SLOPE")
+  info(autosaveFields_pass0, "COSV DESC DISS OSV SIMS UDFS VAL ZSV")
+  info(archive, "VAL")
+}
+
+record(bi, "VCN:TEST:01:RAMP_MODE_SP_RBV") {
+  # MAIN.fbVCN590.stVcnVat590.stCoeParameters.bRampMode_SP
+  field(DESC, "MAIN.fbVCN590.stVcnV...ters.bRampMode_SP")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynInt32")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.stCoeParameters.bRampMode_SP?")
+  field(ZNAM, "CONST_TIME")
+  field(ONAM, "CONST_SLOPE")
+  info(autosaveFields_pass0, "DESC DISS OSV SIMS UDFS ZSV")
+  info(archive, "VAL")
+}
+
+record(bo, "VCN:TEST:01:RAMP_MODE_SP") {
+  # MAIN.fbVCN590.stVcnVat590.stCoeParameters.bRampMode_SP
+  field(DESC, "MAIN.fbVCN590.stVcnV...ters.bRampMode_SP")
+  field(DTYP, "asynInt32")
+  field(UDFS, "0")
+  field(OUT, "@asyn($(PORT),0,1)ADSPORT=851/MAIN.fbVCN590.stVcnVat590.stCoeParameters.bRampMode_SP=")
+  field(ZNAM, "CONST_TIME")
+  field(ONAM, "CONST_SLOPE")
+  info(autosaveFields_pass0, "COSV DESC DISS OSV SIMS UDFS VAL ZSV")
+  info(archive, "VAL")
+}
+
+record(mbbi, "VCN:TEST:01:PID_CTRL_RBV") {
+  # MAIN.fbVCN590.stVcnVat590.stCoeParameters.ePIDCtrl
+  field(DESC, "MAIN.fbVCN590.stVcnV...rameters.ePIDCtrl")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynInt32")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.stCoeParameters.ePIDCtrl?")
+  field(ZRVL, "0")
+  field(ONVL, "1")
+  field(TWVL, "2")
+  field(THVL, "3")
+  field(ZRST, "ADAPTIVE_DS")
+  field(ONST, "FIXED_1")
+  field(TWST, "FIXED_2")
+  field(THST, "SOFT_PUMP")
+  info(autosaveFields_pass0, "DESC DISS EISV ELSV FFSV FRSV FTSV FVSV NISV ONSV SIMS SVSV SXSV TESV THSV TTSV TVSV TWSV UDFS UNSV ZRSV")
+  info(archive, "VAL")
+}
+
+record(mbbo, "VCN:TEST:01:PID_CTRL") {
+  # MAIN.fbVCN590.stVcnVat590.stCoeParameters.ePIDCtrl
+  field(DESC, "MAIN.fbVCN590.stVcnV...rameters.ePIDCtrl")
+  field(DTYP, "asynInt32")
+  field(UDFS, "0")
+  field(ZRVL, "0")
+  field(ONVL, "1")
+  field(TWVL, "2")
+  field(THVL, "3")
+  field(ZRST, "ADAPTIVE_DS")
+  field(ONST, "FIXED_1")
+  field(TWST, "FIXED_2")
+  field(THST, "SOFT_PUMP")
+  field(OUT, "@asyn($(PORT),0,1)ADSPORT=851/MAIN.fbVCN590.stVcnVat590.stCoeParameters.ePIDCtrl=")
+  info(autosaveFields_pass0, "COSV DESC DISS EISV ELSV FFSV FRSV FTSV FVSV NISV ONSV SIMS SVSV SXSV TESV THSV TTSV TVSV TWSV UDFS UNSV VAL ZRSV")
+  info(archive, "VAL")
+}
+
+record(ai, "VCN:TEST:01:GAIN_FACTOR_AD_RBV") {
+  # MAIN.fbVCN590.stVcnVat590.stCoeParameters.fGainFactor_AD
+  field(DESC, "MAIN.fbVCN590.stVcnV...rs.fGainFactor_AD")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynFloat64")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.stCoeParameters.fGainFactor_AD?")
+  field(PREC, "3")
+  info(autosaveFields_pass0, "DESC DISS HHSV HIGH HIHI HSV LLSV LOLO LOW LSV PREC SIMS UDFS")
+  info(archive, "VAL")
+}
+
+record(ao, "VCN:TEST:01:GAIN_FACTOR_AD") {
+  # MAIN.fbVCN590.stVcnVat590.stCoeParameters.fGainFactor_AD
+  field(DESC, "MAIN.fbVCN590.stVcnV...rs.fGainFactor_AD")
+  field(DTYP, "asynFloat64")
+  field(UDFS, "0")
+  field(OUT, "@asyn($(PORT),0,1)ADSPORT=851/MAIN.fbVCN590.stVcnVat590.stCoeParameters.fGainFactor_AD=")
+  field(PREC, "3")
+  field(DRVH, "7.5")
+  field(DRVL, "0.0001")
+  info(autosaveFields_pass0, "DESC DISS DRVH DRVL HHSV HIGH HIHI HSV LLSV LOLO LOW LSV PREC SIMS UDFS VAL")
+  info(archive, "VAL")
+}
+
+record(ai, "VCN:TEST:01:IGAIN_FIX1_RBV") {
+  # MAIN.fbVCN590.stVcnVat590.stCoeParameters.fIGain_FIX1
+  field(DESC, "MAIN.fbVCN590.stVcnV...eters.fIGain_FIX1")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynFloat64")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.stCoeParameters.fIGain_FIX1?")
+  field(PREC, "3")
+  info(autosaveFields_pass0, "DESC DISS HHSV HIGH HIHI HSV LLSV LOLO LOW LSV PREC SIMS UDFS")
+  info(archive, "VAL")
+}
+
+record(ao, "VCN:TEST:01:IGAIN_FIX1") {
+  # MAIN.fbVCN590.stVcnVat590.stCoeParameters.fIGain_FIX1
+  field(DESC, "MAIN.fbVCN590.stVcnV...eters.fIGain_FIX1")
+  field(DTYP, "asynFloat64")
+  field(UDFS, "0")
+  field(OUT, "@asyn($(PORT),0,1)ADSPORT=851/MAIN.fbVCN590.stVcnVat590.stCoeParameters.fIGain_FIX1=")
+  field(PREC, "3")
+  field(DRVH, "100.0")
+  field(DRVL, "0.0")
+  info(autosaveFields_pass0, "DESC DISS DRVH DRVL HHSV HIGH HIHI HSV LLSV LOLO LOW LSV PREC SIMS UDFS VAL")
+  info(archive, "VAL")
+}
+
+record(ai, "VCN:TEST:01:IGAIN_FIX2_RBV") {
+  # MAIN.fbVCN590.stVcnVat590.stCoeParameters.fIGain_FIX2
+  field(DESC, "MAIN.fbVCN590.stVcnV...eters.fIGain_FIX2")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynFloat64")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.stCoeParameters.fIGain_FIX2?")
+  field(PREC, "3")
+  info(autosaveFields_pass0, "DESC DISS HHSV HIGH HIHI HSV LLSV LOLO LOW LSV PREC SIMS UDFS")
+  info(archive, "VAL")
+}
+
+record(ao, "VCN:TEST:01:IGAIN_FIX2") {
+  # MAIN.fbVCN590.stVcnVat590.stCoeParameters.fIGain_FIX2
+  field(DESC, "MAIN.fbVCN590.stVcnV...eters.fIGain_FIX2")
+  field(DTYP, "asynFloat64")
+  field(UDFS, "0")
+  field(OUT, "@asyn($(PORT),0,1)ADSPORT=851/MAIN.fbVCN590.stVcnVat590.stCoeParameters.fIGain_FIX2=")
+  field(PREC, "3")
+  field(DRVH, "100.0")
+  field(DRVL, "0.0")
+  info(autosaveFields_pass0, "DESC DISS DRVH DRVL HHSV HIGH HIHI HSV LLSV LOLO LOW LSV PREC SIMS UDFS VAL")
+  info(archive, "VAL")
+}
+
+record(ai, "VCN:TEST:01:PGAIN_FIX1_RBV") {
+  # MAIN.fbVCN590.stVcnVat590.stCoeParameters.fPGain_FIX1
+  field(DESC, "MAIN.fbVCN590.stVcnV...eters.fPGain_FIX1")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynFloat64")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.stCoeParameters.fPGain_FIX1?")
+  field(PREC, "3")
+  info(autosaveFields_pass0, "DESC DISS HHSV HIGH HIHI HSV LLSV LOLO LOW LSV PREC SIMS UDFS")
+  info(archive, "VAL")
+}
+
+record(ao, "VCN:TEST:01:PGAIN_FIX1") {
+  # MAIN.fbVCN590.stVcnVat590.stCoeParameters.fPGain_FIX1
+  field(DESC, "MAIN.fbVCN590.stVcnV...eters.fPGain_FIX1")
+  field(DTYP, "asynFloat64")
+  field(UDFS, "0")
+  field(OUT, "@asyn($(PORT),0,1)ADSPORT=851/MAIN.fbVCN590.stVcnVat590.stCoeParameters.fPGain_FIX1=")
+  field(PREC, "3")
+  field(DRVH, "100.0")
+  field(DRVL, "0.001")
+  info(autosaveFields_pass0, "DESC DISS DRVH DRVL HHSV HIGH HIHI HSV LLSV LOLO LOW LSV PREC SIMS UDFS VAL")
+  info(archive, "VAL")
+}
+
+record(ai, "VCN:TEST:01:PGAIN_FIX2_RBV") {
+  # MAIN.fbVCN590.stVcnVat590.stCoeParameters.fPGain_FIX2
+  field(DESC, "MAIN.fbVCN590.stVcnV...eters.fPGain_FIX2")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynFloat64")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.stCoeParameters.fPGain_FIX2?")
+  field(PREC, "3")
+  info(autosaveFields_pass0, "DESC DISS HHSV HIGH HIHI HSV LLSV LOLO LOW LSV PREC SIMS UDFS")
+  info(archive, "VAL")
+}
+
+record(ao, "VCN:TEST:01:PGAIN_FIX2") {
+  # MAIN.fbVCN590.stVcnVat590.stCoeParameters.fPGain_FIX2
+  field(DESC, "MAIN.fbVCN590.stVcnV...eters.fPGain_FIX2")
+  field(DTYP, "asynFloat64")
+  field(UDFS, "0")
+  field(OUT, "@asyn($(PORT),0,1)ADSPORT=851/MAIN.fbVCN590.stVcnVat590.stCoeParameters.fPGain_FIX2=")
+  field(PREC, "3")
+  field(DRVH, "100.0")
+  field(DRVL, "0.001")
+  info(autosaveFields_pass0, "DESC DISS DRVH DRVL HHSV HIGH HIHI HSV LLSV LOLO LOW LSV PREC SIMS UDFS VAL")
+  info(archive, "VAL")
+}
+
+record(ai, "VCN:TEST:01:PGAIN_SP_RBV") {
+  # MAIN.fbVCN590.stVcnVat590.stCoeParameters.fPGain_SP
+  field(DESC, "MAIN.fbVCN590.stVcnV...ameters.fPGain_SP")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynFloat64")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.stCoeParameters.fPGain_SP?")
+  field(PREC, "3")
+  info(autosaveFields_pass0, "DESC DISS HHSV HIGH HIHI HSV LLSV LOLO LOW LSV PREC SIMS UDFS")
+  info(archive, "VAL")
+}
+
+record(ao, "VCN:TEST:01:PGAIN_SP") {
+  # MAIN.fbVCN590.stVcnVat590.stCoeParameters.fPGain_SP
+  field(DESC, "MAIN.fbVCN590.stVcnV...ameters.fPGain_SP")
+  field(DTYP, "asynFloat64")
+  field(UDFS, "0")
+  field(OUT, "@asyn($(PORT),0,1)ADSPORT=851/MAIN.fbVCN590.stVcnVat590.stCoeParameters.fPGain_SP=")
+  field(PREC, "3")
+  field(DRVH, "100.0")
+  field(DRVL, "0.001")
+  info(autosaveFields_pass0, "DESC DISS DRVH DRVL HHSV HIGH HIHI HSV LLSV LOLO LOW LSV PREC SIMS UDFS VAL")
+  info(archive, "VAL")
+}
+
+record(ai, "VCN:TEST:01:RAMP_TIME_AD_RBV") {
+  # MAIN.fbVCN590.stVcnVat590.stCoeParameters.fRampTime_AD
+  field(DESC, "MAIN.fbVCN590.stVcnV...ters.fRampTime_AD")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynFloat64")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.stCoeParameters.fRampTime_AD?")
+  field(PREC, "3")
+  field(EGU, "s")
+  info(autosaveFields_pass0, "DESC DISS HHSV HIGH HIHI HSV LLSV LOLO LOW LSV PREC SIMS UDFS")
+  info(archive, "VAL")
+}
+
+record(ao, "VCN:TEST:01:RAMP_TIME_AD") {
+  # MAIN.fbVCN590.stVcnVat590.stCoeParameters.fRampTime_AD
+  field(DESC, "MAIN.fbVCN590.stVcnV...ters.fRampTime_AD")
+  field(DTYP, "asynFloat64")
+  field(UDFS, "0")
+  field(OUT, "@asyn($(PORT),0,1)ADSPORT=851/MAIN.fbVCN590.stVcnVat590.stCoeParameters.fRampTime_AD=")
+  field(PREC, "3")
+  field(EGU, "s")
+  field(DRVH, "1000000.0")
+  field(DRVL, "0.0")
+  info(autosaveFields_pass0, "DESC DISS DRVH DRVL HHSV HIGH HIHI HSV LLSV LOLO LOW LSV PREC SIMS UDFS VAL")
+  info(archive, "VAL")
+}
+
+record(ai, "VCN:TEST:01:RAMP_TIME_FIX1_RBV") {
+  # MAIN.fbVCN590.stVcnVat590.stCoeParameters.fRampTime_FIX1
+  field(DESC, "MAIN.fbVCN590.stVcnV...rs.fRampTime_FIX1")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynFloat64")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.stCoeParameters.fRampTime_FIX1?")
+  field(PREC, "3")
+  field(EGU, "s")
+  info(autosaveFields_pass0, "DESC DISS HHSV HIGH HIHI HSV LLSV LOLO LOW LSV PREC SIMS UDFS")
+  info(archive, "VAL")
+}
+
+record(ao, "VCN:TEST:01:RAMP_TIME_FIX1") {
+  # MAIN.fbVCN590.stVcnVat590.stCoeParameters.fRampTime_FIX1
+  field(DESC, "MAIN.fbVCN590.stVcnV...rs.fRampTime_FIX1")
+  field(DTYP, "asynFloat64")
+  field(UDFS, "0")
+  field(OUT, "@asyn($(PORT),0,1)ADSPORT=851/MAIN.fbVCN590.stVcnVat590.stCoeParameters.fRampTime_FIX1=")
+  field(PREC, "3")
+  field(EGU, "s")
+  field(DRVH, "1000000.0")
+  field(DRVL, "0.0")
+  info(autosaveFields_pass0, "DESC DISS DRVH DRVL HHSV HIGH HIHI HSV LLSV LOLO LOW LSV PREC SIMS UDFS VAL")
+  info(archive, "VAL")
+}
+
+record(ai, "VCN:TEST:01:RAMP_TIME_FIX2_RBV") {
+  # MAIN.fbVCN590.stVcnVat590.stCoeParameters.fRampTime_FIX2
+  field(DESC, "MAIN.fbVCN590.stVcnV...rs.fRampTime_FIX2")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynFloat64")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.stCoeParameters.fRampTime_FIX2?")
+  field(PREC, "3")
+  field(EGU, "s")
+  info(autosaveFields_pass0, "DESC DISS HHSV HIGH HIHI HSV LLSV LOLO LOW LSV PREC SIMS UDFS")
+  info(archive, "VAL")
+}
+
+record(ao, "VCN:TEST:01:RAMP_TIME_FIX2") {
+  # MAIN.fbVCN590.stVcnVat590.stCoeParameters.fRampTime_FIX2
+  field(DESC, "MAIN.fbVCN590.stVcnV...rs.fRampTime_FIX2")
+  field(DTYP, "asynFloat64")
+  field(UDFS, "0")
+  field(OUT, "@asyn($(PORT),0,1)ADSPORT=851/MAIN.fbVCN590.stVcnVat590.stCoeParameters.fRampTime_FIX2=")
+  field(PREC, "3")
+  field(EGU, "s")
+  field(DRVH, "1000000.0")
+  field(DRVL, "0.0")
+  info(autosaveFields_pass0, "DESC DISS DRVH DRVL HHSV HIGH HIHI HSV LLSV LOLO LOW LSV PREC SIMS UDFS VAL")
+  info(archive, "VAL")
+}
+
+record(ai, "VCN:TEST:01:RAMP_TIME_SP_RBV") {
+  # MAIN.fbVCN590.stVcnVat590.stCoeParameters.fRampTime_SP
+  field(DESC, "MAIN.fbVCN590.stVcnV...ters.fRampTime_SP")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynFloat64")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.stCoeParameters.fRampTime_SP?")
+  field(PREC, "3")
+  field(EGU, "s")
+  info(autosaveFields_pass0, "DESC DISS HHSV HIGH HIHI HSV LLSV LOLO LOW LSV PREC SIMS UDFS")
+  info(archive, "VAL")
+}
+
+record(ao, "VCN:TEST:01:RAMP_TIME_SP") {
+  # MAIN.fbVCN590.stVcnVat590.stCoeParameters.fRampTime_SP
+  field(DESC, "MAIN.fbVCN590.stVcnV...ters.fRampTime_SP")
+  field(DTYP, "asynFloat64")
+  field(UDFS, "0")
+  field(OUT, "@asyn($(PORT),0,1)ADSPORT=851/MAIN.fbVCN590.stVcnVat590.stCoeParameters.fRampTime_SP=")
+  field(PREC, "3")
+  field(EGU, "s")
+  field(DRVH, "1000000.0")
+  field(DRVL, "0.0")
+  info(autosaveFields_pass0, "DESC DISS DRVH DRVL HHSV HIGH HIHI HSV LLSV LOLO LOW LSV PREC SIMS UDFS VAL")
+  info(archive, "VAL")
+}
+
+record(ai, "VCN:TEST:01:SENS_DELAY_AD_RBV") {
+  # MAIN.fbVCN590.stVcnVat590.stCoeParameters.fSensorDelay_AD
+  field(DESC, "MAIN.fbVCN590.stVcnV...s.fSensorDelay_AD")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynFloat64")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.stCoeParameters.fSensorDelay_AD?")
+  field(PREC, "3")
+  field(EGU, "s")
+  info(autosaveFields_pass0, "DESC DISS HHSV HIGH HIHI HSV LLSV LOLO LOW LSV PREC SIMS UDFS")
+  info(archive, "VAL")
+}
+
+record(ao, "VCN:TEST:01:SENS_DELAY_AD") {
+  # MAIN.fbVCN590.stVcnVat590.stCoeParameters.fSensorDelay_AD
+  field(DESC, "MAIN.fbVCN590.stVcnV...s.fSensorDelay_AD")
+  field(DTYP, "asynFloat64")
+  field(UDFS, "0")
+  field(OUT, "@asyn($(PORT),0,1)ADSPORT=851/MAIN.fbVCN590.stVcnVat590.stCoeParameters.fSensorDelay_AD=")
+  field(PREC, "3")
+  field(EGU, "s")
+  field(DRVH, "1.0")
+  field(DRVL, "0.0")
+  info(autosaveFields_pass0, "DESC DISS DRVH DRVL HHSV HIGH HIHI HSV LLSV LOLO LOW LSV PREC SIMS UDFS VAL")
+  info(archive, "VAL")
+}
+
+record(bi, "VCN:TEST:01:EXT_WARN:CTRL_SP_NOT_ALLOWED_RBV") {
+  # MAIN.fbVCN590.stVcnVat590.stValveStatus.bControlModeSPNotAllowed
+  field(DESC, "MAIN.fbVCN590.stVcnV...lModeSPNotAllowed")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynInt32")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.stValveStatus.bControlModeSPNotAllowed?")
+  field(ZSV, "NO_ALARM")
+  field(OSV, "MINOR")
+  field(ZNAM, "ENABLED")
+  field(ONAM, "DISABLED")
+  info(autosaveFields_pass0, "DESC DISS OSV SIMS UDFS ZSV")
+  info(archive, "VAL")
+}
+
+record(bi, "VCN:TEST:01:EXT_WARN:CTRL_SP_OOR_RBV") {
+  # MAIN.fbVCN590.stVcnVat590.stValveStatus.bCtrlSPOutOfRange
+  field(DESC, "MAIN.fbVCN590.stVcnV...bCtrlSPOutOfRange")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynInt32")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.stValveStatus.bCtrlSPOutOfRange?")
+  field(ZSV, "NO_ALARM")
+  field(OSV, "MAJOR")
+  field(ZNAM, "OK")
+  field(ONAM, "FAULT")
+  info(autosaveFields_pass0, "DESC DISS OSV SIMS UDFS ZSV")
+  info(archive, "VAL")
+}
+
+record(bi, "VCN:TEST:01:GEN_STATUS:ECAT_DATA_VALID_RBV") {
+  # MAIN.fbVCN590.stVcnVat590.stValveStatus.bFieldBusDatavalid
+  field(DESC, "MAIN.fbVCN590.stVcnV...FieldBusDatavalid")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynInt32")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.stValveStatus.bFieldBusDatavalid?")
+  field(ZSV, "MAJOR")
+  field(OSV, "NO_ALARM")
+  field(ZNAM, "NOT_VALID")
+  field(ONAM, "VALID")
+  info(autosaveFields_pass0, "DESC DISS OSV SIMS UDFS ZSV")
+  info(archive, "VAL")
+}
+
+record(bi, "VCN:TEST:01:EXT_WARN:GENCTRL_SP_OOR_RBV") {
+  # MAIN.fbVCN590.stVcnVat590.stValveStatus.bGeneralCtrlSPOutOfRange
+  field(DESC, "MAIN.fbVCN590.stVcnV...lCtrlSPOutOfRange")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynInt32")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.stValveStatus.bGeneralCtrlSPOutOfRange?")
+  field(ZSV, "NO_ALARM")
+  field(OSV, "MAJOR")
+  field(ZNAM, "OK")
+  field(ONAM, "FAULT")
+  info(autosaveFields_pass0, "DESC DISS OSV SIMS UDFS ZSV")
+  info(archive, "VAL")
+}
+
+record(bi, "VCN:TEST:01:EXT_WARN:PFO_STATUS_RBV") {
+  # MAIN.fbVCN590.stVcnVat590.stValveStatus.bPFODeactivated
+  field(DESC, "MAIN.fbVCN590.stVcnV...s.bPFODeactivated")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynInt32")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.stValveStatus.bPFODeactivated?")
+  field(ZSV, "NO_ALARM")
+  field(OSV, "MINOR")
+  field(ZNAM, "ENABLED")
+  field(ONAM, "DISABLED")
+  info(autosaveFields_pass0, "DESC DISS OSV SIMS UDFS ZSV")
+  info(archive, "VAL")
+}
+
+record(bi, "VCN:TEST:01:GEN_STATUS:ECAT_RxBIT_RBV") {
+  # MAIN.fbVCN590.stVcnVat590.stValveStatus.bPingPongRxBit
+  field(DESC, "MAIN.fbVCN590.stVcnV...us.bPingPongRxBit")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynInt32")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.stValveStatus.bPingPongRxBit?")
+  field(ZSV, "NO_ALARM")
+  field(OSV, "NO_ALARM")
+  field(ZNAM, "NOT_INVERTED")
+  field(ONAM, "INVERTED")
+  info(autosaveFields_pass0, "DESC DISS OSV SIMS UDFS ZSV")
+  info(archive, "VAL")
+}
+
+record(bi, "VCN:TEST:01:EXT_WARN:POS_SP_OOR_RBV") {
+  # MAIN.fbVCN590.stVcnVat590.stValveStatus.bPositionSPOutOfRange
+  field(DESC, "MAIN.fbVCN590.stVcnV...itionSPOutOfRange")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynInt32")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.stValveStatus.bPositionSPOutOfRange?")
+  field(ZSV, "NO_ALARM")
+  field(OSV, "MAJOR")
+  field(ZNAM, "OK")
+  field(ONAM, "FAULT")
+  info(autosaveFields_pass0, "DESC DISS OSV SIMS UDFS ZSV")
+  info(archive, "VAL")
+}
+
+record(bi, "VCN:TEST:01:GEN_WARN:POWER_FAIL_BATT_RBV") {
+  # MAIN.fbVCN590.stVcnVat590.stValveStatus.bPowerFailureBattery
+  field(DESC, "MAIN.fbVCN590.stVcnV...werFailureBattery")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynInt32")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.stValveStatus.bPowerFailureBattery?")
+  field(ZSV, "NO_ALARM")
+  field(OSV, "MINOR")
+  field(ZNAM, "READY")
+  field(ONAM, "NOT_READY")
+  info(autosaveFields_pass0, "DESC DISS OSV SIMS UDFS ZSV")
+  info(archive, "VAL")
+}
+
+record(bi, "VCN:TEST:01:EXT_WARN:PRES_SP_OOR_RBV") {
+  # MAIN.fbVCN590.stVcnVat590.stValveStatus.bPressureSPOutOfRange
+  field(DESC, "MAIN.fbVCN590.stVcnV...ssureSPOutOfRange")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynInt32")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.stValveStatus.bPressureSPOutOfRange?")
+  field(ZSV, "NO_ALARM")
+  field(OSV, "MAJOR")
+  field(ZNAM, "OK")
+  field(ONAM, "FAULT")
+  info(autosaveFields_pass0, "DESC DISS OSV SIMS UDFS ZSV")
+  info(archive, "VAL")
+}
+
+record(bi, "VCN:TEST:01:GEN_STATUS:PRES_SP_REACHED_RBV") {
+  # MAIN.fbVCN590.stVcnVat590.stValveStatus.bPressureSPReached
+  field(DESC, "MAIN.fbVCN590.stVcnV...PressureSPReached")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynInt32")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.stValveStatus.bPressureSPReached?")
+  field(ZSV, "NO_ALARM")
+  field(OSV, "NO_ALARM")
+  field(ZNAM, "NOT_AT_SP")
+  field(ONAM, "AT_SP")
+  info(autosaveFields_pass0, "DESC DISS OSV SIMS UDFS ZSV")
+  info(archive, "VAL")
+}
+
+record(bi, "VCN:TEST:01:GEN_STATUS:PRES_SIM_RBV") {
+  # MAIN.fbVCN590.stVcnVat590.stValveStatus.bPressureSimulation
+  field(DESC, "MAIN.fbVCN590.stVcnV...ressureSimulation")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynInt32")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.stValveStatus.bPressureSimulation?")
+  field(ZSV, "NO_ALARM")
+  field(OSV, "NO_ALARM")
+  field(ZNAM, "OFF")
+  field(ONAM, "ON")
+  info(autosaveFields_pass0, "DESC DISS OSV SIMS UDFS ZSV")
+  info(archive, "VAL")
+}
+
+record(bi, "VCN:TEST:01:EXT_WARN:PROC_DATA_NOT_VALID_RBV") {
+  # MAIN.fbVCN590.stVcnVat590.stValveStatus.bProcDataSettingsNotvalid
+  field(DESC, "MAIN.fbVCN590.stVcnV...aSettingsNotvalid")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynInt32")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.stValveStatus.bProcDataSettingsNotvalid?")
+  field(ZSV, "NO_ALARM")
+  field(OSV, "MAJOR")
+  field(ZNAM, "OK")
+  field(ONAM, "FAULT")
+  info(autosaveFields_pass0, "DESC DISS OSV SIMS UDFS ZSV")
+  info(archive, "VAL")
+}
+
+record(bi, "VCN:TEST:01:EXT_WARN:REM_NOT_POSSIBLE_RBV") {
+  # MAIN.fbVCN590.stVcnVat590.stValveStatus.bRemoteControlNotPossible
+  field(DESC, "MAIN.fbVCN590.stVcnV...ontrolNotPossible")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynInt32")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.stValveStatus.bRemoteControlNotPossible?")
+  field(ZSV, "NO_ALARM")
+  field(OSV, "MINOR")
+  field(ZNAM, "ENABLED")
+  field(ONAM, "DISABLED")
+  info(autosaveFields_pass0, "DESC DISS OSV SIMS UDFS ZSV")
+  info(archive, "VAL")
+}
+
+record(bi, "VCN:TEST:01:GEN_WARN:ADC_UNIT_STATUS_RBV") {
+  # MAIN.fbVCN590.stVcnVat590.stValveStatus.bSensMeasUnitFault
+  field(DESC, "MAIN.fbVCN590.stVcnV...SensMeasUnitFault")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynInt32")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.stValveStatus.bSensMeasUnitFault?")
+  field(ZSV, "NO_ALARM")
+  field(OSV, "MAJOR")
+  field(ZNAM, "OK")
+  field(ONAM, "FAULT")
+  info(autosaveFields_pass0, "DESC DISS OSV SIMS UDFS ZSV")
+  info(archive, "VAL")
+}
+
+record(bi, "VCN:TEST:01:GEN_WARN:SERVICE_REQ_RBV") {
+  # MAIN.fbVCN590.stVcnVat590.stValveStatus.bServiceRequest
+  field(DESC, "MAIN.fbVCN590.stVcnV...s.bServiceRequest")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynInt32")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.stValveStatus.bServiceRequest?")
+  field(ZSV, "NO_ALARM")
+  field(OSV, "MAJOR")
+  field(ZNAM, "OK")
+  field(ONAM, "SERVICE")
+  info(autosaveFields_pass0, "DESC DISS OSV SIMS UDFS ZSV")
+  info(archive, "VAL")
+}
+
+record(bi, "VCN:TEST:01:GEN_STATUS:WARN_STATUS_RBV") {
+  # MAIN.fbVCN590.stVcnVat590.stValveStatus.bWarningsActive
+  field(DESC, "MAIN.fbVCN590.stVcnV...s.bWarningsActive")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynInt32")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.stValveStatus.bWarningsActive?")
+  field(ZSV, "NO_ALARM")
+  field(OSV, "MAJOR")
+  field(ZNAM, "NOT_ACTIVE")
+  field(ONAM, "ACTIVE")
+  info(autosaveFields_pass0, "DESC DISS OSV SIMS UDFS ZSV")
+  info(archive, "VAL")
+}
+
+record(bi, "VCN:TEST:01:EXT_WARN:ZERO_STATUS_RBV") {
+  # MAIN.fbVCN590.stVcnVat590.stValveStatus.bZeroDisabled
+  field(DESC, "MAIN.fbVCN590.stVcnV...tus.bZeroDisabled")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynInt32")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.stValveStatus.bZeroDisabled?")
+  field(ZSV, "NO_ALARM")
+  field(OSV, "MINOR")
+  field(ZNAM, "ENABLED")
+  field(ONAM, "DISABLED")
+  info(autosaveFields_pass0, "DESC DISS OSV SIMS UDFS ZSV")
+  info(archive, "VAL")
+}
+
+record(bi, "VCN:TEST:01:GEN_STATUS:ZERO_EXECUTED_RBV") {
+  # MAIN.fbVCN590.stVcnVat590.stValveStatus.bZeroExecuted
+  field(DESC, "MAIN.fbVCN590.stVcnV...tus.bZeroExecuted")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynInt32")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.stValveStatus.bZeroExecuted?")
+  field(ZSV, "NO_ALARM")
+  field(OSV, "NO_ALARM")
+  field(ZNAM, "NOT_EXECUTED")
+  field(ONAM, "EXECUTED")
+  info(autosaveFields_pass0, "DESC DISS OSV SIMS UDFS ZSV")
   info(archive, "VAL")
 }
 
@@ -676,6 +1244,7 @@ record(mbbi, "VCN:TEST:01:CTRL_MODE_RBV") {
   field(TVST, "PowerFailure")
   field(TTST, "Safety")
   field(FTST, "FatalError")
+  info(autosaveFields_pass0, "DESC DISS EISV ELSV FFSV FRSV FTSV FVSV NISV ONSV SIMS SVSV SXSV TESV THSV TTSV TVSV TWSV UDFS UNSV ZRSV")
   info(archive, "VAL")
 }
 
@@ -699,96 +1268,7 @@ record(mbbi, "VCN:TEST:01:FATAL_ERR_RBV") {
   field(THST, "ValveBlocked")
   field(FRST, "StepLossSynch")
   field(FVST, "MotorDriverFault")
-  info(archive, "VAL")
-}
-
-record(bi, "VCN:TEST:01:GEN_STATUS:ECAT_DATA_VALID_RBV") {
-  # MAIN.fbVCN590.stVcnVat590.stValveStatus.bFieldBusDatavalid
-  field(DESC, "MAIN.fbVCN590.stVcnV...FieldBusDatavalid")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynInt32")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.stValveStatus.bFieldBusDatavalid?")
-  field(ZSV, "MAJOR")
-  field(OSV, "NO_ALARM")
-  field(ZNAM, "NOT_VALID")
-  field(ONAM, "VALID")
-  info(archive, "VAL")
-}
-
-record(bi, "VCN:TEST:01:GEN_STATUS:ZERO_EXECUTED_RBV") {
-  # MAIN.fbVCN590.stVcnVat590.stValveStatus.bZeroExecuted
-  field(DESC, "MAIN.fbVCN590.stVcnV...tus.bZeroExecuted")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynInt32")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.stValveStatus.bZeroExecuted?")
-  field(ZSV, "NO_ALARM")
-  field(OSV, "NO_ALARM")
-  field(ZNAM, "NOT_EXECUTED")
-  field(ONAM, "EXECUTED")
-  info(archive, "VAL")
-}
-
-record(bi, "VCN:TEST:01:GEN_STATUS:ECAT_RxBIT_RBV") {
-  # MAIN.fbVCN590.stVcnVat590.stValveStatus.bPingPongRxBit
-  field(DESC, "MAIN.fbVCN590.stVcnV...us.bPingPongRxBit")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynInt32")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.stValveStatus.bPingPongRxBit?")
-  field(ZSV, "NO_ALARM")
-  field(OSV, "NO_ALARM")
-  field(ZNAM, "NOT_INVERTED")
-  field(ONAM, "INVERTED")
-  info(archive, "VAL")
-}
-
-record(bi, "VCN:TEST:01:GEN_STATUS:PRES_SIM_RBV") {
-  # MAIN.fbVCN590.stVcnVat590.stValveStatus.bPressureSimulation
-  field(DESC, "MAIN.fbVCN590.stVcnV...ressureSimulation")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynInt32")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.stValveStatus.bPressureSimulation?")
-  field(ZSV, "NO_ALARM")
-  field(OSV, "NO_ALARM")
-  field(ZNAM, "OFF")
-  field(ONAM, "ON")
-  info(archive, "VAL")
-}
-
-record(bi, "VCN:TEST:01:GEN_STATUS:PRES_SP_REACHED_RBV") {
-  # MAIN.fbVCN590.stVcnVat590.stValveStatus.bPressureSPReached
-  field(DESC, "MAIN.fbVCN590.stVcnV...PressureSPReached")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynInt32")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.stValveStatus.bPressureSPReached?")
-  field(ZSV, "NO_ALARM")
-  field(OSV, "NO_ALARM")
-  field(ZNAM, "NOT_AT_SP")
-  field(ONAM, "AT_SP")
-  info(archive, "VAL")
-}
-
-record(bi, "VCN:TEST:01:GEN_STATUS:WARN_STATUS_RBV") {
-  # MAIN.fbVCN590.stVcnVat590.stValveStatus.bWarningsActive
-  field(DESC, "MAIN.fbVCN590.stVcnV...s.bWarningsActive")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynInt32")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.stValveStatus.bWarningsActive?")
-  field(ZSV, "NO_ALARM")
-  field(OSV, "MAJOR")
-  field(ZNAM, "NOT_ACTIVE")
-  field(ONAM, "ACTIVE")
+  info(autosaveFields_pass0, "DESC DISS EISV ELSV FFSV FRSV FTSV FVSV NISV ONSV SIMS SVSV SXSV TESV THSV TTSV TVSV TWSV UDFS UNSV ZRSV")
   info(archive, "VAL")
 }
 
@@ -806,775 +1286,39 @@ record(mbbi, "VCN:TEST:01:GEN_STATUS:REM_CTRL_RBV") {
   field(ZRST, "LOCAL")
   field(ONST, "REMOTE")
   field(TWST, "LOCKED")
+  info(autosaveFields_pass0, "DESC DISS EISV ELSV FFSV FRSV FTSV FVSV NISV ONSV SIMS SVSV SXSV TESV THSV TTSV TVSV TWSV UDFS UNSV ZRSV")
   info(archive, "VAL")
 }
 
-record(bi, "VCN:TEST:01:GEN_WARN:SERVICE_REQ_RBV") {
-  # MAIN.fbVCN590.stVcnVat590.stValveStatus.bServiceRequest
-  field(DESC, "MAIN.fbVCN590.stVcnV...s.bServiceRequest")
+record(longin, "TEST_ENUM_RBV") {
+  field(DESC, "MAIN.nTest")
   field(SCAN, "I/O Intr")
   field(PINI, "1")
   field(TSE, "-2")
   field(DTYP, "asynInt32")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.stValveStatus.bServiceRequest?")
-  field(ZSV, "NO_ALARM")
-  field(OSV, "MAJOR")
-  field(ZNAM, "OK")
-  field(ONAM, "SERVICE")
-  info(archive, "VAL")
-}
-
-record(bi, "VCN:TEST:01:GEN_WARN:POWER_FAIL_BATT_RBV") {
-  # MAIN.fbVCN590.stVcnVat590.stValveStatus.bPowerFailureBattery
-  field(DESC, "MAIN.fbVCN590.stVcnV...werFailureBattery")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynInt32")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.stValveStatus.bPowerFailureBattery?")
-  field(ZSV, "NO_ALARM")
-  field(OSV, "MINOR")
-  field(ZNAM, "READY")
-  field(ONAM, "NOT_READY")
-  info(archive, "VAL")
-}
-
-record(bi, "VCN:TEST:01:GEN_WARN:ADC_UNIT_STATUS_RBV") {
-  # MAIN.fbVCN590.stVcnVat590.stValveStatus.bSensMeasUnitFault
-  field(DESC, "MAIN.fbVCN590.stVcnV...SensMeasUnitFault")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynInt32")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.stValveStatus.bSensMeasUnitFault?")
-  field(ZSV, "NO_ALARM")
-  field(OSV, "MAJOR")
-  field(ZNAM, "OK")
-  field(ONAM, "FAULT")
-  info(archive, "VAL")
-}
-
-record(bi, "VCN:TEST:01:EXT_WARN:REM_NOT_POSSIBLE_RBV") {
-  # MAIN.fbVCN590.stVcnVat590.stValveStatus.bRemoteControlNotPossible
-  field(DESC, "MAIN.fbVCN590.stVcnV...ontrolNotPossible")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynInt32")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.stValveStatus.bRemoteControlNotPossible?")
-  field(ZSV, "NO_ALARM")
-  field(OSV, "MINOR")
-  field(ZNAM, "ENABLED")
-  field(ONAM, "DISABLED")
-  info(archive, "VAL")
-}
-
-record(bi, "VCN:TEST:01:EXT_WARN:CTRL_SP_NOT_ALLOWED_RBV") {
-  # MAIN.fbVCN590.stVcnVat590.stValveStatus.bControlModeSPNotAllowed
-  field(DESC, "MAIN.fbVCN590.stVcnV...lModeSPNotAllowed")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynInt32")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.stValveStatus.bControlModeSPNotAllowed?")
-  field(ZSV, "NO_ALARM")
-  field(OSV, "MINOR")
-  field(ZNAM, "ENABLED")
-  field(ONAM, "DISABLED")
-  info(archive, "VAL")
-}
-
-record(bi, "VCN:TEST:01:EXT_WARN:ZERO_STATUS_RBV") {
-  # MAIN.fbVCN590.stVcnVat590.stValveStatus.bZeroDisabled
-  field(DESC, "MAIN.fbVCN590.stVcnV...tus.bZeroDisabled")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynInt32")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.stValveStatus.bZeroDisabled?")
-  field(ZSV, "NO_ALARM")
-  field(OSV, "MINOR")
-  field(ZNAM, "ENABLED")
-  field(ONAM, "DISABLED")
-  info(archive, "VAL")
-}
-
-record(bi, "VCN:TEST:01:EXT_WARN:PFO_STATUS_RBV") {
-  # MAIN.fbVCN590.stVcnVat590.stValveStatus.bPFODeactivated
-  field(DESC, "MAIN.fbVCN590.stVcnV...s.bPFODeactivated")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynInt32")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.stValveStatus.bPFODeactivated?")
-  field(ZSV, "NO_ALARM")
-  field(OSV, "MINOR")
-  field(ZNAM, "ENABLED")
-  field(ONAM, "DISABLED")
-  info(archive, "VAL")
-}
-
-record(bi, "VCN:TEST:01:EXT_WARN:PRES_SP_OOR_RBV") {
-  # MAIN.fbVCN590.stVcnVat590.stValveStatus.bPressureSPOutOfRange
-  field(DESC, "MAIN.fbVCN590.stVcnV...ssureSPOutOfRange")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynInt32")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.stValveStatus.bPressureSPOutOfRange?")
-  field(ZSV, "NO_ALARM")
-  field(OSV, "MAJOR")
-  field(ZNAM, "OK")
-  field(ONAM, "FAULT")
-  info(archive, "VAL")
-}
-
-record(bi, "VCN:TEST:01:EXT_WARN:POS_SP_OOR_RBV") {
-  # MAIN.fbVCN590.stVcnVat590.stValveStatus.bPositionSPOutOfRange
-  field(DESC, "MAIN.fbVCN590.stVcnV...itionSPOutOfRange")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynInt32")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.stValveStatus.bPositionSPOutOfRange?")
-  field(ZSV, "NO_ALARM")
-  field(OSV, "MAJOR")
-  field(ZNAM, "OK")
-  field(ONAM, "FAULT")
-  info(archive, "VAL")
-}
-
-record(bi, "VCN:TEST:01:EXT_WARN:CTRL_SP_OOR_RBV") {
-  # MAIN.fbVCN590.stVcnVat590.stValveStatus.bCtrlSPOutOfRange
-  field(DESC, "MAIN.fbVCN590.stVcnV...bCtrlSPOutOfRange")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynInt32")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.stValveStatus.bCtrlSPOutOfRange?")
-  field(ZSV, "NO_ALARM")
-  field(OSV, "MAJOR")
-  field(ZNAM, "OK")
-  field(ONAM, "FAULT")
-  info(archive, "VAL")
-}
-
-record(bi, "VCN:TEST:01:EXT_WARN:GENCTRL_SP_OOR_RBV") {
-  # MAIN.fbVCN590.stVcnVat590.stValveStatus.bGeneralCtrlSPOutOfRange
-  field(DESC, "MAIN.fbVCN590.stVcnV...lCtrlSPOutOfRange")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynInt32")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.stValveStatus.bGeneralCtrlSPOutOfRange?")
-  field(ZSV, "NO_ALARM")
-  field(OSV, "MAJOR")
-  field(ZNAM, "OK")
-  field(ONAM, "FAULT")
-  info(archive, "VAL")
-}
-
-record(bi, "VCN:TEST:01:EXT_WARN:PROC_DATA_NOT_VALID_RBV") {
-  # MAIN.fbVCN590.stVcnVat590.stValveStatus.bProcDataSettingsNotvalid
-  field(DESC, "MAIN.fbVCN590.stVcnV...aSettingsNotvalid")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynInt32")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.stValveStatus.bProcDataSettingsNotvalid?")
-  field(ZSV, "NO_ALARM")
-  field(OSV, "MAJOR")
-  field(ZNAM, "OK")
-  field(ONAM, "FAULT")
-  info(archive, "VAL")
-}
-
-record(mbbi, "VCN:TEST:01:PRES_SENS_RBV") {
-  # MAIN.fbVCN590.stVcnVat590.ePressureSensor
-  field(DESC, "MAIN.fbVCN590.stVcnV...0.ePressureSensor")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynInt32")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.ePressureSensor?")
-  field(ZRVL, "0")
-  field(ONVL, "1")
-  field(ZRST, "NOT_DEFINED")
-  field(ONST, "MKS500")
-  info(archive, "VAL")
-}
-
-record(mbbo, "VCN:TEST:01:PRES_SENS") {
-  # MAIN.fbVCN590.stVcnVat590.ePressureSensor
-  field(DESC, "MAIN.fbVCN590.stVcnV...0.ePressureSensor")
-  field(DTYP, "asynInt32")
-  field(ZRVL, "0")
-  field(ONVL, "1")
-  field(ZRST, "NOT_DEFINED")
-  field(ONST, "MKS500")
-  field(OUT, "@asyn($(PORT),0,1)ADSPORT=851/MAIN.fbVCN590.stVcnVat590.ePressureSensor=")
-  info(autosaveFields_pass0, "VAL")
-  info(archive, "VAL")
-}
-
-record(mbbi, "VCN:TEST:01:REM_CTRL_RBV") {
-  field(DESC, "MAIN.fbVCN590.stVcnVat590.eRemoteControl")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynInt32")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.eRemoteControl?")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.nTest?")
   field(ZRVL, "0")
   field(ONVL, "1")
   field(TWVL, "2")
-  field(ZRST, "LOCAL")
-  field(ONST, "REMOTE")
-  field(TWST, "LOCKED")
+  field(ZRST, "2oo3")
+  field(ONST, "GAUGE_01")
+  field(TWST, "GAUGE_02")
+  info(autosaveFields_pass0, "DESC DISS HHSV HIGH HIHI HSV LLSV LOLO LOW LSV SIMS UDFS")
   info(archive, "VAL")
 }
 
-record(mbbo, "VCN:TEST:01:REM_CTRL") {
-  field(DESC, "MAIN.fbVCN590.stVcnVat590.eRemoteControl")
+record(longout, "TEST_ENUM") {
+  field(DESC, "MAIN.nTest")
   field(DTYP, "asynInt32")
+  field(UDFS, "0")
   field(ZRVL, "0")
   field(ONVL, "1")
   field(TWVL, "2")
-  field(ZRST, "LOCAL")
-  field(ONST, "REMOTE")
-  field(TWST, "LOCKED")
-  field(OUT, "@asyn($(PORT),0,1)ADSPORT=851/MAIN.fbVCN590.stVcnVat590.eRemoteControl=")
-  info(autosaveFields_pass0, "VAL")
-  info(archive, "VAL")
-}
-
-record(bi, "VCN:TEST:01:ZERO_RBV") {
-  field(DESC, "MAIN.fbVCN590.stVcnVat590.bZero")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynInt32")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.bZero?")
-  field(ZNAM, "NOT_ACTIVE")
-  field(ONAM, "ACTIVE")
-  info(archive, "VAL")
-}
-
-record(bo, "VCN:TEST:01:ZERO") {
-  field(DESC, "MAIN.fbVCN590.stVcnVat590.bZero")
-  field(DTYP, "asynInt32")
-  field(OUT, "@asyn($(PORT),0,1)ADSPORT=851/MAIN.fbVCN590.stVcnVat590.bZero=")
-  field(ZNAM, "NOT_ACTIVE")
-  field(ONAM, "ACTIVE")
-  info(autosaveFields_pass0, "VAL")
-  info(archive, "VAL")
-}
-
-record(mbbi, "VCN:TEST:01:PID_CTRL_RBV") {
-  # MAIN.fbVCN590.stVcnVat590.stCoeParameters.ePIDCtrl
-  field(DESC, "MAIN.fbVCN590.stVcnV...rameters.ePIDCtrl")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynInt32")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.stCoeParameters.ePIDCtrl?")
-  field(ZRVL, "0")
-  field(ONVL, "1")
-  field(TWVL, "2")
-  field(THVL, "3")
-  field(ZRST, "ADAPTIVE_DS")
-  field(ONST, "FIXED_1")
-  field(TWST, "FIXED_2")
-  field(THST, "SOFT_PUMP")
-  info(archive, "VAL")
-}
-
-record(mbbo, "VCN:TEST:01:PID_CTRL") {
-  # MAIN.fbVCN590.stVcnVat590.stCoeParameters.ePIDCtrl
-  field(DESC, "MAIN.fbVCN590.stVcnV...rameters.ePIDCtrl")
-  field(DTYP, "asynInt32")
-  field(ZRVL, "0")
-  field(ONVL, "1")
-  field(TWVL, "2")
-  field(THVL, "3")
-  field(ZRST, "ADAPTIVE_DS")
-  field(ONST, "FIXED_1")
-  field(TWST, "FIXED_2")
-  field(THST, "SOFT_PUMP")
-  field(OUT, "@asyn($(PORT),0,1)ADSPORT=851/MAIN.fbVCN590.stVcnVat590.stCoeParameters.ePIDCtrl=")
-  info(autosaveFields_pass0, "VAL")
-  info(archive, "VAL")
-}
-
-record(ai, "VCN:TEST:01:SENS_DELAY_AD_RBV") {
-  # MAIN.fbVCN590.stVcnVat590.stCoeParameters.fSensorDelay_AD
-  field(DESC, "MAIN.fbVCN590.stVcnV...s.fSensorDelay_AD")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynFloat64")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.stCoeParameters.fSensorDelay_AD?")
-  field(PREC, "3")
-  field(EGU, "s")
-  info(autosaveFields_pass0, "PREC")
-  info(archive, "VAL")
-}
-
-record(ao, "VCN:TEST:01:SENS_DELAY_AD") {
-  # MAIN.fbVCN590.stVcnVat590.stCoeParameters.fSensorDelay_AD
-  field(DESC, "MAIN.fbVCN590.stVcnV...s.fSensorDelay_AD")
-  field(DTYP, "asynFloat64")
-  field(OUT, "@asyn($(PORT),0,1)ADSPORT=851/MAIN.fbVCN590.stVcnVat590.stCoeParameters.fSensorDelay_AD=")
-  field(PREC, "3")
-  field(EGU, "s")
-  field(DRVH, "1.0")
-  field(DRVL, "0.0")
-  info(autosaveFields_pass0, "PREC VAL")
-  info(archive, "VAL")
-}
-
-record(ai, "VCN:TEST:01:RAMP_TIME_AD_RBV") {
-  # MAIN.fbVCN590.stVcnVat590.stCoeParameters.fRampTime_AD
-  field(DESC, "MAIN.fbVCN590.stVcnV...ters.fRampTime_AD")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynFloat64")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.stCoeParameters.fRampTime_AD?")
-  field(PREC, "3")
-  field(EGU, "s")
-  info(autosaveFields_pass0, "PREC")
-  info(archive, "VAL")
-}
-
-record(ao, "VCN:TEST:01:RAMP_TIME_AD") {
-  # MAIN.fbVCN590.stVcnVat590.stCoeParameters.fRampTime_AD
-  field(DESC, "MAIN.fbVCN590.stVcnV...ters.fRampTime_AD")
-  field(DTYP, "asynFloat64")
-  field(OUT, "@asyn($(PORT),0,1)ADSPORT=851/MAIN.fbVCN590.stVcnVat590.stCoeParameters.fRampTime_AD=")
-  field(PREC, "3")
-  field(EGU, "s")
-  field(DRVH, "1000000.0")
-  field(DRVL, "0.0")
-  info(autosaveFields_pass0, "PREC VAL")
-  info(archive, "VAL")
-}
-
-record(bi, "VCN:TEST:01:RAMP_MODE_AD_RBV") {
-  # MAIN.fbVCN590.stVcnVat590.stCoeParameters.nRampMode_AD
-  field(DESC, "MAIN.fbVCN590.stVcnV...ters.nRampMode_AD")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynInt32")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.stCoeParameters.nRampMode_AD?")
-  field(ZNAM, "CONST_TIME")
-  field(ONAM, "CONST_SLOPE")
-  info(archive, "VAL")
-}
-
-record(bo, "VCN:TEST:01:RAMP_MODE_AD") {
-  # MAIN.fbVCN590.stVcnVat590.stCoeParameters.nRampMode_AD
-  field(DESC, "MAIN.fbVCN590.stVcnV...ters.nRampMode_AD")
-  field(DTYP, "asynInt32")
-  field(OUT, "@asyn($(PORT),0,1)ADSPORT=851/MAIN.fbVCN590.stVcnVat590.stCoeParameters.nRampMode_AD=")
-  field(ZNAM, "CONST_TIME")
-  field(ONAM, "CONST_SLOPE")
-  info(autosaveFields_pass0, "VAL")
-  info(archive, "VAL")
-}
-
-record(ai, "VCN:TEST:01:GAIN_FACTOR_AD_RBV") {
-  # MAIN.fbVCN590.stVcnVat590.stCoeParameters.fGainFactor_AD
-  field(DESC, "MAIN.fbVCN590.stVcnV...rs.fGainFactor_AD")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynFloat64")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.stCoeParameters.fGainFactor_AD?")
-  field(PREC, "3")
-  info(autosaveFields_pass0, "PREC")
-  info(archive, "VAL")
-}
-
-record(ao, "VCN:TEST:01:GAIN_FACTOR_AD") {
-  # MAIN.fbVCN590.stVcnVat590.stCoeParameters.fGainFactor_AD
-  field(DESC, "MAIN.fbVCN590.stVcnV...rs.fGainFactor_AD")
-  field(DTYP, "asynFloat64")
-  field(OUT, "@asyn($(PORT),0,1)ADSPORT=851/MAIN.fbVCN590.stVcnVat590.stCoeParameters.fGainFactor_AD=")
-  field(PREC, "3")
-  field(DRVH, "7.5")
-  field(DRVL, "0.0001")
-  info(autosaveFields_pass0, "PREC VAL")
-  info(archive, "VAL")
-}
-
-record(ai, "VCN:TEST:01:RAMP_TIME_FIX1_RBV") {
-  # MAIN.fbVCN590.stVcnVat590.stCoeParameters.fRampTime_FIX1
-  field(DESC, "MAIN.fbVCN590.stVcnV...rs.fRampTime_FIX1")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynFloat64")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.stCoeParameters.fRampTime_FIX1?")
-  field(PREC, "3")
-  field(EGU, "s")
-  info(autosaveFields_pass0, "PREC")
-  info(archive, "VAL")
-}
-
-record(ao, "VCN:TEST:01:RAMP_TIME_FIX1") {
-  # MAIN.fbVCN590.stVcnVat590.stCoeParameters.fRampTime_FIX1
-  field(DESC, "MAIN.fbVCN590.stVcnV...rs.fRampTime_FIX1")
-  field(DTYP, "asynFloat64")
-  field(OUT, "@asyn($(PORT),0,1)ADSPORT=851/MAIN.fbVCN590.stVcnVat590.stCoeParameters.fRampTime_FIX1=")
-  field(PREC, "3")
-  field(EGU, "s")
-  field(DRVH, "1000000.0")
-  field(DRVL, "0.0")
-  info(autosaveFields_pass0, "PREC VAL")
-  info(archive, "VAL")
-}
-
-record(bi, "VCN:TEST:01:RAMP_MODE_FIX1_RBV") {
-  # MAIN.fbVCN590.stVcnVat590.stCoeParameters.nRampMode_FIX1
-  field(DESC, "MAIN.fbVCN590.stVcnV...rs.nRampMode_FIX1")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynInt32")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.stCoeParameters.nRampMode_FIX1?")
-  field(ZNAM, "CONST_TIME")
-  field(ONAM, "CONST_SLOPE")
-  info(archive, "VAL")
-}
-
-record(bo, "VCN:TEST:01:RAMP_MODE_FIX1") {
-  # MAIN.fbVCN590.stVcnVat590.stCoeParameters.nRampMode_FIX1
-  field(DESC, "MAIN.fbVCN590.stVcnV...rs.nRampMode_FIX1")
-  field(DTYP, "asynInt32")
-  field(OUT, "@asyn($(PORT),0,1)ADSPORT=851/MAIN.fbVCN590.stVcnVat590.stCoeParameters.nRampMode_FIX1=")
-  field(ZNAM, "CONST_TIME")
-  field(ONAM, "CONST_SLOPE")
-  info(autosaveFields_pass0, "VAL")
-  info(archive, "VAL")
-}
-
-record(bi, "VCN:TEST:01:CTRL_DIR_FIX1_RBV") {
-  # MAIN.fbVCN590.stVcnVat590.stCoeParameters.nCtrlDir_FIX1
-  field(DESC, "MAIN.fbVCN590.stVcnV...ers.nCtrlDir_FIX1")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynInt32")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.stCoeParameters.nCtrlDir_FIX1?")
-  field(ZNAM, "DOWNSTREAM")
-  field(ONAM, "UPSTREAM")
-  info(archive, "VAL")
-}
-
-record(bo, "VCN:TEST:01:CTRL_DIR_FIX1") {
-  # MAIN.fbVCN590.stVcnVat590.stCoeParameters.nCtrlDir_FIX1
-  field(DESC, "MAIN.fbVCN590.stVcnV...ers.nCtrlDir_FIX1")
-  field(DTYP, "asynInt32")
-  field(OUT, "@asyn($(PORT),0,1)ADSPORT=851/MAIN.fbVCN590.stVcnVat590.stCoeParameters.nCtrlDir_FIX1=")
-  field(ZNAM, "DOWNSTREAM")
-  field(ONAM, "UPSTREAM")
-  info(autosaveFields_pass0, "VAL")
-  info(archive, "VAL")
-}
-
-record(ai, "VCN:TEST:01:PGAIN_FIX1_RBV") {
-  # MAIN.fbVCN590.stVcnVat590.stCoeParameters.fPGain_FIX1
-  field(DESC, "MAIN.fbVCN590.stVcnV...eters.fPGain_FIX1")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynFloat64")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.stCoeParameters.fPGain_FIX1?")
-  field(PREC, "3")
-  info(autosaveFields_pass0, "PREC")
-  info(archive, "VAL")
-}
-
-record(ao, "VCN:TEST:01:PGAIN_FIX1") {
-  # MAIN.fbVCN590.stVcnVat590.stCoeParameters.fPGain_FIX1
-  field(DESC, "MAIN.fbVCN590.stVcnV...eters.fPGain_FIX1")
-  field(DTYP, "asynFloat64")
-  field(OUT, "@asyn($(PORT),0,1)ADSPORT=851/MAIN.fbVCN590.stVcnVat590.stCoeParameters.fPGain_FIX1=")
-  field(PREC, "3")
-  field(DRVH, "100.0")
-  field(DRVL, "0.001")
-  info(autosaveFields_pass0, "PREC VAL")
-  info(archive, "VAL")
-}
-
-record(ai, "VCN:TEST:01:IGAIN_FIX1_RBV") {
-  # MAIN.fbVCN590.stVcnVat590.stCoeParameters.fIGain_FIX1
-  field(DESC, "MAIN.fbVCN590.stVcnV...eters.fIGain_FIX1")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynFloat64")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.stCoeParameters.fIGain_FIX1?")
-  field(PREC, "3")
-  info(autosaveFields_pass0, "PREC")
-  info(archive, "VAL")
-}
-
-record(ao, "VCN:TEST:01:IGAIN_FIX1") {
-  # MAIN.fbVCN590.stVcnVat590.stCoeParameters.fIGain_FIX1
-  field(DESC, "MAIN.fbVCN590.stVcnV...eters.fIGain_FIX1")
-  field(DTYP, "asynFloat64")
-  field(OUT, "@asyn($(PORT),0,1)ADSPORT=851/MAIN.fbVCN590.stVcnVat590.stCoeParameters.fIGain_FIX1=")
-  field(PREC, "3")
-  field(DRVH, "100.0")
-  field(DRVL, "0.0")
-  info(autosaveFields_pass0, "PREC VAL")
-  info(archive, "VAL")
-}
-
-record(ai, "VCN:TEST:01:RAMP_TIME_FIX2_RBV") {
-  # MAIN.fbVCN590.stVcnVat590.stCoeParameters.fRampTime_FIX2
-  field(DESC, "MAIN.fbVCN590.stVcnV...rs.fRampTime_FIX2")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynFloat64")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.stCoeParameters.fRampTime_FIX2?")
-  field(PREC, "3")
-  field(EGU, "s")
-  info(autosaveFields_pass0, "PREC")
-  info(archive, "VAL")
-}
-
-record(ao, "VCN:TEST:01:RAMP_TIME_FIX2") {
-  # MAIN.fbVCN590.stVcnVat590.stCoeParameters.fRampTime_FIX2
-  field(DESC, "MAIN.fbVCN590.stVcnV...rs.fRampTime_FIX2")
-  field(DTYP, "asynFloat64")
-  field(OUT, "@asyn($(PORT),0,1)ADSPORT=851/MAIN.fbVCN590.stVcnVat590.stCoeParameters.fRampTime_FIX2=")
-  field(PREC, "3")
-  field(EGU, "s")
-  field(DRVH, "1000000.0")
-  field(DRVL, "0.0")
-  info(autosaveFields_pass0, "PREC VAL")
-  info(archive, "VAL")
-}
-
-record(bi, "VCN:TEST:01:RAMP_MODE_FIX2_RBV") {
-  # MAIN.fbVCN590.stVcnVat590.stCoeParameters.nRampMode_FIX2
-  field(DESC, "MAIN.fbVCN590.stVcnV...rs.nRampMode_FIX2")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynInt32")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.stCoeParameters.nRampMode_FIX2?")
-  field(ZNAM, "CONST_TIME")
-  field(ONAM, "CONST_SLOPE")
-  info(archive, "VAL")
-}
-
-record(bo, "VCN:TEST:01:RAMP_MODE_FIX2") {
-  # MAIN.fbVCN590.stVcnVat590.stCoeParameters.nRampMode_FIX2
-  field(DESC, "MAIN.fbVCN590.stVcnV...rs.nRampMode_FIX2")
-  field(DTYP, "asynInt32")
-  field(OUT, "@asyn($(PORT),0,1)ADSPORT=851/MAIN.fbVCN590.stVcnVat590.stCoeParameters.nRampMode_FIX2=")
-  field(ZNAM, "CONST_TIME")
-  field(ONAM, "CONST_SLOPE")
-  info(autosaveFields_pass0, "VAL")
-  info(archive, "VAL")
-}
-
-record(bi, "VCN:TEST:01:CTRL_DIR_FIX2_RBV") {
-  # MAIN.fbVCN590.stVcnVat590.stCoeParameters.nCtrlDir_FIX2
-  field(DESC, "MAIN.fbVCN590.stVcnV...ers.nCtrlDir_FIX2")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynInt32")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.stCoeParameters.nCtrlDir_FIX2?")
-  field(ZNAM, "DOWNSTREAM")
-  field(ONAM, "UPSTREAM")
-  info(archive, "VAL")
-}
-
-record(bo, "VCN:TEST:01:CTRL_DIR_FIX2") {
-  # MAIN.fbVCN590.stVcnVat590.stCoeParameters.nCtrlDir_FIX2
-  field(DESC, "MAIN.fbVCN590.stVcnV...ers.nCtrlDir_FIX2")
-  field(DTYP, "asynInt32")
-  field(OUT, "@asyn($(PORT),0,1)ADSPORT=851/MAIN.fbVCN590.stVcnVat590.stCoeParameters.nCtrlDir_FIX2=")
-  field(ZNAM, "DOWNSTREAM")
-  field(ONAM, "UPSTREAM")
-  info(autosaveFields_pass0, "VAL")
-  info(archive, "VAL")
-}
-
-record(ai, "VCN:TEST:01:PGAIN_FIX2_RBV") {
-  # MAIN.fbVCN590.stVcnVat590.stCoeParameters.fPGain_FIX2
-  field(DESC, "MAIN.fbVCN590.stVcnV...eters.fPGain_FIX2")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynFloat64")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.stCoeParameters.fPGain_FIX2?")
-  field(PREC, "3")
-  info(autosaveFields_pass0, "PREC")
-  info(archive, "VAL")
-}
-
-record(ao, "VCN:TEST:01:PGAIN_FIX2") {
-  # MAIN.fbVCN590.stVcnVat590.stCoeParameters.fPGain_FIX2
-  field(DESC, "MAIN.fbVCN590.stVcnV...eters.fPGain_FIX2")
-  field(DTYP, "asynFloat64")
-  field(OUT, "@asyn($(PORT),0,1)ADSPORT=851/MAIN.fbVCN590.stVcnVat590.stCoeParameters.fPGain_FIX2=")
-  field(PREC, "3")
-  field(DRVH, "100.0")
-  field(DRVL, "0.001")
-  info(autosaveFields_pass0, "PREC VAL")
-  info(archive, "VAL")
-}
-
-record(ai, "VCN:TEST:01:IGAIN_FIX2_RBV") {
-  # MAIN.fbVCN590.stVcnVat590.stCoeParameters.fIGain_FIX2
-  field(DESC, "MAIN.fbVCN590.stVcnV...eters.fIGain_FIX2")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynFloat64")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.stCoeParameters.fIGain_FIX2?")
-  field(PREC, "3")
-  info(autosaveFields_pass0, "PREC")
-  info(archive, "VAL")
-}
-
-record(ao, "VCN:TEST:01:IGAIN_FIX2") {
-  # MAIN.fbVCN590.stVcnVat590.stCoeParameters.fIGain_FIX2
-  field(DESC, "MAIN.fbVCN590.stVcnV...eters.fIGain_FIX2")
-  field(DTYP, "asynFloat64")
-  field(OUT, "@asyn($(PORT),0,1)ADSPORT=851/MAIN.fbVCN590.stVcnVat590.stCoeParameters.fIGain_FIX2=")
-  field(PREC, "3")
-  field(DRVH, "100.0")
-  field(DRVL, "0.0")
-  info(autosaveFields_pass0, "PREC VAL")
-  info(archive, "VAL")
-}
-
-record(ai, "VCN:TEST:01:RAMP_TIME_SP_RBV") {
-  # MAIN.fbVCN590.stVcnVat590.stCoeParameters.fRampTime_SP
-  field(DESC, "MAIN.fbVCN590.stVcnV...ters.fRampTime_SP")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynFloat64")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.stCoeParameters.fRampTime_SP?")
-  field(PREC, "3")
-  field(EGU, "s")
-  info(autosaveFields_pass0, "PREC")
-  info(archive, "VAL")
-}
-
-record(ao, "VCN:TEST:01:RAMP_TIME_SP") {
-  # MAIN.fbVCN590.stVcnVat590.stCoeParameters.fRampTime_SP
-  field(DESC, "MAIN.fbVCN590.stVcnV...ters.fRampTime_SP")
-  field(DTYP, "asynFloat64")
-  field(OUT, "@asyn($(PORT),0,1)ADSPORT=851/MAIN.fbVCN590.stVcnVat590.stCoeParameters.fRampTime_SP=")
-  field(PREC, "3")
-  field(EGU, "s")
-  field(DRVH, "1000000.0")
-  field(DRVL, "0.0")
-  info(autosaveFields_pass0, "PREC VAL")
-  info(archive, "VAL")
-}
-
-record(bi, "VCN:TEST:01:RAMP_MODE_SP_RBV") {
-  # MAIN.fbVCN590.stVcnVat590.stCoeParameters.nRampMode_SP
-  field(DESC, "MAIN.fbVCN590.stVcnV...ters.nRampMode_SP")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynInt32")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.stCoeParameters.nRampMode_SP?")
-  field(ZNAM, "CONST_TIME")
-  field(ONAM, "CONST_SLOPE")
-  info(archive, "VAL")
-}
-
-record(bo, "VCN:TEST:01:RAMP_MODE_SP") {
-  # MAIN.fbVCN590.stVcnVat590.stCoeParameters.nRampMode_SP
-  field(DESC, "MAIN.fbVCN590.stVcnV...ters.nRampMode_SP")
-  field(DTYP, "asynInt32")
-  field(OUT, "@asyn($(PORT),0,1)ADSPORT=851/MAIN.fbVCN590.stVcnVat590.stCoeParameters.nRampMode_SP=")
-  field(ZNAM, "CONST_TIME")
-  field(ONAM, "CONST_SLOPE")
-  info(autosaveFields_pass0, "VAL")
-  info(archive, "VAL")
-}
-
-record(ai, "VCN:TEST:01:PGAIN_SP_RBV") {
-  # MAIN.fbVCN590.stVcnVat590.stCoeParameters.fPGain_SP
-  field(DESC, "MAIN.fbVCN590.stVcnV...ameters.fPGain_SP")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynFloat64")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.stCoeParameters.fPGain_SP?")
-  field(PREC, "3")
-  info(autosaveFields_pass0, "PREC")
-  info(archive, "VAL")
-}
-
-record(ao, "VCN:TEST:01:PGAIN_SP") {
-  # MAIN.fbVCN590.stVcnVat590.stCoeParameters.fPGain_SP
-  field(DESC, "MAIN.fbVCN590.stVcnV...ameters.fPGain_SP")
-  field(DTYP, "asynFloat64")
-  field(OUT, "@asyn($(PORT),0,1)ADSPORT=851/MAIN.fbVCN590.stVcnVat590.stCoeParameters.fPGain_SP=")
-  field(PREC, "3")
-  field(DRVH, "100.0")
-  field(DRVL, "0.001")
-  info(autosaveFields_pass0, "PREC VAL")
-  info(archive, "VAL")
-}
-
-record(bi, "VCN:TEST:01:COE_ERROR_RBV") {
-  field(DESC, "MAIN.fbVCN590.stVcnVat590.bCoeError")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynInt32")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.bCoeError?")
-  field(ZNAM, "FALSE")
-  field(ONAM, "TRUE")
-  info(archive, "VAL")
-}
-
-record(bi, "VCN:TEST:01:COE_RESET_RBV") {
-  field(DESC, "MAIN.fbVCN590.stVcnVat590.bResetCoeError")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynInt32")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/MAIN.fbVCN590.stVcnVat590.bResetCoeError?")
-  field(ZNAM, "FALSE")
-  field(ONAM, "TRUE")
-  info(archive, "VAL")
-}
-
-record(bo, "VCN:TEST:01:COE_RESET") {
-  field(DESC, "MAIN.fbVCN590.stVcnVat590.bResetCoeError")
-  field(DTYP, "asynInt32")
-  field(OUT, "@asyn($(PORT),0,1)ADSPORT=851/MAIN.fbVCN590.stVcnVat590.bResetCoeError=")
-  field(ZNAM, "FALSE")
-  field(ONAM, "TRUE")
-  info(autosaveFields_pass0, "VAL")
-  info(archive, "VAL")
-}
-
-record(longin, "$(PREFIX)SuccessfulPreemptions_RBV") {
-  field(DESC, "PMPS_GVL.SuccessfulPreemption")
-  field(SCAN, "I/O Intr")
-  field(PINI, "1")
-  field(TSE, "-2")
-  field(DTYP, "asynInt32")
-  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/PMPS_GVL.SuccessfulPreemption?")
+  field(ZRST, "2oo3")
+  field(ONST, "GAUGE_01")
+  field(TWST, "GAUGE_02")
+  field(OUT, "@asyn($(PORT),0,1)ADSPORT=851/MAIN.nTest=")
+  info(autosaveFields_pass0, "DESC DISS DRVH DRVL HHSV HIGH HIHI HSV LLSV LOLO LOW LSV SIMS UDFS VAL")
   info(archive, "VAL")
 }
 
@@ -1585,5 +1329,391 @@ record(longin, "$(PREFIX)AccumulatedFastFaults_RBV") {
   field(TSE, "-2")
   field(DTYP, "asynInt32")
   field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/PMPS_GVL.AccumulatedFF?")
+  info(autosaveFields_pass0, "DESC DISS HHSV HIGH HIHI HSV LLSV LOLO LOW LSV SIMS UDFS")
   info(archive, "VAL")
+}
+
+record(longin, "$(PREFIX)SuccessfulPreemptions_RBV") {
+  field(DESC, "PMPS_GVL.SuccessfulPreemption")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynInt32")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/PMPS_GVL.SuccessfulPreemption?")
+  info(autosaveFields_pass0, "DESC DISS HHSV HIGH HIHI HSV LLSV LOLO LOW LSV SIMS UDFS")
+  info(archive, "VAL")
+}
+
+record(waveform, "$(PREFIX)0RateBeamCnst:Veto_RBV") {
+  field(DESC, "0-rate beam constant")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynInt8ArrayIn")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/PMPS_GVL.cst0RateBeam.aVetoDevices?")
+  field(FTVL, "CHAR")
+  field(NELM, "16")
+  field(MPST, "On Change")
+  field(APST, "On Change")
+  info(autosaveFields_pass0, "DESC DISS SIMS UDFS")
+  info(archive, "monitor 1: VAL")
+}
+
+record(longin, "$(PREFIX)0RateBeamCnst:Cohort_RBV") {
+  field(DESC, "Cohort inc on each arb cycle")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynInt32")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/PMPS_GVL.cst0RateBeam.nCohortInt?")
+  info(autosaveFields_pass0, "DESC DISS HHSV HIGH HIHI HSV LLSV LOLO LOW LSV SIMS UDFS")
+  info(archive, "monitor 1: VAL")
+}
+
+record(longin, "$(PREFIX)0RateBeamCnst:Rate_RBV") {
+  field(DESC, "0-rate beam constant")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynInt32")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/PMPS_GVL.cst0RateBeam.nRate?")
+  field(EGU, "Hz")
+  info(autosaveFields_pass0, "DESC DISS HHSV HIGH HIHI HSV LLSV LOLO LOW LSV SIMS UDFS")
+  info(archive, "monitor 1: VAL")
+}
+
+record(ai, "$(PREFIX)0RateBeamCnst:Transmission_RBV") {
+  field(DESC, "0-rate beam constant")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynFloat64")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/PMPS_GVL.cst0RateBeam.nTran?")
+  field(PREC, "2")
+  field(HOPR, "1")
+  field(LOPR, "0")
+  info(autosaveFields_pass0, "DESC DISS HHSV HIGH HIHI HSV LLSV LOLO LOW LSV PREC SIMS UDFS")
+  info(archive, "monitor 1: VAL")
+}
+
+record(longin, "$(PREFIX)0RateBeamCnst:PhotonEnergyRanges_RBV") {
+  field(DESC, "0-rate beam constant")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynInt32")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/PMPS_GVL.cst0RateBeam.neVRange?")
+  field(EGU, "eV")
+  info(autosaveFields_pass0, "DESC DISS HHSV HIGH HIHI HSV LLSV LOLO LOW LSV SIMS UDFS")
+  info(archive, "monitor 1: VAL")
+}
+
+record(bi, "$(PREFIX)0RateBeamCnst:Valid_RBV") {
+  field(DESC, "0-rate beam constant")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynInt32")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/PMPS_GVL.cst0RateBeam.xValid?")
+  field(ZNAM, "FALSE")
+  field(ONAM, "TRUE")
+  info(autosaveFields_pass0, "DESC DISS OSV SIMS UDFS ZSV")
+  info(archive, "monitor 1: VAL")
+}
+
+record(waveform, "$(PREFIX)FullBeamCnst:Veto_RBV") {
+  field(DESC, "Full beam constant")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynInt8ArrayIn")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/PMPS_GVL.cstFullBeam.aVetoDevices?")
+  field(FTVL, "CHAR")
+  field(NELM, "16")
+  field(MPST, "On Change")
+  field(APST, "On Change")
+  info(autosaveFields_pass0, "DESC DISS SIMS UDFS")
+  info(archive, "monitor 1: VAL")
+}
+
+record(longin, "$(PREFIX)FullBeamCnst:Cohort_RBV") {
+  field(DESC, "Cohort inc on each arb cycle")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynInt32")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/PMPS_GVL.cstFullBeam.nCohortInt?")
+  info(autosaveFields_pass0, "DESC DISS HHSV HIGH HIHI HSV LLSV LOLO LOW LSV SIMS UDFS")
+  info(archive, "monitor 1: VAL")
+}
+
+record(longin, "$(PREFIX)FullBeamCnst:Rate_RBV") {
+  field(DESC, "Full beam constant")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynInt32")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/PMPS_GVL.cstFullBeam.nRate?")
+  field(EGU, "Hz")
+  info(autosaveFields_pass0, "DESC DISS HHSV HIGH HIHI HSV LLSV LOLO LOW LSV SIMS UDFS")
+  info(archive, "monitor 1: VAL")
+}
+
+record(ai, "$(PREFIX)FullBeamCnst:Transmission_RBV") {
+  field(DESC, "Full beam constant")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynFloat64")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/PMPS_GVL.cstFullBeam.nTran?")
+  field(PREC, "2")
+  field(HOPR, "1")
+  field(LOPR, "0")
+  info(autosaveFields_pass0, "DESC DISS HHSV HIGH HIHI HSV LLSV LOLO LOW LSV PREC SIMS UDFS")
+  info(archive, "monitor 1: VAL")
+}
+
+record(longin, "$(PREFIX)FullBeamCnst:PhotonEnergyRanges_RBV") {
+  field(DESC, "Full beam constant")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynInt32")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/PMPS_GVL.cstFullBeam.neVRange?")
+  field(EGU, "eV")
+  info(autosaveFields_pass0, "DESC DISS HHSV HIGH HIHI HSV LLSV LOLO LOW LSV SIMS UDFS")
+  info(archive, "monitor 1: VAL")
+}
+
+record(bi, "$(PREFIX)FullBeamCnst:Valid_RBV") {
+  field(DESC, "Full beam constant")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynInt32")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/PMPS_GVL.cstFullBeam.xValid?")
+  field(ZNAM, "FALSE")
+  field(ONAM, "TRUE")
+  info(autosaveFields_pass0, "DESC DISS OSV SIMS UDFS ZSV")
+  info(archive, "monitor 1: VAL")
+}
+
+record(waveform, "$(PREFIX)eVRangeCnst_RBV") {
+  field(DESC, "Active eV Range constants")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynFloat32ArrayIn")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/PMPS_GVL.g_areVBoundaries?")
+  field(FTVL, "FLOAT")
+  field(EGU, "eV")
+  field(NELM, "32")
+  field(MPST, "On Change")
+  field(APST, "On Change")
+  info(autosaveFields_pass0, "DESC DISS SIMS UDFS")
+  info(archive, "monitor 1: VAL")
+}
+
+record(waveform, "$(PREFIX)K:eVRangeCnst_RBV") {
+  field(DESC, "eV Range constants")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynFloat32ArrayIn")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/PMPS_GVL.g_areVBoundariesK?")
+  field(FTVL, "FLOAT")
+  field(EGU, "eV")
+  field(NELM, "32")
+  field(MPST, "On Change")
+  field(APST, "On Change")
+  info(autosaveFields_pass0, "DESC DISS SIMS UDFS")
+  info(archive, "monitor 1: VAL")
+}
+
+record(waveform, "$(PREFIX)L:eVRangeCnst_RBV") {
+  field(DESC, "eV Range constants")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynFloat32ArrayIn")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/PMPS_GVL.g_areVBoundariesL?")
+  field(FTVL, "FLOAT")
+  field(EGU, "eV")
+  field(NELM, "32")
+  field(MPST, "On Change")
+  field(APST, "On Change")
+  info(autosaveFields_pass0, "DESC DISS SIMS UDFS")
+  info(archive, "monitor 1: VAL")
+}
+
+record(ai, "$(PREFIX)eVRangeHyst_RBV") {
+  field(DESC, "eV Range hystersis")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynFloat64")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/PMPS_GVL.reVHyst?")
+  field(PREC, "3")
+  field(EGU, "eV")
+  info(autosaveFields_pass0, "DESC DISS HHSV HIGH HIHI HSV LLSV LOLO LOW LSV PREC SIMS UDFS")
+  info(archive, "monitor 1: VAL")
+}
+
+record(waveform, "$(PREFIX)CurrentBP:Veto_RBV") {
+  # PMPS_GVL.stCurrentBeamParameters.aVetoDevices
+  field(DESC, "PMPS_GVL.stCurrentBe...ters.aVetoDevices")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynInt8ArrayIn")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/PMPS_GVL.stCurrentBeamParameters.aVetoDevices?")
+  field(FTVL, "CHAR")
+  field(NELM, "16")
+  field(MPST, "On Change")
+  field(APST, "On Change")
+  info(autosaveFields_pass0, "DESC DISS SIMS UDFS")
+  info(archive, "monitor 1: VAL")
+}
+
+record(longin, "$(PREFIX)CurrentBP:Cohort_RBV") {
+  field(DESC, "Cohort inc on each arb cycle")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynInt32")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/PMPS_GVL.stCurrentBeamParameters.nCohortInt?")
+  info(autosaveFields_pass0, "DESC DISS HHSV HIGH HIHI HSV LLSV LOLO LOW LSV SIMS UDFS")
+  info(archive, "monitor 1: VAL")
+}
+
+record(longin, "$(PREFIX)CurrentBP:Rate_RBV") {
+  field(DESC, "PMPS_GVL.stCurrentBeamParameters.nRate")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynInt32")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/PMPS_GVL.stCurrentBeamParameters.nRate?")
+  field(EGU, "Hz")
+  info(autosaveFields_pass0, "DESC DISS HHSV HIGH HIHI HSV LLSV LOLO LOW LSV SIMS UDFS")
+  info(archive, "monitor 1: VAL")
+}
+
+record(ai, "$(PREFIX)CurrentBP:Transmission_RBV") {
+  field(DESC, "PMPS_GVL.stCurrentBeamParameters.nTran")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynFloat64")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/PMPS_GVL.stCurrentBeamParameters.nTran?")
+  field(PREC, "2")
+  field(HOPR, "1")
+  field(LOPR, "0")
+  info(autosaveFields_pass0, "DESC DISS HHSV HIGH HIHI HSV LLSV LOLO LOW LSV PREC SIMS UDFS")
+  info(archive, "monitor 1: VAL")
+}
+
+record(longin, "$(PREFIX)CurrentBP:PhotonEnergyRanges_RBV") {
+  # PMPS_GVL.stCurrentBeamParameters.neVRange
+  field(DESC, "PMPS_GVL.stCurrentBe...rameters.neVRange")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynInt32")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/PMPS_GVL.stCurrentBeamParameters.neVRange?")
+  field(EGU, "eV")
+  info(autosaveFields_pass0, "DESC DISS HHSV HIGH HIHI HSV LLSV LOLO LOW LSV SIMS UDFS")
+  info(archive, "monitor 1: VAL")
+}
+
+record(bi, "$(PREFIX)CurrentBP:Valid_RBV") {
+  field(DESC, "PMPS_GVL.stCurrentBeamParameters.xValid")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynInt32")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/PMPS_GVL.stCurrentBeamParameters.xValid?")
+  field(ZNAM, "FALSE")
+  field(ONAM, "TRUE")
+  info(autosaveFields_pass0, "DESC DISS OSV SIMS UDFS ZSV")
+  info(archive, "monitor 1: VAL")
+}
+
+record(waveform, "$(PREFIX)RequestedBP:Veto_RBV") {
+  # PMPS_GVL.stRequestedBeamParameters.aVetoDevices
+  field(DESC, "PMPS_GVL.stRequested...ters.aVetoDevices")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynInt8ArrayIn")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/PMPS_GVL.stRequestedBeamParameters.aVetoDevices?")
+  field(FTVL, "CHAR")
+  field(NELM, "16")
+  field(MPST, "On Change")
+  field(APST, "On Change")
+  info(autosaveFields_pass0, "DESC DISS SIMS UDFS")
+  info(archive, "monitor 1: VAL")
+}
+
+record(longin, "$(PREFIX)RequestedBP:Cohort_RBV") {
+  field(DESC, "Cohort inc on each arb cycle")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynInt32")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/PMPS_GVL.stRequestedBeamParameters.nCohortInt?")
+  info(autosaveFields_pass0, "DESC DISS HHSV HIGH HIHI HSV LLSV LOLO LOW LSV SIMS UDFS")
+  info(archive, "monitor 1: VAL")
+}
+
+record(longin, "$(PREFIX)RequestedBP:Rate_RBV") {
+  field(DESC, "PMPS_GVL.stRequestedBeamParameters.nRate")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynInt32")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/PMPS_GVL.stRequestedBeamParameters.nRate?")
+  field(EGU, "Hz")
+  info(autosaveFields_pass0, "DESC DISS HHSV HIGH HIHI HSV LLSV LOLO LOW LSV SIMS UDFS")
+  info(archive, "monitor 1: VAL")
+}
+
+record(ai, "$(PREFIX)RequestedBP:Transmission_RBV") {
+  field(DESC, "PMPS_GVL.stRequestedBeamParameters.nTran")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynFloat64")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/PMPS_GVL.stRequestedBeamParameters.nTran?")
+  field(PREC, "2")
+  field(HOPR, "1")
+  field(LOPR, "0")
+  info(autosaveFields_pass0, "DESC DISS HHSV HIGH HIHI HSV LLSV LOLO LOW LSV PREC SIMS UDFS")
+  info(archive, "monitor 1: VAL")
+}
+
+record(longin, "$(PREFIX)RequestedBP:PhotonEnergyRanges_RBV") {
+  # PMPS_GVL.stRequestedBeamParameters.neVRange
+  field(DESC, "PMPS_GVL.stRequested...rameters.neVRange")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynInt32")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/PMPS_GVL.stRequestedBeamParameters.neVRange?")
+  field(EGU, "eV")
+  info(autosaveFields_pass0, "DESC DISS HHSV HIGH HIHI HSV LLSV LOLO LOW LSV SIMS UDFS")
+  info(archive, "monitor 1: VAL")
+}
+
+record(bi, "$(PREFIX)RequestedBP:Valid_RBV") {
+  # PMPS_GVL.stRequestedBeamParameters.xValid
+  field(DESC, "PMPS_GVL.stRequested...Parameters.xValid")
+  field(SCAN, "I/O Intr")
+  field(PINI, "1")
+  field(TSE, "-2")
+  field(DTYP, "asynInt32")
+  field(INP, "@asyn($(PORT),0,1)ADSPORT=851/POLL_RATE=1/PMPS_GVL.stRequestedBeamParameters.xValid?")
+  field(ZNAM, "FALSE")
+  field(ONAM, "TRUE")
+  info(autosaveFields_pass0, "DESC DISS OSV SIMS UDFS ZSV")
+  info(archive, "monitor 1: VAL")
 }
