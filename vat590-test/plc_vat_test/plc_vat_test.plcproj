@@ -80,6 +80,9 @@
     <Compile Include="POUs\CoE\FB_CoE_Write.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\Gauges\FB_IE514.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="POUs\Valves\FB_VCN_VAT590.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -93,6 +96,7 @@
     <Folder Include="DUTs\VAT590\EtherCAT Interface" />
     <Folder Include="GVLs" />
     <Folder Include="POUs\CoE" />
+    <Folder Include="POUs\Gauges" />
     <Folder Include="POUs\Valves" />
     <Folder Include="VISUs" />
     <Folder Include="POUs" />
@@ -128,7 +132,7 @@
     </PlaceholderReference>
   </ItemGroup>
   <ItemGroup>
-    <LibraryReference Include="LCLS Vacuum,2.0.1,SLAC - LCLS">
+    <LibraryReference Include="LCLS Vacuum,2.3.0,SLAC - LCLS">
       <Namespace>LCLS_Vacuum</Namespace>
     </LibraryReference>
   </ItemGroup>
