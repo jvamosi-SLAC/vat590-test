@@ -25,8 +25,6 @@ VAR
 	rPRESS : REAL; //Calculated pressure from raw voltage
 	tHvDis_CH1 : TON := (PT := T#10S); //HV turn on timer
 	tHvDis_CH2 : TON := (PT := T#10S); //HV turn on timer
-	rMaxPressure : REAL := 7.5E-5; //Torr
-	rMinPressure : REAL := 7.5E-14; //Torr
 	
 	rtHvSw_CH1 : R_TRIG;
 	rtHvSw_CH2 : R_TRIG;
@@ -55,6 +53,10 @@ VAR
 	i_xERR_CH2 AT %I* : BOOL; // TRUE when ERROR present on assigned channel
 	i_xCH2_SEL AT %I* : BOOL; // TRUE when CH2 selected, FALSE when CH1 selected
 END_VAR
+VAR CONSTANT
+	rMaxPressure : REAL := 7.5E-5; //Torr
+	rMinPressure : REAL := 7.5E-14; //Torr
+END_VAR
 VAR PERSISTENT
     //Persistent variables for CH1
     rVAC_SP_CH1 : REAL;
@@ -73,7 +75,7 @@ END_VAR
 (*Soft IO Linking*)
 IO();
 
-(*Select channel at the starup, according to input from controller*)
+(*Select channel at the startup, according to input from the controller*)
 IF bInit THEN
 	IF NOT i_xCH2_SEL THEN
 		bCh1Sel := TRUE;
@@ -89,21 +91,25 @@ END_IF
 rtHvSw_CH1(CLK := IG_CH1.xHV_SW);
 rtHvSw_CH2(CLK := IG_CH2.xHV_SW);
 IF rtHvSw_CH1.Q THEN
-	//IG_CH1.xHV_SW := TRUE;
 	IG_CH2.xHV_SW := FALSE;
+	IG_CH2.q_xHV_DIS := FALSE;
 	bCh1Sel := TRUE;
 	bCh2Sel := FALSE;
 END_IF
 
 IF rtHvSw_CH2.Q THEN
-	//IG_CH2.xHV_SW := TRUE;
 	IG_CH1.xHV_SW := FALSE;
+	IG_CH1.q_xHV_DIS := FALSE;
 	bCh1Sel := FALSE;
 	bCh2Sel := TRUE;
 END_IF
 
+//Start timers when HV ON signal triggered
+tHvDis_CH1(IN := IG_CH1.q_xHV_DIS, Q => IG_CH1.xTurnOnTime);
+tHvDis_CH2(IN := IG_CH2.q_xHV_DIS, Q => IG_CH2.xTurnOnTime);
+
 (*Raw voltage conversion*)
-// check no div by zero
+//check no div by zero
 IF (iTermBits = 0) THEN iTermBits := 30518; END_IF
 rV := 10*INT_TO_REAL(i_iPRESS_R)/iTermBits;
 
@@ -117,20 +123,24 @@ ELSE
 	IG_CH1.rPRESS := 0;
 END_IF
 
-(* Pressure gauge State checks *) //think, adjust voltage levels here when testing
+(*Pressure gauge State checks*)
 //CH1
 IF bCh1Sel AND IG_CH1.xHV_SW THEN
-	IF i_xERR_CH1 THEN
+	(*IF i_xERR_CH1 THEN
 		IG_CH1.eState := PressInvalid; //other fault - could be no gauge, controller powering up etc.
 		IG_CH1.rPRESS := 0;
-	ELSIF (rV <= 9.6) AND (rV > 0.22) THEN
-		IG_CH1.eState := Valid; // normal
-	ELSIF rV >= 0.18 AND rV <= 0.22 THEN 
-		IG_CH1.eState := ValidLo; //LO
-	ELSIF rV > 9.6 AND rV <= 9.9 THEN
+	ELSIF (rV <= 9.6) AND (rV > 0.22) THEN*)
+	IF (rV <= 9.8) AND (rV > 0.2) THEN
+		IG_CH1.eState := Valid; // NORMAL
+	ELSIF rV >= 0.0 AND rV <= 0.2 THEN 
+		IG_CH1.eState := ValidLo; //LOW
+	ELSIF rV > 9.8 AND rV <= 10.0 THEN
 		IG_CH1.eState := ValidHi; //HIGH
-	ELSIF rV <= 0.18 THEN
-		IG_CH1.eState := GaugeDisconnected; //not on
+	ELSIF rV > 10.0 AND tHvDis_CH1.Q THEN
+		IG_CH1.eState := GaugeDisconnected; //gauge disconnected
+		IG_CH1.rPRESS := 0;
+	ELSIF rV > 10.0 AND NOT tHvDis_CH1.Q THEN
+		IG_CH1.eState := Starting; //gauge is starting
 		IG_CH1.rPRESS := 0;
 	ELSE
 		IG_CH1.eState := PressInvalid; //other fault - could be no gauge, controller powering up etc.
@@ -143,17 +153,21 @@ END_IF
 
 //CH2
 IF bCh2Sel AND IG_CH2.xHV_SW THEN
-	IF i_xERR_CH2 THEN
+	(*IF i_xERR_CH2 THEN
 		IG_CH2.eState := PressInvalid; //other fault - could be no gauge, controller powering up etc.
 		IG_CH2.rPRESS := 0;
-	ELSIF (rV <= 9.6) AND (rV > 0.22) THEN
-		IG_CH2.eState := Valid; // normal
-	ELSIF rV >= 0.18 AND rV <= 0.22 THEN 
-		IG_CH2.eState := ValidLo; //LO
-	ELSIF rV > 9.6 AND rV <= 9.9 THEN
+	ELSIF (rV <= 9.6) AND (rV > 0.22) THEN*)
+	IF (rV <= 9.8) AND (rV > 0.2) THEN
+		IG_CH2.eState := Valid; // NORMAL
+	ELSIF rV >= 0.0 AND rV <= 0.2 THEN 
+		IG_CH2.eState := ValidLo; //LOW
+	ELSIF rV > 9.8 AND rV <= 10.0 THEN
 		IG_CH2.eState := ValidHi; //HIGH
-	ELSIF rV <= 0.18 THEN
-		IG_CH2.eState := GaugeDisconnected; //not on
+	ELSIF rV > 10.0 AND tHvDis_CH2.Q THEN
+		IG_CH2.eState := GaugeDisconnected; //gauge disconnected
+		IG_CH2.rPRESS := 0;
+	ELSIF rV > 10.0 AND NOT tHvDis_CH2.Q THEN
+		IG_CH2.eState := Starting; //gauge is starting
 		IG_CH2.rPRESS := 0;
 	ELSE
 		IG_CH2.eState := PressInvalid; //other fault - could be no gauge, controller powering up etc.
@@ -168,49 +182,43 @@ END_IF
 (* If the PG pressure is greater than the VG.PRO_SP then the gauge is disabled *)
 (* If the PG pressure is less than the VG.PRO_SP then the gauge is enabled *)
 (* This FB also implements some hysteresis so the gauge doesn't have rapid power cycling while near the turn on boundary *)
-//Start timers when HV ON signal triggered
-tHvDis_CH1(IN := IG_CH1.q_xHV_DIS, Q => IG_CH1.xTurnOnTime);
-tHvDis_CH2(IN := IG_CH2.q_xHV_DIS, Q => IG_CH2.xTurnOnTime);
 
 //CH1
-IF bCh1Sel THEN
-	IF (PG.rPRESS <= IG_CH1.rPRO_SP) THEN
-		IG_CH1.q_xHV_DIS := IG_CH1.xHV_SW;
-		IG_CH1.xILKOk := TRUE;
-	ELSIF IG_CH1.q_xHV_DIS AND tHvDis_CH1.Q THEN
-		IF IG_CH1.rPRESS > (IG_CH1.rPRO_SP + IG_CH1.rHYS_PR) OR PG.rPRESS > (IG_CH1.rPRO_SP + IG_CH1.rHYS_PR) THEN
-			IG_CH1.q_xHV_DIS := FALSE;
-			IG_CH1.xHV_SW := FALSE;
-		END_IF
-	ELSE 
+IF (PG.rPRESS <= IG_CH1.rPRO_SP) THEN
+	IG_CH1.q_xHV_DIS := IG_CH1.xHV_SW;
+	IG_CH1.xILKOk := TRUE;
+ELSIF IG_CH1.q_xHV_DIS AND tHvDis_CH1.Q THEN
+	IF IG_CH1.rPRESS > (IG_CH1.rPRO_SP + IG_CH1.rHYS_PR) OR PG.rPRESS > (IG_CH1.rPRO_SP + IG_CH1.rHYS_PR) THEN
 		IG_CH1.q_xHV_DIS := FALSE;
 		IG_CH1.xHV_SW := FALSE;
-		IG_CH1.xILKOk := FALSE;
-	END_IF	
+	END_IF
+ELSE 
+	IG_CH1.q_xHV_DIS := FALSE;
+	IG_CH1.xHV_SW := FALSE;
+	IG_CH1.xILKOk := FALSE;
 END_IF
 
 //CH2
-IF bCh2Sel THEN
-	IF (PG.rPRESS <= IG_CH2.rPRO_SP) THEN
-		IG_CH2.q_xHV_DIS := IG_CH2.xHV_SW;
-		IG_CH2.xILKOk := TRUE;
-	ELSIF IG_CH2.q_xHV_DIS AND tHvDis_CH2.Q THEN
-		IF IG_CH2.rPRESS > (IG_CH2.rPRO_SP + IG_CH2.rHYS_PR) OR PG.rPRESS > (IG_CH2.rPRO_SP + IG_CH2.rHYS_PR) THEN
-			IG_CH2.q_xHV_DIS := FALSE;
-			IG_CH2.xHV_SW := FALSE;
-		END_IF
-	ELSE 
+IF (PG.rPRESS <= IG_CH2.rPRO_SP) THEN
+	IG_CH2.q_xHV_DIS := IG_CH2.xHV_SW;
+	IG_CH2.xILKOk := TRUE;
+ELSIF IG_CH2.q_xHV_DIS AND tHvDis_CH2.Q THEN
+	IF IG_CH2.rPRESS > (IG_CH2.rPRO_SP + IG_CH2.rHYS_PR) OR PG.rPRESS > (IG_CH2.rPRO_SP + IG_CH2.rHYS_PR) THEN
 		IG_CH2.q_xHV_DIS := FALSE;
 		IG_CH2.xHV_SW := FALSE;
-		IG_CH2.xILKOk := FALSE;
-	END_IF	
+	END_IF
+ELSE
+	IG_CH2.q_xHV_DIS := FALSE;
+	IG_CH2.xHV_SW := FALSE;
+	IG_CH2.xILKOk := FALSE;
 END_IF
 
-(* Pressure gauge OK checks, Backwards compatibility *)
-IG_CH1.xPRESS_OK := ((IG_CH1.eState = Valid) OR IG_CH1.xBAKEOUT) AND NOT i_xERR_CH1 AND NOT i_xCH2_SEL;
-IG_CH2.xPRESS_OK := ((IG_CH2.eState = Valid) OR IG_CH2.xBAKEOUT) AND NOT i_xERR_CH2 AND i_xCH2_SEL;
 
-(* Setpoint evaluation *)
+(*Pressure gauge OK checks, Backwards compatibility*)
+IG_CH1.xPRESS_OK := ((IG_CH1.eState = Valid) OR IG_CH1.xBAKEOUT); //AND NOT i_xERR_CH1 AND NOT i_xCH2_SEL;
+IG_CH2.xPRESS_OK := ((IG_CH2.eState = Valid) OR IG_CH2.xBAKEOUT); //AND NOT i_xERR_CH2 AND i_xCH2_SEL;
+
+(*Setpoint evaluation*)
 IG_CH1.xAT_VAC := IG_CH1.xPRESS_OK AND IG_CH1.rPRESS < IG_CH1.rVAC_SP;
 IG_CH2.xAT_VAC := IG_CH2.xPRESS_OK AND IG_CH2.rPRESS < IG_CH2.rVAC_SP;
 
