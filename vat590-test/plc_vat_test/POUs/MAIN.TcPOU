@@ -3,13 +3,13 @@
   <POU Name="MAIN" Id="{e705ade6-0f0a-4b24-98f0-3b81c602a7eb}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
-	(*
+	
     {attribute 'pytmc' := '
       pv: VCN:TEST:01
      '}
 	fbVCN590 : FB_VCN_VAT590; // Variable leak valve VAT590 function block
 	fbMKS500 : FB_MKS500;
-	*)
+	
 	stVG : ST_VG;
     {attribute 'pytmc' := '
       pv: GHC:TEST
@@ -20,8 +20,11 @@ END_VAR
     <Implementation>
       <ST><![CDATA[stVG.xPRESS_OK := TRUE;
 stVG.rPress := 1E-4;
-//fbMKS500.M_SetBits(30518);
-//fbMKS500(PG := stVG;
+fbMKS500.M_SetBits(30518);
+fbMKS500(PG := stVG);
+
+fbVCN590(bExtIlkOK := TRUE, IG := fbMKS500.IG);
+
 fbIE514(PG := stVG);]]></ST>
     </Implementation>
   </POU>

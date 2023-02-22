@@ -23,8 +23,8 @@ END_VAR
 VAR
 	rV : REAL; //Raw value in volts calculated from iTermBits
 	rPRESS : REAL; //Calculated pressure from raw voltage
-	tHvDis_CH1 : TON := (PT := T#10S); //HV turn on timer
-	tHvDis_CH2 : TON := (PT := T#10S); //HV turn on timer
+	tHvDis_CH1 : TON := (PT := T#20S); //HV turn on timer
+	tHvDis_CH2 : TON := (PT := T#20S); //HV turn on timer
 	
 	rtHvSw_CH1 : R_TRIG;
 	rtHvSw_CH2 : R_TRIG;
@@ -54,8 +54,13 @@ VAR
 	i_xCH2_SEL AT %I* : BOOL; // TRUE when CH2 selected, FALSE when CH1 selected
 END_VAR
 VAR CONSTANT
-	rMaxPressure : REAL := 7.5E-5; //Torr
-	rMinPressure : REAL := 7.5E-14; //Torr
+	cMaxPressure : REAL := 7.5E-5; //Torr
+	cMinPressure : REAL := 7.5E-14; //Torr
+	cGaugeMinVoltage : REAL := 1.112; //minimum voltage corresponds to 7.5E-13 Torr which should be the minimum pressure IE514 can read.
+	cGaugeMaxVoltage : REAL := 10.0; //maximum voltage corresponds 7.5E-5 Torr which should be the maximum pressure IE514 can read.
+	cGaugeDisconnected : REAL := 10.2; //voltage when gauge is disconnected.
+	cGaugeOff : REAL := 10.2; //voltage when gauge is turned off
+	cDeadband : REAL := 0.05; //deadband in voltage
 END_VAR
 VAR PERSISTENT
     //Persistent variables for CH1
@@ -114,7 +119,7 @@ IF (iTermBits = 0) THEN iTermBits := 30518; END_IF
 rV := 10*INT_TO_REAL(i_iPRESS_R)/iTermBits;
 
 (*RAW voltage to Pressure conversion*)
-rPRESS := LREAL_TO_REAL(EXPT(10, rV/10*LOG(rMaxPressure/rMinPressure) + LOG(rMinPressure))); //manual page 70 IM540 (Mode Full), (Scale) = Log
+rPRESS := LREAL_TO_REAL(EXPT(10, rV/10*LOG(cMaxPressure/cMinPressure) + LOG(cMinPressure))); //manual page 70 IM540 (Mode Full), (Scale) = Log
 IF NOT i_xCH2_SEL THEN
 	IG_CH1.rPRESS := rPRESS;
 	IG_CH2.rPRESS := 0;
@@ -130,16 +135,14 @@ IF bCh1Sel AND IG_CH1.xHV_SW THEN
 		IG_CH1.eState := PressInvalid; //other fault - could be no gauge, controller powering up etc.
 		IG_CH1.rPRESS := 0;
 	ELSIF (rV <= 9.6) AND (rV > 0.22) THEN*)
-	IF (rV <= 9.8) AND (rV > 0.2) THEN
+	IF (rV <= cGaugeMaxVoltage) AND (rV >= cGaugeMinVoltage) AND IG_CH1.i_xHV_ON THEN
 		IG_CH1.eState := Valid; // NORMAL
-	ELSIF rV >= 0.0 AND rV <= 0.2 THEN 
+	ELSIF rV >= 0.0 AND rV < cGaugeMinVoltage AND IG_CH1.i_xHV_ON THEN 
 		IG_CH1.eState := ValidLo; //LOW
-	ELSIF rV > 9.8 AND rV <= 10.0 THEN
-		IG_CH1.eState := ValidHi; //HIGH
-	ELSIF rV > 10.0 AND tHvDis_CH1.Q THEN
+	ELSIF rV > (cGaugeMaxVoltage + cDeadband) AND tHvDis_CH1.Q THEN
 		IG_CH1.eState := GaugeDisconnected; //gauge disconnected
 		IG_CH1.rPRESS := 0;
-	ELSIF rV > 10.0 AND NOT tHvDis_CH1.Q THEN
+	ELSIF rV > (cGaugeMaxVoltage + cDeadband) AND NOT tHvDis_CH1.Q THEN
 		IG_CH1.eState := Starting; //gauge is starting
 		IG_CH1.rPRESS := 0;
 	ELSE
@@ -157,16 +160,14 @@ IF bCh2Sel AND IG_CH2.xHV_SW THEN
 		IG_CH2.eState := PressInvalid; //other fault - could be no gauge, controller powering up etc.
 		IG_CH2.rPRESS := 0;
 	ELSIF (rV <= 9.6) AND (rV > 0.22) THEN*)
-	IF (rV <= 9.8) AND (rV > 0.2) THEN
+	IF (rV <= cGaugeMaxVoltage) AND (rV >= cGaugeMinVoltage) AND IG_CH2.i_xHV_ON THEN
 		IG_CH2.eState := Valid; // NORMAL
-	ELSIF rV >= 0.0 AND rV <= 0.2 THEN 
+	ELSIF rV >= 0.0 AND rV < cGaugeMinVoltage AND IG_CH2.i_xHV_ON THEN 
 		IG_CH2.eState := ValidLo; //LOW
-	ELSIF rV > 9.8 AND rV <= 10.0 THEN
-		IG_CH2.eState := ValidHi; //HIGH
-	ELSIF rV > 10.0 AND tHvDis_CH2.Q THEN
+	ELSIF rV > (cGaugeMaxVoltage + cDeadband) AND tHvDis_CH2.Q THEN
 		IG_CH2.eState := GaugeDisconnected; //gauge disconnected
 		IG_CH2.rPRESS := 0;
-	ELSIF rV > 10.0 AND NOT tHvDis_CH2.Q THEN
+	ELSIF rV > (cGaugeMaxVoltage + cDeadband) AND NOT tHvDis_CH2.Q THEN
 		IG_CH2.eState := Starting; //gauge is starting
 		IG_CH2.rPRESS := 0;
 	ELSE
