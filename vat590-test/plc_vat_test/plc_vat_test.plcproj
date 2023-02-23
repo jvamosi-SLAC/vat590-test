@@ -132,7 +132,7 @@
     </PlaceholderReference>
   </ItemGroup>
   <ItemGroup>
-    <LibraryReference Include="LCLS Vacuum,2.3.0,SLAC - LCLS">
+    <LibraryReference Include="LCLS Vacuum,newest,SLAC - LCLS">
       <Namespace>LCLS_Vacuum</Namespace>
     </LibraryReference>
   </ItemGroup>

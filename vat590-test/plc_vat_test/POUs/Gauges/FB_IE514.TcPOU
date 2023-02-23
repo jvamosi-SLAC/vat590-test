@@ -1,11 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
   <POU Name="FB_IE514" Id="{a97e2217-150d-4da1-935e-7cd0aee79bd0}" SpecialFunc="None">
-    <Declaration><![CDATA[(* This function is for the Hot Cathode IE514 connected to n IM540 *)
-(*This function provides ILK and Set Point Protection for the Hot Cathode*)
+    <Declaration><![CDATA[(*This function is for the IE514 connected to controller IM540*)
+(*This function provides ILK and Set Point Protection for the IE514*)
 FUNCTION_BLOCK FB_IE514 EXTENDS FB_GaugeBase
 VAR_IN_OUT
-
 END_VAR
 VAR_INPUT
 	PG : ST_VG;
@@ -357,7 +356,7 @@ END_IF;]]></ST>
     </Action>
     <Action Name="IO" Id="{4897bdd3-d08c-4a6b-97a4-93b4dfae5b6f}">
       <Implementation>
-        <ST><![CDATA[(*soft link inputs*) /// think which SELECT signal to use here
+        <ST><![CDATA[(*soft link inputs*)
 IF NOT i_xCH2_SEL THEN
 	IG_CH1.i_iPRESS_R := i_iPRESS_R;
 	IG_CH1.i_xHV_ON := i_xHV_ON;
@@ -423,7 +422,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[iTermBits := TermBits;]]></ST>
+        <ST><![CDATA[this^.iTermBits := TermBits;]]></ST>
       </Implementation>
     </Method>
   </POU>
