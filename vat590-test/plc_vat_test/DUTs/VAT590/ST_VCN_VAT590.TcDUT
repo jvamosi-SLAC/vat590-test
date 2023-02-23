@@ -104,6 +104,10 @@ STRUCT
 	{attribute 'pytmc' := '
 	pv: COE_ERROR
 	io: i
+	field: ZNAM OK
+	field: ONAM ERROR
+	field: ZSV NO_ALARM
+	field: OSV MAJOR
 	'}
 	bCoeError : BOOL; //Coe Interface Error
 	{attribute 'pytmc' := '

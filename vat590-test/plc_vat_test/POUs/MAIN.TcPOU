@@ -6,7 +6,7 @@ VAR
 	
     {attribute 'pytmc' := '
       pv: VCN:TEST:01
-     '}
+    '}
 	fbVCN590 : FB_VCN_VAT590; // Variable leak valve VAT590 function block
 	fbMKS500 : FB_MKS500;
 	
