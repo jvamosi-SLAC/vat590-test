@@ -700,6 +700,41 @@
 							<Type GUID="{18071995-0000-0000-0000-000000000041}">AMSNETID</Type>
 						</Var>
 						<Var>
+							<Name>MAIN.fbIE514.i_iPRESS_R</Name>
+							<Comment>
+								<![CDATA[ Controls and I/Os]]>
+							</Comment>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbIE514.i_xHV_ON</Name>
+							<Comment>
+								<![CDATA[ True when EMI is on  // 'TcLinkTo' (EL1004 or EL1008) ^Input]]>
+							</Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbIE514.i_xERR_CH1</Name>
+							<Comment>
+								<![CDATA[ TRUE when NO error is present on assigned channel]]>
+							</Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbIE514.i_xERR_CH2</Name>
+							<Comment>
+								<![CDATA[ TRUE when NO error is present on assigned channel]]>
+							</Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbIE514.i_xCH2_SEL</Name>
+							<Comment>
+								<![CDATA[ TRUE when CH2 selected, FALSE when CH1 selected]]>
+							</Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
 							<Name>MAIN.fbVCN590.i_stVat590PlcDriveRef</Name>
 							<Comment>
 								<![CDATA[CoE Interface
@@ -801,44 +836,23 @@ Link this to your VAT590 reference variables under InfoData.]]>
 							</Comment>
 							<Type>BOOL</Type>
 						</Var>
-						<Var>
-							<Name>MAIN.fbIE514.i_iPRESS_R</Name>
-							<Comment>
-								<![CDATA[ Controls and I/Os]]>
-							</Comment>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbIE514.i_xHV_ON</Name>
-							<Comment>
-								<![CDATA[ True when EMI is on  // 'TcLinkTo' (EL1004 or EL1008) ^Input]]>
-							</Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbIE514.i_xERR_CH1</Name>
-							<Comment>
-								<![CDATA[ TRUE when ERROR present on assigned channel]]>
-							</Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbIE514.i_xERR_CH2</Name>
-							<Comment>
-								<![CDATA[ TRUE when ERROR present on assigned channel]]>
-							</Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbIE514.i_xCH2_SEL</Name>
-							<Comment>
-								<![CDATA[ TRUE when CH2 selected, FALSE when CH1 selected]]>
-							</Comment>
-							<Type>BOOL</Type>
-						</Var>
 					</Vars>
 					<Vars VarGrpType="2">
 						<Name>PlcTask Outputs</Name>
+						<Var>
+							<Name>MAIN.fbIE514.q_xHV_DIS_CH1</Name>
+							<Comment>
+								<![CDATA[ Enable Gauge High Voltage on CH1 when True // 'TcLinkTo' (EL2124) ^Output]]>
+							</Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbIE514.q_xHV_DIS_CH2</Name>
+							<Comment>
+								<![CDATA[ Enable Gauge High Voltage on CH2 when True // 'TcLinkTo' (EL2124) ^Output]]>
+							</Comment>
+							<Type>BOOL</Type>
+						</Var>
 						<Var>
 							<Name>MAIN.fbVCN590.o_nRawPositionSP</Name>
 							<Comment>
@@ -871,20 +885,6 @@ Link this to your VAT590 reference variables under InfoData.]]>
 							<Name>MAIN.fbMKS500.q_xHV_DIS</Name>
 							<Comment>
 								<![CDATA[ Enable High Voltage when True // 'TcLinkTo' (EP2624) ^Output]]>
-							</Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbIE514.q_xHV_DIS_CH1</Name>
-							<Comment>
-								<![CDATA[ Enable Gauge High Voltage on CH1 when True // 'TcLinkTo' (EL2124) ^Output]]>
-							</Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbIE514.q_xHV_DIS_CH2</Name>
-							<Comment>
-								<![CDATA[ Enable Gauge High Voltage on CH2 when True // 'TcLinkTo' (EL2124) ^Output]]>
 							</Comment>
 							<Type>BOOL</Type>
 						</Var>
@@ -1357,6 +1357,7 @@ Bit1: Value smaller than Limit2]]>
 						<SyncMan>00162f002000010004000000000000000000001620010000</SyncMan>
 						<Fmmu>0000000000000000001000020100000001000000000000000000000000000000</Fmmu>
 						<Fmmu>0000000000000000001600010100000002000000000000000000000000000000</Fmmu>
+						<SuName>test</SuName>
 						<Pdo Name="DI TxPDO-Map" Index="#x1a00" Flags="#x0010" SyncMan="3">
 							<Entry Name="Pressure" Index="#x2001">
 								<Type>DINT</Type>
@@ -1465,7 +1466,9 @@ Bit1: Value smaller than Limit2]]>
 						</Pdo>
 					</EtherCAT>
 				</Box>
-				<EtherCAT EnableVirtualSwitch="true" MaxSwitchPorts="2" MaxSwitchFrames="120"/>
+				<EtherCAT EnableVirtualSwitch="true" MaxSwitchPorts="2" MaxSwitchFrames="120">
+					<SyncUnit Name="test" NoDeleteIfUnused="true"/>
+				</EtherCAT>
 			</Device>
 		</Io>
 	</Project>

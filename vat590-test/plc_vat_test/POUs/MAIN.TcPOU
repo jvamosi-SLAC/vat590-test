@@ -23,7 +23,7 @@ stVG.rPress := 1E-4;
 fbMKS500.M_SetBits(30518);
 fbMKS500(PG := stVG);
 
-fbVCN590(bExtIlkOK := TRUE, IG := fbMKS500.IG);
+fbVCN590(bExtIlkOK := TRUE, IG := stVG);
 
 fbIE514(PG := stVG);]]></ST>
     </Implementation>

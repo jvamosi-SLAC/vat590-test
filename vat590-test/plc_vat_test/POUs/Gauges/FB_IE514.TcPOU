@@ -48,14 +48,14 @@ VAR
 	q_xHV_DIS_CH1 AT %Q* : BOOL; // Enable Gauge High Voltage on CH1 when True // 'TcLinkTo' (EL2124) ^Output
 	q_xHV_DIS_CH2 AT %Q* : BOOL; // Enable Gauge High Voltage on CH2 when True // 'TcLinkTo' (EL2124) ^Output
 	i_xHV_ON AT %I*	: BOOL; // True when EMI is on  // 'TcLinkTo' (EL1004 or EL1008) ^Input
-	i_xERR_CH1 AT %I* : BOOL; // TRUE when ERROR present on assigned channel
-	i_xERR_CH2 AT %I* : BOOL; // TRUE when ERROR present on assigned channel
+	i_xERR_CH1 AT %I* : BOOL; // TRUE when NO error is present on assigned channel
+	i_xERR_CH2 AT %I* : BOOL; // TRUE when NO error is present on assigned channel
 	i_xCH2_SEL AT %I* : BOOL; // TRUE when CH2 selected, FALSE when CH1 selected
 END_VAR
 VAR CONSTANT
 	cMaxPressure : REAL := 7.5E-5; //Torr
 	cMinPressure : REAL := 7.5E-14; //Torr
-	cGaugeMinVoltage : REAL := 1.112; //minimum voltage corresponds to 7.5E-13 Torr which should be the minimum pressure IE514 can read.
+	cGaugeMinVoltage : REAL := 1.111; //minimum voltage corresponds to 7.5E-13 (7.498E-13)Torr which should be the minimum pressure IE514 can read.
 	cGaugeMaxVoltage : REAL := 10.0; //maximum voltage corresponds 7.5E-5 Torr which should be the maximum pressure IE514 can read.
 	cGaugeDisconnected : REAL := 10.2; //voltage when gauge is disconnected.
 	cGaugeOff : REAL := 10.2; //voltage when gauge is turned off
@@ -130,14 +130,15 @@ END_IF
 (*Pressure gauge State checks*)
 //CH1
 IF bCh1Sel AND IG_CH1.xHV_SW THEN
-	(*IF i_xERR_CH1 THEN
-		IG_CH1.eState := PressInvalid; //other fault - could be no gauge, controller powering up etc.
+	IF NOT i_xERR_CH1 THEN
+		IG_CH1.eState := GaugeDisconnected;
 		IG_CH1.rPRESS := 0;
-	ELSIF (rV <= 9.6) AND (rV > 0.22) THEN*)
-	IF (rV <= cGaugeMaxVoltage) AND (rV >= cGaugeMinVoltage) AND IG_CH1.i_xHV_ON THEN
+	ELSIF rV <= cGaugeMaxVoltage AND rV >= cGaugeMinVoltage AND IG_CH1.i_xHV_ON THEN
 		IG_CH1.eState := Valid; // NORMAL
-	ELSIF rV >= 0.0 AND rV < cGaugeMinVoltage AND IG_CH1.i_xHV_ON THEN 
-		IG_CH1.eState := ValidLo; //LOW
+	ELSIF rV >= 0.0 AND rV < cGaugeMinVoltage AND IG_CH1.i_xHV_ON THEN
+		IG_CH1.eState := OoR; //Out of range according to manual
+	ELSIF rV > cGaugeMaxVoltage AND rV < (cGaugeMaxVoltage + cDeadband) AND IG_CH1.i_xHV_ON THEN
+		IG_CH1.eState := OoR; //Out of range according to manual
 	ELSIF rV > (cGaugeMaxVoltage + cDeadband) AND tHvDis_CH1.Q THEN
 		IG_CH1.eState := GaugeDisconnected; //gauge disconnected
 		IG_CH1.rPRESS := 0;
@@ -155,14 +156,15 @@ END_IF
 
 //CH2
 IF bCh2Sel AND IG_CH2.xHV_SW THEN
-	(*IF i_xERR_CH2 THEN
-		IG_CH2.eState := PressInvalid; //other fault - could be no gauge, controller powering up etc.
+	IF NOT i_xERR_CH2 THEN
+		IG_CH2.eState := GaugeDisconnected;
 		IG_CH2.rPRESS := 0;
-	ELSIF (rV <= 9.6) AND (rV > 0.22) THEN*)
-	IF (rV <= cGaugeMaxVoltage) AND (rV >= cGaugeMinVoltage) AND IG_CH2.i_xHV_ON THEN
+	ELSIF rV <= cGaugeMaxVoltage AND rV >= cGaugeMinVoltage AND IG_CH2.i_xHV_ON THEN
 		IG_CH2.eState := Valid; // NORMAL
-	ELSIF rV >= 0.0 AND rV < cGaugeMinVoltage AND IG_CH2.i_xHV_ON THEN 
-		IG_CH2.eState := ValidLo; //LOW
+	ELSIF rV >= 0.0 AND rV < cGaugeMinVoltage AND IG_CH2.i_xHV_ON THEN
+		IG_CH2.eState := OoR; //Out of range according to manual
+	ELSIF rV > cGaugeMaxVoltage AND rV < (cGaugeMaxVoltage + cDeadband) AND IG_CH2.i_xHV_ON THEN
+		IG_CH2.eState := OoR; //Out of range according to manual
 	ELSIF rV > (cGaugeMaxVoltage + cDeadband) AND tHvDis_CH2.Q THEN
 		IG_CH2.eState := GaugeDisconnected; //gauge disconnected
 		IG_CH2.rPRESS := 0;
@@ -215,8 +217,8 @@ END_IF
 
 
 (*Pressure gauge OK checks, Backwards compatibility*)
-IG_CH1.xPRESS_OK := ((IG_CH1.eState = Valid) OR IG_CH1.xBAKEOUT); //AND NOT i_xERR_CH1 AND NOT i_xCH2_SEL;
-IG_CH2.xPRESS_OK := ((IG_CH2.eState = Valid) OR IG_CH2.xBAKEOUT); //AND NOT i_xERR_CH2 AND i_xCH2_SEL;
+IG_CH1.xPRESS_OK := ((IG_CH1.eState = Valid) OR IG_CH1.xBAKEOUT);
+IG_CH2.xPRESS_OK := ((IG_CH2.eState = Valid) OR IG_CH2.xBAKEOUT);
 
 (*Setpoint evaluation*)
 IG_CH1.xAT_VAC := IG_CH1.xPRESS_OK AND IG_CH1.rPRESS < IG_CH1.rVAC_SP;
