@@ -700,41 +700,6 @@
 							<Type GUID="{18071995-0000-0000-0000-000000000041}">AMSNETID</Type>
 						</Var>
 						<Var>
-							<Name>MAIN.fbIE514.i_iPRESS_R</Name>
-							<Comment>
-								<![CDATA[ Controls and I/Os]]>
-							</Comment>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbIE514.i_xHV_ON</Name>
-							<Comment>
-								<![CDATA[ True when EMI is on  // 'TcLinkTo' (EL1004 or EL1008) ^Input]]>
-							</Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbIE514.i_xERR_CH1</Name>
-							<Comment>
-								<![CDATA[ TRUE when NO error is present on assigned channel]]>
-							</Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbIE514.i_xERR_CH2</Name>
-							<Comment>
-								<![CDATA[ TRUE when NO error is present on assigned channel]]>
-							</Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbIE514.i_xCH2_SEL</Name>
-							<Comment>
-								<![CDATA[ TRUE when CH2 selected, FALSE when CH1 selected]]>
-							</Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
 							<Name>MAIN.fbVCN590.i_stVat590PlcDriveRef</Name>
 							<Comment>
 								<![CDATA[CoE Interface
@@ -816,6 +781,14 @@ Link this to your VAT590 reference variables under InfoData.]]>
 							<Type GUID="{9C08F119-52B7-4532-8E13-ACA85D9831A2}">ST_ExtendedWarnings</Type>
 						</Var>
 						<Var>
+							<Name>MAIN.fbVCN590.i_bValveEthCatStatus</Name>
+							<Comment>
+								<![CDATA[Ethercat Interface Status Check
+Link this to your VAT590 WcState variable under WcState]]>
+							</Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
 							<Name>MAIN.fbMKS500.i_iPRESS_R</Name>
 							<Comment>
 								<![CDATA[ Controls and I/Os]]>
@@ -836,23 +809,44 @@ Link this to your VAT590 reference variables under InfoData.]]>
 							</Comment>
 							<Type>BOOL</Type>
 						</Var>
+						<Var>
+							<Name>MAIN.fbIE514.i_iPRESS_R</Name>
+							<Comment>
+								<![CDATA[ Controls and I/Os]]>
+							</Comment>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbIE514.i_xHV_ON</Name>
+							<Comment>
+								<![CDATA[ True when EMI is on  // 'TcLinkTo' (EL1004 or EL1008) ^Input]]>
+							</Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbIE514.i_xERR_CH1</Name>
+							<Comment>
+								<![CDATA[ TRUE when NO error is present on assigned channel]]>
+							</Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbIE514.i_xERR_CH2</Name>
+							<Comment>
+								<![CDATA[ TRUE when NO error is present on assigned channel]]>
+							</Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbIE514.i_xCH2_SEL</Name>
+							<Comment>
+								<![CDATA[ TRUE when CH2 selected, FALSE when CH1 selected]]>
+							</Comment>
+							<Type>BOOL</Type>
+						</Var>
 					</Vars>
 					<Vars VarGrpType="2">
 						<Name>PlcTask Outputs</Name>
-						<Var>
-							<Name>MAIN.fbIE514.q_xHV_DIS_CH1</Name>
-							<Comment>
-								<![CDATA[ Enable Gauge High Voltage on CH1 when True // 'TcLinkTo' (EL2124) ^Output]]>
-							</Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbIE514.q_xHV_DIS_CH2</Name>
-							<Comment>
-								<![CDATA[ Enable Gauge High Voltage on CH2 when True // 'TcLinkTo' (EL2124) ^Output]]>
-							</Comment>
-							<Type>BOOL</Type>
-						</Var>
 						<Var>
 							<Name>MAIN.fbVCN590.o_nRawPositionSP</Name>
 							<Comment>
@@ -885,6 +879,20 @@ Link this to your VAT590 reference variables under InfoData.]]>
 							<Name>MAIN.fbMKS500.q_xHV_DIS</Name>
 							<Comment>
 								<![CDATA[ Enable High Voltage when True // 'TcLinkTo' (EP2624) ^Output]]>
+							</Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbIE514.q_xHV_DIS_CH1</Name>
+							<Comment>
+								<![CDATA[ Enable Gauge High Voltage on CH1 when True // 'TcLinkTo' (EL2124) ^Output]]>
+							</Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbIE514.q_xHV_DIS_CH2</Name>
+							<Comment>
+								<![CDATA[ Enable Gauge High Voltage on CH2 when True // 'TcLinkTo' (EL2124) ^Output]]>
 							</Comment>
 							<Type>BOOL</Type>
 						</Var>
@@ -1490,6 +1498,7 @@ Bit1: Value smaller than Limit2]]>
 				<Link VarA="PlcTask Inputs^MAIN.fbIE514.i_iPRESS_R" VarB="AI Standard Channel 1^Value"/>
 			</OwnerB>
 			<OwnerB Name="TIID^Device 1 (EtherCAT)^VAT590_TEST">
+				<Link VarA="PlcTask Inputs^MAIN.fbVCN590.i_bValveEthCatStatus" VarB="WcState^WcState"/>
 				<Link VarA="PlcTask Inputs^MAIN.fbVCN590.i_eControlMode" VarB="DI TxPDO-Map^Control mode"/>
 				<Link VarA="PlcTask Inputs^MAIN.fbVCN590.i_eFatalError" VarB="DI TxPDO-Map^Fatal error"/>
 				<Link VarA="PlcTask Inputs^MAIN.fbVCN590.i_nRawPosition" VarB="DI TxPDO-Map^Position"/>
