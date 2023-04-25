@@ -15,6 +15,11 @@ VAR
       pv: GHC:TEST
     '}
 	fbIE514 : FB_IE514;
+	
+    {attribute 'pytmc' := '
+      pv: GCC:TEST
+    '}
+	fbMX7M : FB_MX7M;	
 END_VAR	
 ]]></Declaration>
     <Implementation>
@@ -25,7 +30,10 @@ fbMKS500(PG := stVG);
 
 fbVCN590(bExtIlkOK := TRUE, IG := stVG);
 
-fbIE514(PG := stVG);]]></ST>
+fbIE514(PG := stVG);
+
+fbMX7M(PG := stVG);
+]]></ST>
     </Implementation>
   </POU>
 </TcPlcObject>

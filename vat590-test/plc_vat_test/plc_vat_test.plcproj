@@ -83,6 +83,9 @@
     <Compile Include="POUs\Gauges\FB_IE514.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\Gauges\FB_MX7M.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="POUs\Valves\FB_VCN_VAT590.TcPOU">
       <SubType>Code</SubType>
     </Compile>

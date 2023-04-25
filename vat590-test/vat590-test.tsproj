@@ -844,6 +844,13 @@ Link this to your VAT590 WcState variable under WcState]]>
 							</Comment>
 							<Type>BOOL</Type>
 						</Var>
+						<Var>
+							<Name>MAIN.fbMX7M.i_iPRESS_R</Name>
+							<Comment>
+								<![CDATA[Pressure reading // 'TcLinkTo' (EL3174-0002 or EP3174-0002)^Input]]>
+							</Comment>
+							<Type>INT</Type>
+						</Var>
 					</Vars>
 					<Vars VarGrpType="2">
 						<Name>PlcTask Outputs</Name>
@@ -893,6 +900,13 @@ Link this to your VAT590 WcState variable under WcState]]>
 							<Name>MAIN.fbIE514.q_xHV_DIS_CH2</Name>
 							<Comment>
 								<![CDATA[ Enable Gauge High Voltage on CH2 when True // 'TcLinkTo' (EL2124) ^Output]]>
+							</Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbMX7M.q_xHV_DIS</Name>
+							<Comment>
+								<![CDATA[Enable High Voltage when True // 'TcLinkTo' (EL2624 or EP2624-0002)^Output]]>
 							</Comment>
 							<Type>BOOL</Type>
 						</Var>
@@ -1487,6 +1501,7 @@ Bit1: Value smaller than Limit2]]>
 			<OwnerB Name="TIID^Device 1 (EtherCAT)^Term 1 (EK1200)^Term 10 (EL2624)">
 				<Link VarA="PlcTask Outputs^MAIN.fbIE514.q_xHV_DIS_CH1" VarB="Channel 1^Output"/>
 				<Link VarA="PlcTask Outputs^MAIN.fbIE514.q_xHV_DIS_CH2" VarB="Channel 2^Output"/>
+				<Link VarA="PlcTask Outputs^MAIN.fbMX7M.q_xHV_DIS" VarB="Channel 3^Output"/>
 			</OwnerB>
 			<OwnerB Name="TIID^Device 1 (EtherCAT)^Term 1 (EK1200)^Term 3 (EL1004)">
 				<Link VarA="PlcTask Inputs^MAIN.fbIE514.i_xCH2_SEL" VarB="Channel 2^Input"/>
@@ -1496,6 +1511,7 @@ Bit1: Value smaller than Limit2]]>
 			</OwnerB>
 			<OwnerB Name="TIID^Device 1 (EtherCAT)^Term 1 (EK1200)^Term 5 (EL3174-0002)">
 				<Link VarA="PlcTask Inputs^MAIN.fbIE514.i_iPRESS_R" VarB="AI Standard Channel 1^Value"/>
+				<Link VarA="PlcTask Inputs^MAIN.fbMX7M.i_iPRESS_R" VarB="AI Standard Channel 3^Value"/>
 			</OwnerB>
 			<OwnerB Name="TIID^Device 1 (EtherCAT)^VAT590_TEST">
 				<Link VarA="PlcTask Inputs^MAIN.fbVCN590.i_bValveEthCatStatus" VarB="WcState^WcState"/>
