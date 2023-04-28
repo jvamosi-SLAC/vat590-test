@@ -19,12 +19,18 @@ VAR
     {attribute 'pytmc' := '
       pv: GCC:TEST
     '}
-	fbMX7M : FB_MX7M;	
+	fbMX7M : FB_MX7M;
+	rPiraniPressure : REAL := 1E-4;
+	
+	rRealNumber : REAL := 8.367;
+	intPart: INT;
+    fracPart: REAL;
+	rPressure : REAL := 0;
 END_VAR	
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[stVG.xPRESS_OK := TRUE;
-stVG.rPress := 1E-4;
+stVG.rPress := rPiraniPressure;
 fbMKS500.M_SetBits(30518);
 fbMKS500(PG := stVG);
 
@@ -33,6 +39,11 @@ fbVCN590(bExtIlkOK := TRUE, IG := stVG);
 fbIE514(PG := stVG);
 
 fbMX7M(PG := stVG);
+
+intPart := TRUNC_INT(rRealNumber); // Get the integer part
+fracPart := LREAL_TO_REAL(FRAC(rRealNumber)); // Get the fractional part
+
+rPressure := fracPart * LREAL_TO_REAL(EXPT(10,(intPart-11)));
 ]]></ST>
     </Implementation>
   </POU>
