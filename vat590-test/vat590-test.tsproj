@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4022.30">
+<?xml version="1.0"?>
+<TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.35">
 	<DataTypes>
 		<DataType>
 			<Name GUID="{18071995-0000-0000-0000-000000000041}" TcBaseType="true" HideSubItems="true" CName="AmsNetId">AMSNETID</Name>
@@ -21,9 +21,7 @@
 		</DataType>
 		<DataType>
 			<Name GUID="{F243A4C3-4000-48E4-BEFF-15E54D2B99C8}" Namespace="Tc2_System" AutoDeleteType="true">T_AmsNetIdArr</Name>
-			<Comment>
-				<![CDATA[ TwinCAT AMS netID address bytes. ]]>
-			</Comment>
+			<Comment><![CDATA[ TwinCAT AMS netID address bytes. ]]></Comment>
 			<BitSize>48</BitSize>
 			<BaseType GUID="{18071995-0000-0000-0000-000000000041}">AMSNETID</BaseType>
 		</DataType>
@@ -33,175 +31,153 @@
 			<SubItem>
 				<Name>aNetId</Name>
 				<Type GUID="{F243A4C3-4000-48E4-BEFF-15E54D2B99C8}" Namespace="Tc2_System">T_AmsNetIdArr</Type>
-				<Comment>
-					<![CDATA[ AmsNetId of the EtherCAT master device.]]>
-				</Comment>
+				<Comment><![CDATA[ AmsNetId of the EtherCAT master device.]]></Comment>
 				<BitSize>48</BitSize>
 				<BitOffs>0</BitOffs>
 			</SubItem>
 			<SubItem>
 				<Name>nSlaveAddr</Name>
 				<Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
-				<Comment>
-					<![CDATA[ Address of the slave device.]]>
-				</Comment>
+				<Comment><![CDATA[ Address of the slave device.]]></Comment>
 				<BitSize>16</BitSize>
 				<BitOffs>48</BitOffs>
 			</SubItem>
 			<SubItem>
 				<Name>nDriveNo</Name>
 				<Type GUID="{18071995-0000-0000-0000-000000000001}">BYTE</Type>
-				<Comment>
-					<![CDATA[ Drive number]]>
-				</Comment>
+				<Comment><![CDATA[ Drive number]]></Comment>
 				<BitSize>8</BitSize>
 				<BitOffs>64</BitOffs>
 			</SubItem>
 			<SubItem>
 				<Name>nDriveType</Name>
 				<Type GUID="{18071995-0000-0000-0000-000000000001}">BYTE</Type>
-				<Comment>
-					<![CDATA[ Drive type]]>
-				</Comment>
+				<Comment><![CDATA[ Drive type]]></Comment>
 				<BitSize>8</BitSize>
 				<BitOffs>72</BitOffs>
 			</SubItem>
 		</DataType>
 		<DataType>
-			<Name GUID="{971B1626-6BEC-4BC8-81E4-FC5CDA382F4F}" AutoDeleteType="true">E_ControlMode</Name>
+			<Name GUID="{6B585B43-A853-2400-D5A6-18A3E53F7F2F}" AutoDeleteType="true">E_ControlMode</Name>
 			<BitSize>8</BitSize>
 			<BaseType GUID="{18071995-0000-0000-0000-000000000002}">USINT</BaseType>
 			<EnumInfo>
-				<Text>
-					<![CDATA[Init]]>
-				</Text>
+				<Text><![CDATA[Init]]></Text>
 				<Enum>0</Enum>
 			</EnumInfo>
 			<EnumInfo>
-				<Text>
-					<![CDATA[Synch]]>
-				</Text>
+				<Text><![CDATA[Synch]]></Text>
 				<Enum>1</Enum>
 			</EnumInfo>
 			<EnumInfo>
-				<Text>
-					<![CDATA[ManualControl]]>
-				</Text>
+				<Text><![CDATA[ManualControl]]></Text>
 				<Enum>2</Enum>
 			</EnumInfo>
 			<EnumInfo>
-				<Text>
-					<![CDATA[CloseValve]]>
-				</Text>
+				<Text><![CDATA[CloseValve]]></Text>
 				<Enum>3</Enum>
 			</EnumInfo>
 			<EnumInfo>
-				<Text>
-					<![CDATA[OpenValve]]>
-				</Text>
+				<Text><![CDATA[OpenValve]]></Text>
 				<Enum>4</Enum>
 			</EnumInfo>
 			<EnumInfo>
-				<Text>
-					<![CDATA[PressureControl]]>
-				</Text>
+				<Text><![CDATA[PressureControl]]></Text>
 				<Enum>5</Enum>
 			</EnumInfo>
 			<EnumInfo>
-				<Text>
-					<![CDATA[HoldValve]]>
-				</Text>
+				<Text><![CDATA[HoldValve]]></Text>
 				<Enum>6</Enum>
 			</EnumInfo>
 			<EnumInfo>
-				<Text>
-					<![CDATA[LearnProcedure]]>
-				</Text>
+				<Text><![CDATA[LearnProcedure]]></Text>
 				<Enum>7</Enum>
 			</EnumInfo>
 			<EnumInfo>
-				<Text>
-					<![CDATA[InterlockOpen]]>
-				</Text>
+				<Text><![CDATA[InterlockOpen]]></Text>
 				<Enum>8</Enum>
 			</EnumInfo>
 			<EnumInfo>
-				<Text>
-					<![CDATA[InterlockClose]]>
-				</Text>
+				<Text><![CDATA[InterlockClose]]></Text>
 				<Enum>9</Enum>
 			</EnumInfo>
 			<EnumInfo>
-				<Text>
-					<![CDATA[MaintenanceOpen]]>
-				</Text>
+				<Text><![CDATA[MaintenanceOpen]]></Text>
 				<Enum>10</Enum>
 			</EnumInfo>
 			<EnumInfo>
-				<Text>
-					<![CDATA[MaintenanceClose]]>
-				</Text>
+				<Text><![CDATA[MaintenanceClose]]></Text>
 				<Enum>11</Enum>
 			</EnumInfo>
 			<EnumInfo>
-				<Text>
-					<![CDATA[PowerFailure]]>
-				</Text>
+				<Text><![CDATA[PowerFailure]]></Text>
 				<Enum>12</Enum>
 			</EnumInfo>
 			<EnumInfo>
-				<Text>
-					<![CDATA[Safety]]>
-				</Text>
+				<Text><![CDATA[Safety]]></Text>
 				<Enum>13</Enum>
 			</EnumInfo>
 			<EnumInfo>
-				<Text>
-					<![CDATA[FatalError]]>
-				</Text>
+				<Text><![CDATA[FatalError]]></Text>
 				<Enum>14</Enum>
 			</EnumInfo>
+			<Default>
+				<EnumText>Init</EnumText>
+			</Default>
+			<Properties>
+				<Property>
+					<Name>qualified_only</Name>
+				</Property>
+				<Property>
+					<Name>strict</Name>
+				</Property>
+				<Property>
+					<Name>generate_implicit_init_function</Name>
+				</Property>
+			</Properties>
 		</DataType>
 		<DataType>
-			<Name GUID="{D68A0406-D7F3-43AD-A419-E442B9B4616F}" AutoDeleteType="true">E_FatalErrors</Name>
+			<Name GUID="{60171FAD-0EBC-4670-29C5-A10B183E8B95}" AutoDeleteType="true">E_FatalErrors</Name>
 			<BitSize>16</BitSize>
 			<BaseType GUID="{18071995-0000-0000-0000-000000000005}">UINT</BaseType>
 			<EnumInfo>
-				<Text>
-					<![CDATA[NO_FATAL_ERROR]]>
-				</Text>
+				<Text><![CDATA[NO_FATAL_ERROR]]></Text>
 				<Enum>0</Enum>
 			</EnumInfo>
 			<EnumInfo>
-				<Text>
-					<![CDATA[NoStopDetectedSynch]]>
-				</Text>
+				<Text><![CDATA[NoStopDetectedSynch]]></Text>
 				<Enum>20</Enum>
 			</EnumInfo>
 			<EnumInfo>
-				<Text>
-					<![CDATA[ValveBlockedSynch]]>
-				</Text>
+				<Text><![CDATA[ValveBlockedSynch]]></Text>
 				<Enum>21</Enum>
 			</EnumInfo>
 			<EnumInfo>
-				<Text>
-					<![CDATA[ValveBlocked]]>
-				</Text>
+				<Text><![CDATA[ValveBlocked]]></Text>
 				<Enum>22</Enum>
 			</EnumInfo>
 			<EnumInfo>
-				<Text>
-					<![CDATA[StepLossSynch]]>
-				</Text>
+				<Text><![CDATA[StepLossSynch]]></Text>
 				<Enum>25</Enum>
 			</EnumInfo>
 			<EnumInfo>
-				<Text>
-					<![CDATA[MotorDriverFault]]>
-				</Text>
+				<Text><![CDATA[MotorDriverFault]]></Text>
 				<Enum>40</Enum>
 			</EnumInfo>
+			<Default>
+				<EnumText>NO_FATAL_ERROR</EnumText>
+			</Default>
+			<Properties>
+				<Property>
+					<Name>qualified_only</Name>
+				</Property>
+				<Property>
+					<Name>strict</Name>
+				</Property>
+				<Property>
+					<Name>generate_implicit_init_function</Name>
+				</Property>
+			</Properties>
 		</DataType>
 		<DataType>
 			<Name GUID="{E51E15F0-FD42-44B9-914A-DF8C9ED41CB1}" AutoDeleteType="true">ST_GeneralStatus</Name>
@@ -504,45 +480,47 @@
 			</SubItem>
 		</DataType>
 		<DataType>
-			<Name GUID="{3F27DAAF-AC9C-4F6F-A118-2311D5B130EF}" AutoDeleteType="true">E_ControlModeSP</Name>
+			<Name GUID="{B44983A6-4D85-310D-87CD-9DA721E05ADA}" AutoDeleteType="true">E_ControlModeSP</Name>
 			<BitSize>8</BitSize>
 			<BaseType GUID="{18071995-0000-0000-0000-000000000002}">USINT</BaseType>
 			<EnumInfo>
-				<Text>
-					<![CDATA[ManualControl]]>
-				</Text>
+				<Text><![CDATA[ManualControl]]></Text>
 				<Enum>2</Enum>
 			</EnumInfo>
 			<EnumInfo>
-				<Text>
-					<![CDATA[CloseValve]]>
-				</Text>
+				<Text><![CDATA[CloseValve]]></Text>
 				<Enum>3</Enum>
 			</EnumInfo>
 			<EnumInfo>
-				<Text>
-					<![CDATA[OpenValve]]>
-				</Text>
+				<Text><![CDATA[OpenValve]]></Text>
 				<Enum>4</Enum>
 			</EnumInfo>
 			<EnumInfo>
-				<Text>
-					<![CDATA[PressureControl]]>
-				</Text>
+				<Text><![CDATA[PressureControl]]></Text>
 				<Enum>5</Enum>
 			</EnumInfo>
 			<EnumInfo>
-				<Text>
-					<![CDATA[HoldValve]]>
-				</Text>
+				<Text><![CDATA[HoldValve]]></Text>
 				<Enum>6</Enum>
 			</EnumInfo>
 			<EnumInfo>
-				<Text>
-					<![CDATA[LearnProcedure]]>
-				</Text>
+				<Text><![CDATA[LearnProcedure]]></Text>
 				<Enum>7</Enum>
 			</EnumInfo>
+			<Default>
+				<EnumText>CloseValve</EnumText>
+			</Default>
+			<Properties>
+				<Property>
+					<Name>qualified_only</Name>
+				</Property>
+				<Property>
+					<Name>strict</Name>
+				</Property>
+				<Property>
+					<Name>generate_implicit_init_function</Name>
+				</Property>
+			</Properties>
 		</DataType>
 		<DataType>
 			<Name GUID="{85928B10-CA6E-412B-9B38-DC732F3A1B28}" AutoDeleteType="true">ST_GeneralControlSP</Name>
@@ -680,252 +658,168 @@
 		</System>
 		<Plc>
 			<Project GUID="{EC190F1A-C3A4-4BF5-B509-4778146793DB}" Name="plc_vat_test" PrjFilePath="plc_vat_test\plc_vat_test.plcproj" TmcFilePath="plc_vat_test\plc_vat_test.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="plc_vat_test\plc_vat_test.tmc">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="plc_vat_test\plc_vat_test.tmc" TmcHash="{4B90B5D0-A695-D77C-A692-8FCFB763245A}">
 					<Name>plc_vat_test Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="1">
 						<Name>PlcTask Inputs</Name>
 						<Var>
-							<Name>LCLS_Vacuum.Global_Variables.g_stSystem.I_EcatMaster1</Name>
-							<Comment>
-								<![CDATA[ AMS Net ID used for FB_EcatDiag, among others ]]>
-							</Comment>
+							<Name>LCLS_General.DefaultGlobals.stSys.I_EcatMaster1</Name>
+							<Comment><![CDATA[ AMS Net ID used for FB_EcatDiag, among others ]]></Comment>
 							<Type GUID="{18071995-0000-0000-0000-000000000041}">AMSNETID</Type>
 						</Var>
 						<Var>
-							<Name>LCLS_General.DefaultGlobals.stSys.I_EcatMaster1</Name>
-							<Comment>
-								<![CDATA[ AMS Net ID used for FB_EcatDiag, among others ]]>
-							</Comment>
+							<Name>LCLS_Vacuum.Global_Variables.g_stSystem.I_EcatMaster1</Name>
+							<Comment><![CDATA[ AMS Net ID used for FB_EcatDiag, among others ]]></Comment>
 							<Type GUID="{18071995-0000-0000-0000-000000000041}">AMSNETID</Type>
 						</Var>
 						<Var>
 							<Name>MAIN.fbVCN590.i_stVat590PlcDriveRef</Name>
-							<Comment>
-								<![CDATA[CoE Interface
-Link this to your VAT590 reference variables under InfoData.]]>
-							</Comment>
+							<Comment><![CDATA[CoE Interface
+Link this to your VAT590 reference variables under InfoData.]]></Comment>
 							<Type GUID="{F3BAE8BC-62A1-4248-B447-C73D09D76119}" Namespace="Tc2_EtherCAT">ST_PlcDriveRef</Type>
-							<SubVar>
-								<Name>aNetId</Name>
-								<Comment>
-									<![CDATA[ AmsNetId of the EtherCAT master device.]]>
-								</Comment>
-							</SubVar>
-							<SubVar>
-								<Name>nSlaveAddr</Name>
-								<Comment>
-									<![CDATA[ Address of the slave device.]]>
-								</Comment>
-							</SubVar>
-							<SubVar>
-								<Name>nDriveNo</Name>
-								<Comment>
-									<![CDATA[ Drive number]]>
-								</Comment>
-							</SubVar>
-							<SubVar>
-								<Name>nDriveType</Name>
-								<Comment>
-									<![CDATA[ Drive type]]>
-								</Comment>
-							</SubVar>
 						</Var>
 						<Var>
 							<Name>MAIN.fbVCN590.i_nRawPosition</Name>
-							<Comment>
-								<![CDATA[ Position readback from the valve]]>
-							</Comment>
+							<Comment><![CDATA[ Position readback from the valve]]></Comment>
 							<Type>DINT</Type>
 						</Var>
 						<Var>
 							<Name>MAIN.fbVCN590.i_nRawPressure</Name>
-							<Comment>
-								<![CDATA[ Pressure readback from the valve]]>
-							</Comment>
+							<Comment><![CDATA[ Pressure readback from the valve]]></Comment>
 							<Type>DINT</Type>
 						</Var>
 						<Var>
 							<Name>MAIN.fbVCN590.i_eControlMode</Name>
-							<Comment>
-								<![CDATA[ Valve control mode readback]]>
-							</Comment>
-							<Type GUID="{971B1626-6BEC-4BC8-81E4-FC5CDA382F4F}">E_ControlMode</Type>
+							<Comment><![CDATA[ Valve control mode readback]]></Comment>
+							<Type GUID="{6B585B43-A853-2400-D5A6-18A3E53F7F2F}">E_ControlMode</Type>
 						</Var>
 						<Var>
 							<Name>MAIN.fbVCN590.i_eFatalError</Name>
-							<Comment>
-								<![CDATA[ Valve Fatal Errors readback]]>
-							</Comment>
-							<Type GUID="{D68A0406-D7F3-43AD-A419-E442B9B4616F}">E_FatalErrors</Type>
+							<Comment><![CDATA[ Valve Fatal Errors readback]]></Comment>
+							<Type GUID="{60171FAD-0EBC-4670-29C5-A10B183E8B95}">E_FatalErrors</Type>
 						</Var>
 						<Var>
 							<Name>MAIN.fbVCN590.i_stGenStatus</Name>
-							<Comment>
-								<![CDATA[ Valve General Status readback]]>
-							</Comment>
+							<Comment><![CDATA[ Valve General Status readback]]></Comment>
 							<Type GUID="{E51E15F0-FD42-44B9-914A-DF8C9ED41CB1}">ST_GeneralStatus</Type>
 						</Var>
 						<Var>
 							<Name>MAIN.fbVCN590.i_stGenWarnings</Name>
-							<Comment>
-								<![CDATA[ Valve General Warnings readback]]>
-							</Comment>
+							<Comment><![CDATA[ Valve General Warnings readback]]></Comment>
 							<Type GUID="{31746E3A-66F7-4782-83C3-3889C0EBAAB1}">ST_GeneralWarnings</Type>
 						</Var>
 						<Var>
 							<Name>MAIN.fbVCN590.i_stExtnWarnings</Name>
-							<Comment>
-								<![CDATA[ Valve Extended Warnings readback]]>
-							</Comment>
+							<Comment><![CDATA[ Valve Extended Warnings readback]]></Comment>
 							<Type GUID="{9C08F119-52B7-4532-8E13-ACA85D9831A2}">ST_ExtendedWarnings</Type>
 						</Var>
 						<Var>
 							<Name>MAIN.fbVCN590.i_bValveEthCatStatus</Name>
-							<Comment>
-								<![CDATA[Ethercat Interface Status Check
-Link this to your VAT590 WcState variable under WcState]]>
-							</Comment>
+							<Comment><![CDATA[Ethercat Interface Status Check
+Link this to your VAT590 WcState variable under WcState]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
 							<Name>MAIN.fbMKS500.i_iPRESS_R</Name>
-							<Comment>
-								<![CDATA[ Controls and I/Os]]>
-							</Comment>
+							<Comment><![CDATA[ Controls and I/Os]]></Comment>
 							<Type>INT</Type>
 						</Var>
 						<Var>
 							<Name>MAIN.fbMKS500.i_xHV_ON</Name>
-							<Comment>
-								<![CDATA[  True when High Voltage is on  // 'TcLinkTo' (EL1124) ^Input]]>
-							</Comment>
+							<Comment><![CDATA[  True when High Voltage is on  // 'TcLinkTo' (EL1124) ^Input]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
 							<Name>MAIN.fbMKS500.i_xDisc_Active</Name>
-							<Comment>
-								<![CDATA[ Discharge Current Active // 'TcLinkTo' (EL1124) ^Input]]>
-							</Comment>
+							<Comment><![CDATA[ Discharge Current Active // 'TcLinkTo' (EL1124) ^Input]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
 							<Name>MAIN.fbIE514.i_iPRESS_R</Name>
-							<Comment>
-								<![CDATA[ Controls and I/Os]]>
-							</Comment>
+							<Comment><![CDATA[ Controls and I/Os]]></Comment>
 							<Type>INT</Type>
 						</Var>
 						<Var>
 							<Name>MAIN.fbIE514.i_xHV_ON</Name>
-							<Comment>
-								<![CDATA[ True when EMI is on  // 'TcLinkTo' (EL1004 or EL1008) ^Input]]>
-							</Comment>
+							<Comment><![CDATA[ True when EMI is on  // 'TcLinkTo' (EL1004 or EL1008) ^Input]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
 							<Name>MAIN.fbIE514.i_xERR_CH1</Name>
-							<Comment>
-								<![CDATA[ TRUE when NO error is present on assigned channel]]>
-							</Comment>
+							<Comment><![CDATA[ TRUE when NO error is present on assigned channel]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
 							<Name>MAIN.fbIE514.i_xERR_CH2</Name>
-							<Comment>
-								<![CDATA[ TRUE when NO error is present on assigned channel]]>
-							</Comment>
+							<Comment><![CDATA[ TRUE when NO error is present on assigned channel]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
 							<Name>MAIN.fbIE514.i_xCH2_SEL</Name>
-							<Comment>
-								<![CDATA[ TRUE when CH2 selected, FALSE when CH1 selected]]>
-							</Comment>
+							<Comment><![CDATA[ TRUE when CH2 selected, FALSE when CH1 selected]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
 							<Name>MAIN.fbMX7M.i_iPRESS_R</Name>
-							<Comment>
-								<![CDATA[Pressure reading // 'TcLinkTo' (EL3174-0002 or EP3174-0002)^Input]]>
-							</Comment>
+							<Comment><![CDATA[Pressure reading // 'TcLinkTo' (EL3174-0002 or EP3174-0002)^Input]]></Comment>
 							<Type>INT</Type>
 						</Var>
 					</Vars>
-					<Vars VarGrpType="2">
+					<Vars VarGrpType="2" AreaNo="1">
 						<Name>PlcTask Outputs</Name>
 						<Var>
 							<Name>MAIN.fbVCN590.o_nRawPositionSP</Name>
-							<Comment>
-								<![CDATA[ Position setpoint]]>
-							</Comment>
+							<Comment><![CDATA[ Position setpoint]]></Comment>
 							<Type>DINT</Type>
 						</Var>
 						<Var>
 							<Name>MAIN.fbVCN590.o_nRawPressureSP</Name>
-							<Comment>
-								<![CDATA[ Pressure setpoint]]>
-							</Comment>
+							<Comment><![CDATA[ Pressure setpoint]]></Comment>
 							<Type>DINT</Type>
 						</Var>
 						<Var>
 							<Name>MAIN.fbVCN590.o_eCtrlModeSP</Name>
-							<Comment>
-								<![CDATA[ Valve control mode setpoint]]>
-							</Comment>
-							<Type GUID="{3F27DAAF-AC9C-4F6F-A118-2311D5B130EF}">E_ControlModeSP</Type>
+							<Comment><![CDATA[ Valve control mode setpoint]]></Comment>
+							<Type GUID="{B44983A6-4D85-310D-87CD-9DA721E05ADA}">E_ControlModeSP</Type>
 						</Var>
 						<Var>
 							<Name>MAIN.fbVCN590.o_stGenCtrlSP</Name>
-							<Comment>
-								<![CDATA[ General Control setpoint]]>
-							</Comment>
+							<Comment><![CDATA[ General Control setpoint]]></Comment>
 							<Type GUID="{85928B10-CA6E-412B-9B38-DC732F3A1B28}">ST_GeneralControlSP</Type>
 						</Var>
 						<Var>
 							<Name>MAIN.fbMKS500.q_xHV_DIS</Name>
-							<Comment>
-								<![CDATA[ Enable High Voltage when True // 'TcLinkTo' (EP2624) ^Output]]>
-							</Comment>
+							<Comment><![CDATA[ Enable High Voltage when True // 'TcLinkTo' (EP2624) ^Output]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
 							<Name>MAIN.fbIE514.q_xHV_DIS_CH1</Name>
-							<Comment>
-								<![CDATA[ Enable Gauge High Voltage on CH1 when True // 'TcLinkTo' (EL2124) ^Output]]>
-							</Comment>
+							<Comment><![CDATA[ Enable Gauge High Voltage on CH1 when True // 'TcLinkTo' (EL2124) ^Output]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
 							<Name>MAIN.fbIE514.q_xHV_DIS_CH2</Name>
-							<Comment>
-								<![CDATA[ Enable Gauge High Voltage on CH2 when True // 'TcLinkTo' (EL2124) ^Output]]>
-							</Comment>
+							<Comment><![CDATA[ Enable Gauge High Voltage on CH2 when True // 'TcLinkTo' (EL2124) ^Output]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
 							<Name>MAIN.fbMX7M.q_xHV_DIS</Name>
-							<Comment>
-								<![CDATA[Enable High Voltage when True // 'TcLinkTo' (EL2624 or EP2624-0002)^Output]]>
-							</Comment>
+							<Comment><![CDATA[Enable High Voltage when True // 'TcLinkTo' (EL2624 or EP2624-0002)^Output]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 					</Vars>
-					<Vars VarGrpType="8">
+					<Vars VarGrpType="8" AreaNo="4">
 						<Name>PlcTask Retains</Name>
 						<Var>
 							<Name>PMPS_GVL.SuccessfulPreemption</Name>
-							<Comment>
-								<![CDATA[ Any time BPTM applies a new BP request which is confirmed]]>
-							</Comment>
+							<Comment><![CDATA[ Any time BPTM applies a new BP request which is confirmed]]></Comment>
 							<Type>UDINT</Type>
 							<InOut>7</InOut>
 						</Var>
 						<Var>
 							<Name>PMPS_GVL.AccumulatedFF</Name>
-							<Comment>
-								<![CDATA[ Any time a FF occurs]]>
-							</Comment>
+							<Comment><![CDATA[ Any time a FF occurs]]></Comment>
 							<Type>UDINT</Type>
 							<InOut>7</InOut>
 						</Var>
@@ -1011,6 +905,17 @@ Link this to your VAT590 WcState variable under WcState]]>
 							</OwnerB>
 						</OwnerA>
 					</UnrestoredVarLinks>
+					<Contexts>
+						<Context>
+							<Id NeedCalleeCall="true">0</Id>
+							<Name>PlcTask</Name>
+							<ManualConfig>
+								<OTCID>#x02010030</OTCID>
+							</ManualConfig>
+							<Priority>20</Priority>
+							<CycleTime>10000000</CycleTime>
+						</Context>
+					</Contexts>
 					<TaskPouOids>
 						<TaskPouOid Prio="20" OTCID="#x08502001"/>
 					</TaskPouOids>
@@ -1018,7 +923,7 @@ Link this to your VAT590 WcState variable under WcState]]>
 			</Project>
 		</Plc>
 		<Io>
-			<Device DevType="111" DevFlags="#x0003" AmsPort="28673" AmsNetId="172.21.132.149.2.1" RemoteName="Device 1 (EtherCAT)" Id="1">
+			<Device Id="1" DevType="111" DevFlags="#x0003" AmsPort="28673" AmsNetId="172.21.132.149.2.1" RemoteName="Device 1 (EtherCAT)" InfoImageId="2">
 				<Name>Device 1 (EtherCAT)</Name>
 				<AddressInfo>
 					<Ccat>
@@ -1048,11 +953,11 @@ Link this to your VAT590 WcState variable under WcState]]>
 				<Image Id="1" AddrType="9" ImageType="3">
 					<Name>Image</Name>
 				</Image>
-				<Box BoxType="9099" Id="1">
+				<Box Id="1" BoxType="9099">
 					<Name>Term 1 (EK1200)</Name>
 					<ImageId>1000</ImageId>
 					<EtherCAT PdiType="#x0100" CycleMBoxPollingTime="0" VendorId="#x00000002" ProductCode="#x04b02c52" RevisionNo="#x00001388" InfoDataState="false" PortPhys="49" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="EK1200-5000 EtherCAT Power supply (2A E-Bus)" Desc="EK1200" PortABoxInfo="#x00ffffff"/>
-					<Box BoxType="9099" Id="3">
+					<Box Id="3" BoxType="9099">
 						<Name>Term 3 (EL1004)</Name>
 						<ImageId>7</ImageId>
 						<EtherCAT SlaveType="1" PdiType="#x0104" CycleMBoxPollingTime="0" VendorId="#x00000002" ProductCode="#x03ec3052" RevisionNo="#x00130000" RepeatSupport="true" CheckRevisionNoType="3" PortPhys="51" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="EL1004 4Ch. Dig. Input 24V, 3ms" Desc="EL1004" PortABoxInfo="#x01000001">
@@ -1080,7 +985,7 @@ Link this to your VAT590 WcState variable under WcState]]>
 							</Pdo>
 						</EtherCAT>
 					</Box>
-					<Box BoxType="9099" BoxFlags="#x00000020" Id="5">
+					<Box Id="5" BoxType="9099" BoxFlags="#x00000020">
 						<Name>Term 5 (EL3174-0002)</Name>
 						<ImageId>1001</ImageId>
 						<EtherCAT SlaveType="2" PdiType="#x0405" MboxDataLinkLayer="true" StateMBoxPolling="true" CycleMBoxPollingTime="0" CoeType="7" FoeType="1" VendorId="#x00000002" ProductCode="#x0c663052" RevisionNo="#x00110002" InfoDataAddr="true" TimeoutMailbox2="2000" CheckRevisionNoType="3" PortPhys="51" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="EL3174-0002 4Ch. Ana. Input +/-10V, +/-20mA 16 Bit, Isolated Channels" Desc="EL3174-0002" PortABoxInfo="#x01000003">
@@ -1097,35 +1002,25 @@ Link this to your VAT590 WcState variable under WcState]]>
 								<ExcludePdo>#x1a01</ExcludePdo>
 								<Entry Name="Status__Underrange" Index="#x6000" Sub="#x01">
 									<Type>BIT</Type>
-									<Comment>
-										<![CDATA[Bit set when upper value limit exceeded]]>
-									</Comment>
+									<Comment><![CDATA[Bit set when upper value limit exceeded]]></Comment>
 								</Entry>
 								<Entry Name="Status__Overrange" Index="#x6000" Sub="#x02">
 									<Type>BIT</Type>
-									<Comment>
-										<![CDATA[Bit set when lower value limit exceeded]]>
-									</Comment>
+									<Comment><![CDATA[Bit set when lower value limit exceeded]]></Comment>
 								</Entry>
 								<Entry Name="Status__Limit 1" Index="#x6000" Sub="#x03">
 									<Type>BIT2</Type>
-									<Comment>
-										<![CDATA[Bit0: Value greater than Limit1
-Bit1: Value smaller than Limit1]]>
-									</Comment>
+									<Comment><![CDATA[Bit0: Value greater than Limit1
+Bit1: Value smaller than Limit1]]></Comment>
 								</Entry>
 								<Entry Name="Status__Limit 2" Index="#x6000" Sub="#x05">
 									<Type>BIT2</Type>
-									<Comment>
-										<![CDATA[Bit0: Value greater than Limit2
-Bit1: Value smaller than Limit2]]>
-									</Comment>
+									<Comment><![CDATA[Bit0: Value greater than Limit2
+Bit1: Value smaller than Limit2]]></Comment>
 								</Entry>
 								<Entry Name="Status__Error" Index="#x6000" Sub="#x07">
 									<Type>BIT</Type>
-									<Comment>
-										<![CDATA[Bit set when Over- or Underrange]]>
-									</Comment>
+									<Comment><![CDATA[Bit set when Over- or Underrange]]></Comment>
 								</Entry>
 								<Entry Name="Status__">
 									<Type GUID="{18071995-0000-0000-0000-002000000001}">ARRAY [0..0] OF BIT</Type>
@@ -1156,35 +1051,25 @@ Bit1: Value smaller than Limit2]]>
 								<ExcludePdo>#x1a03</ExcludePdo>
 								<Entry Name="Status__Underrange" Index="#x6010" Sub="#x01">
 									<Type>BIT</Type>
-									<Comment>
-										<![CDATA[Bit set when upper value limit exceeded]]>
-									</Comment>
+									<Comment><![CDATA[Bit set when upper value limit exceeded]]></Comment>
 								</Entry>
 								<Entry Name="Status__Overrange" Index="#x6010" Sub="#x02">
 									<Type>BIT</Type>
-									<Comment>
-										<![CDATA[Bit set when lower value limit exceeded]]>
-									</Comment>
+									<Comment><![CDATA[Bit set when lower value limit exceeded]]></Comment>
 								</Entry>
 								<Entry Name="Status__Limit 1" Index="#x6010" Sub="#x03">
 									<Type>BIT2</Type>
-									<Comment>
-										<![CDATA[Bit0: Value greater than Limit1
-Bit1: Value smaller than Limit1]]>
-									</Comment>
+									<Comment><![CDATA[Bit0: Value greater than Limit1
+Bit1: Value smaller than Limit1]]></Comment>
 								</Entry>
 								<Entry Name="Status__Limit 2" Index="#x6010" Sub="#x05">
 									<Type>BIT2</Type>
-									<Comment>
-										<![CDATA[Bit0: Value greater than Limit2
-Bit1: Value smaller than Limit2]]>
-									</Comment>
+									<Comment><![CDATA[Bit0: Value greater than Limit2
+Bit1: Value smaller than Limit2]]></Comment>
 								</Entry>
 								<Entry Name="Status__Error" Index="#x6010" Sub="#x07">
 									<Type>BIT</Type>
-									<Comment>
-										<![CDATA[Bit set when Over- or Underrange]]>
-									</Comment>
+									<Comment><![CDATA[Bit set when Over- or Underrange]]></Comment>
 								</Entry>
 								<Entry Name="Status__">
 									<Type GUID="{18071995-0000-0000-0000-002000000001}">ARRAY [0..0] OF BIT</Type>
@@ -1215,35 +1100,25 @@ Bit1: Value smaller than Limit2]]>
 								<ExcludePdo>#x1a05</ExcludePdo>
 								<Entry Name="Status__Underrange" Index="#x6020" Sub="#x01">
 									<Type>BIT</Type>
-									<Comment>
-										<![CDATA[Bit set when upper value limit exceeded]]>
-									</Comment>
+									<Comment><![CDATA[Bit set when upper value limit exceeded]]></Comment>
 								</Entry>
 								<Entry Name="Status__Overrange" Index="#x6020" Sub="#x02">
 									<Type>BIT</Type>
-									<Comment>
-										<![CDATA[Bit set when lower value limit exceeded]]>
-									</Comment>
+									<Comment><![CDATA[Bit set when lower value limit exceeded]]></Comment>
 								</Entry>
 								<Entry Name="Status__Limit 1" Index="#x6020" Sub="#x03">
 									<Type>BIT2</Type>
-									<Comment>
-										<![CDATA[Bit0: Value greater than Limit1
-Bit1: Value smaller than Limit1]]>
-									</Comment>
+									<Comment><![CDATA[Bit0: Value greater than Limit1
+Bit1: Value smaller than Limit1]]></Comment>
 								</Entry>
 								<Entry Name="Status__Limit 2" Index="#x6020" Sub="#x05">
 									<Type>BIT2</Type>
-									<Comment>
-										<![CDATA[Bit0: Value greater than Limit2
-Bit1: Value smaller than Limit2]]>
-									</Comment>
+									<Comment><![CDATA[Bit0: Value greater than Limit2
+Bit1: Value smaller than Limit2]]></Comment>
 								</Entry>
 								<Entry Name="Status__Error" Index="#x6020" Sub="#x07">
 									<Type>BIT</Type>
-									<Comment>
-										<![CDATA[Bit set when Over- or Underrange]]>
-									</Comment>
+									<Comment><![CDATA[Bit set when Over- or Underrange]]></Comment>
 								</Entry>
 								<Entry Name="Status__">
 									<Type GUID="{18071995-0000-0000-0000-002000000001}">ARRAY [0..0] OF BIT</Type>
@@ -1274,35 +1149,25 @@ Bit1: Value smaller than Limit2]]>
 								<ExcludePdo>#x1a07</ExcludePdo>
 								<Entry Name="Status__Underrange" Index="#x6030" Sub="#x01">
 									<Type>BIT</Type>
-									<Comment>
-										<![CDATA[Bit set when upper value limit exceeded]]>
-									</Comment>
+									<Comment><![CDATA[Bit set when upper value limit exceeded]]></Comment>
 								</Entry>
 								<Entry Name="Status__Overrange" Index="#x6030" Sub="#x02">
 									<Type>BIT</Type>
-									<Comment>
-										<![CDATA[Bit set when lower value limit exceeded]]>
-									</Comment>
+									<Comment><![CDATA[Bit set when lower value limit exceeded]]></Comment>
 								</Entry>
 								<Entry Name="Status__Limit 1" Index="#x6030" Sub="#x03">
 									<Type>BIT2</Type>
-									<Comment>
-										<![CDATA[Bit0: Value greater than Limit1
-Bit1: Value smaller than Limit1]]>
-									</Comment>
+									<Comment><![CDATA[Bit0: Value greater than Limit1
+Bit1: Value smaller than Limit1]]></Comment>
 								</Entry>
 								<Entry Name="Status__Limit 2" Index="#x6030" Sub="#x05">
 									<Type>BIT2</Type>
-									<Comment>
-										<![CDATA[Bit0: Value greater than Limit2
-Bit1: Value smaller than Limit2]]>
-									</Comment>
+									<Comment><![CDATA[Bit0: Value greater than Limit2
+Bit1: Value smaller than Limit2]]></Comment>
 								</Entry>
 								<Entry Name="Status__Error" Index="#x6030" Sub="#x07">
 									<Type>BIT</Type>
-									<Comment>
-										<![CDATA[Bit set when Over- or Underrange]]>
-									</Comment>
+									<Comment><![CDATA[Bit set when Over- or Underrange]]></Comment>
 								</Entry>
 								<Entry Name="Status__">
 									<Type GUID="{18071995-0000-0000-0000-002000000001}">ARRAY [0..0] OF BIT</Type>
@@ -1335,7 +1200,7 @@ Bit1: Value smaller than Limit2]]>
 							<CoeProfile ProfileNo="19665801"/>
 						</EtherCAT>
 					</Box>
-					<Box BoxType="9099" Id="10">
+					<Box Id="10" BoxType="9099">
 						<Name>Term 10 (EL2624)</Name>
 						<ImageId>1002</ImageId>
 						<EtherCAT SlaveType="1" PdiType="#x0104" CycleMBoxPollingTime="0" VendorId="#x00000002" ProductCode="#x0a403052" RevisionNo="#x00120000" RepeatSupport="true" PortPhys="51" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="EL2624 4Ch. Relay Output, NO (125V AC / 30V DC)" Desc="EL2624" PortABoxInfo="#x01000005">
@@ -1363,13 +1228,13 @@ Bit1: Value smaller than Limit2]]>
 							</Pdo>
 						</EtherCAT>
 					</Box>
-					<Box BoxType="9099" Id="8">
+					<Box Id="8" BoxType="9099">
 						<Name>Term 8 (EK1110)</Name>
 						<ImageId>1003</ImageId>
 						<EtherCAT SlaveType="1" PdiType="#x0100" CycleMBoxPollingTime="0" VendorId="#x00000002" ProductCode="#x04562c52" RevisionNo="#x00110000" PortPhys="19" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="EK1110 EtherCAT extension" Desc="EK1110" PortABoxInfo="#x0100000a"/>
 					</Box>
 				</Box>
-				<Box BoxType="9099" BoxFlags="#x00000020" Id="11">
+				<Box Id="11" BoxType="9099" BoxFlags="#x00000020">
 					<Name>VAT590_TEST</Name>
 					<ImageId>1004</ImageId>
 					<EtherCAT SlaveType="2" PdiType="#x0208" MboxDataLinkLayer="true" CycleMBoxPolling="true" CoeType="35" VendorId="#x00000549" ProductCode="#x0000170c" RevisionNo="#x00010000" InfoDataAddr="true" TimeoutMailbox2="6000" PortPhys="17" IdentificationAdo="308" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="590 - All-metal variable leak valve" Desc="590" PortABoxInfo="#x01000008">
